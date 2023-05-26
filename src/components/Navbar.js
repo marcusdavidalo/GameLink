@@ -9,7 +9,7 @@ function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/home" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img src={logo} alt="Logo" className="h-8 w-auto" />
               <span className="ml-2 text-lg font-bold text-gray-200">
                 GameLink
@@ -49,7 +49,7 @@ function Navbar() {
           {/* Navigation Links */}
           <div className="flex">
             <Link
-              to="/home"
+              to="/"
               className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-gray-900 hover:bg-gray-200"
             >
               Home
