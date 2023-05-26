@@ -1,38 +1,39 @@
 import "./Footer.css";
 
 export const Footer = () => {
+  // eslint-disable-next-line
   return (
     <footer>
-      <div class="footer">
+      <div className="p-40 bg-gradient-to-br from-slate-600 to-slate-400">
         <p>This is footer section.</p>
-        <ul class="socials">
+        <ul className="socials">
           <li>
-            <a href="#">
-              <i class="fa fa-facebook"></i>
+            <a href="https://facebook.com">
+              <i className="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-twitter"></i>
+            <a href="https://facebook.com">
+              <i className="fas fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-github"></i>
+            <a href="https://facebook.com">
+              <i className="fas fa-github"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-linkedin-square"></i>
+            <a href="https://facebook.com">
+              <i className="fa fa-linkedin-square fa-3x"></i>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-instagram"></i>
+            <a href="https://facebook.com">
+              <i className="fas fa-instagram"></i>
             </a>
           </li>
         </ul>
-        <div class="footer-copyright">
+        <div className="footer-copyright">
           <p>copyright &copy;2022</p>
         </div>
       </div>
