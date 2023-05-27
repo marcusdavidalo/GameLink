@@ -21,7 +21,7 @@ function Index() {
           const slide = document.createElement('div');
           slide.className = 'swiper-slide';
           slide.innerHTML = `
-            <div class="card">
+            <div class="card dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card-overlay"></div>
               <a href='./game?id=${game.id}?name=${game.slug}'>
                 <img src="${
@@ -205,7 +205,7 @@ function Index() {
   return (
     <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
-        <div className="flex flex-col border-box text-white col overflow-hidden">
+        <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden">
           <div className="swiper-container best-of-year">
             <h2 className="text-4xl font-bold mb-5">Best of the Year</h2>
             <div className="swiper-wrapper">

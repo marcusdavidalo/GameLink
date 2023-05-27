@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="bgimg">
+    <div>
       <Router>
         <div>
           <Navbar />
