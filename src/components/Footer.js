@@ -7,7 +7,7 @@ import { ReactComponent as GithubIcon } from '../assets/icons/github.svg';
 
 function Footer() {
   return (
-    <footer className="bg-gray-800">
+    <footer className="bg-[rgba(31,41,55,0.5)]">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {/* Footer Column 1 */}

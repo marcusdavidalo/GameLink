@@ -6,10 +6,11 @@ import Index from './pages/Index';
 import About from './pages/About';
 import Search from './pages/Search';
 import GameDetails from './pages/GameDetails';
+import './App.css';
 
 function App() {
   return (
-    <div className="bg-gradient-to-br from-zinc-900 to-slate-700">
+    <div className="bgimg">
       <Router>
         <div>
           <Navbar />
