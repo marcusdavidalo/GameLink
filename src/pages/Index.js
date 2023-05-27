@@ -23,7 +23,7 @@ function Index() {
           slide.innerHTML = `
             <div class="card">
               <div class="card-overlay"></div>
-              <a href='./game-details?id=${game.id}'>
+              <a href='./game?id=${game.id}?name=${game.slug}'>
                 <img src="${
                   game.background_image
                 }" class="card-img-top swiper-lazy" alt="Game Image" data-src="${
@@ -36,7 +36,7 @@ function Index() {
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card-body frosted-blur">
-                <a href='./game-details?id=${game.id}'>
+                <a href='./game?id=${game.id}?name=${game.slug}'>
                   <div class="scrollable-title ${
                     game.name.length > 30 ? 'marquee' : ''
                   }">
