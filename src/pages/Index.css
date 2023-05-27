@@ -77,17 +77,32 @@
   font-size: 18px;
   margin-bottom: 5px;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: none;
   position: relative;
 }
 
-.card-title .text-portal {
-  position: absolute;
-  top: 0;
-  left: 0;
+.scrollable-title {
+  overflow: none;
   white-space: nowrap;
-  animation: portal 5s linear infinite;
-  width: max-content;
+  text-overflow: ellipsis;
+}
+
+.scrollable-title.marquee:hover {
+  white-space: nowrap;
+  text-overflow: initial;
+  animation: marquee 4s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-20%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .genre {
@@ -157,13 +172,4 @@
   color: #fff;
   transition: transform 0.5s ease;
   transform: translateY(60%);
-}
-
-@keyframes portal {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
 }

@@ -14,7 +14,7 @@ function Index() {
       const container = document.querySelector(containerSelector);
       const slider = container.querySelector('.swiper-wrapper');
 
-      games.forEach((game, index) => {
+      games.forEach((game) => {
         if (
           !game.tags.some((tag) => tag.name === 'adult' || tag.name === 'Adult')
         ) {
@@ -36,8 +36,15 @@ function Index() {
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card-body frosted-blur">
-              <a href='./game-details?id=${game.id}'>
-                <h5 class="card-title font-extrabold">${game.name}</h5><a/>
+                <a href='./game-details?id=${game.id}'>
+                  <div class="scrollable-title ${
+                    game.name.length > 30 ? 'marquee' : ''
+                  }">
+                    <h5 class="card-title font-extrabold hover:text-cyan-400 pl-1 rounded" title="${
+                      game.name
+                    }">${game.name}</h5>
+                  </div>
+                </a>
                 <p class="card-text">Release Date: ${formatDate(
                   game.released
                 )}</p>
