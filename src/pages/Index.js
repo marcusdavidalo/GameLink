@@ -36,7 +36,7 @@ function Index() {
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card-body frosted-blur">
-                <h5 class="card-title">${game.name}</h5>
+                <h5 class="card-title font-extrabold">${game.name}</h5>
                 <p class="card-text">Release Date: ${formatDate(
                   game.released
                 )}</p>
@@ -219,8 +219,8 @@ function Index() {
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">
-      <div className="container mt-4">
-        <div className="flex flex-col border-box col">
+      <div className="container mt-10">
+        <div className="flex flex-col border-box text-white col overflow-hidden">
           <div className="swiper-container best-of-year">
             <h2 className="text-2xl font-bold mb-4">Best of the Year</h2>
             <div className="swiper-wrapper">
@@ -231,7 +231,7 @@ function Index() {
             <div className="swiper-button-prev"></div> */}
           </div>
 
-          <div className="swiper-container new-releases mt-4">
+          <div className="swiper-container  new-releases mt-10">
             <h2 className="text-2xl font-bold mb-4">New Releases</h2>
             <div className="swiper-wrapper">
               {/* New Releases game cards here */}
@@ -241,8 +241,8 @@ function Index() {
             <div className="swiper-button-prev"></div> */}
           </div>
 
-          <div className="swiper-container all-time-top mt-4">
-            <h2 className="text-2xl font-bold mb-4">All Time Top</h2>
+          <div className="swiper-container  all-time-top mt-10">
+            <h2 className="text-2xl font-bold font mb-4">All Time Top</h2>
             <div className="swiper-wrapper pb-5">
               {/* All Time Top game cards here */}
             </div>
