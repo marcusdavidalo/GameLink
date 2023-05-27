@@ -57,14 +57,14 @@
   padding: 10px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* border-top: rgba(255, 255, 255, 0.486) 0.05px solid; */
   border-radius: 20px 0 10px 0;
   color: #fff;
-  transition: transform 0.5s ease-out;
+  transition: all 0.5s ease-out;
   transform: translateY(50%);
 }
 
 .card:hover .card-body {
+  background-color: rgba(0, 0, 0, 0.75);
   transform: translateY(0);
 }
 

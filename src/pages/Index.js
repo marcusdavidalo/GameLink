@@ -23,7 +23,7 @@ function Index() {
           slide.innerHTML = `
             <div class="card">
               <div class="card-overlay"></div>
-              <a href='./game-details.html?id=${game.id}'>
+              <a href='./game-details?id=${game.id}'>
                 <img src="${
                   game.background_image
                 }" class="card-img-top swiper-lazy" alt="Game Image" data-src="${
@@ -55,50 +55,28 @@ function Index() {
         }
       });
 
+      // eslint-disable-next-line no-unused-vars
       const swiper = new Swiper(containerSelector, {
         slidesPerView: 1,
         spaceBetween: 10,
-        speed: 1000,
-        autoplay: {
-          delay: 7000,
-          disableOnInteraction: false,
-        },
         breakpoints: {
           640: {
             slidesPerView: 2,
-            spaceBetween: 10,
+            spaceBetween: 15,
           },
           768: {
             slidesPerView: 3,
-            spaceBetween: 10,
+            spaceBetween: 20,
           },
           1024: {
             slidesPerView: 4,
-            spaceBetween: 10,
+            spaceBetween: 25,
           },
         },
-        lazy: {
-          loadPrevNext: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
-        preloadImages: true,
-        observer: true,
-        observeParents: true,
-      });
-
-      container.addEventListener('mouseenter', (event) => {
-        const card = event.target.closest('.card');
-        if (card) {
-          swiper.autoplay.stop();
-          card.classList.add('active');
-        }
-      });
-
-      container.addEventListener('mouseleave', (event) => {
-        const card = event.target.closest('.card');
-        if (card) {
-          swiper.autoplay.start();
-          card.classList.remove('active');
-        }
       });
     }
 
