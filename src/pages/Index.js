@@ -9,29 +9,10 @@ function Index() {
     const apiKey = '9d2a05428ec1467e83df95314e32b77b';
     const pageSize = 10;
 
-    // Function to filter out games without metacritic score and exceptional rating
-    function filterGames(game) {
-      const exceptionalRating = game.ratings.find(
-        (rating) => rating.title === 'exceptional'
-      );
-      const recommendedRating = game.ratings.find(
-        (rating) => rating.title === 'recommended'
-      );
-
-      return (
-        exceptionalRating &&
-        recommendedRating &&
-        game.metacritic &&
-        exceptionalRating.count > recommendedRating.count
-      );
-    }
-
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games) {
       const container = document.querySelector(containerSelector);
       const slider = container.querySelector('.swiper-wrapper');
-      const cards = container.getElementsByClassName('card');
-      const preloaders = container.getElementsByClassName('preloader');
 
       games.forEach((game, index) => {
         if (
@@ -40,13 +21,14 @@ function Index() {
           const slide = document.createElement('div');
           slide.className = 'swiper-slide';
           slide.innerHTML = `
-            <div className="preloader"></div>
             <div class="card">
               <div class="card-overlay"></div>
               <a href='./game-details.html?id=${game.id}'>
                 <img src="${
                   game.background_image
-                }" class="card-img-top" alt="Game Image" />
+                }" class="card-img-top swiper-lazy" alt="Game Image" data-src="${
+            game.background_image
+          }" loading="lazy"/>
               </a>
               <div class="metacritic ${
                 game.metacritic ? '' : 'no-score'
@@ -66,16 +48,10 @@ function Index() {
                   .join(', ')}</p>
               </div>
             </div>
+            <div className="swiper-lazy-preloader"></div>
           `;
 
           slider.appendChild(slide);
-
-          if (preloaders[index] && cards[index]) {
-            setTimeout(() => {
-              preloaders[index].remove();
-              cards[index].style.opacity = 1;
-            }, index * 300);
-          }
         }
       });
 
@@ -101,6 +77,12 @@ function Index() {
             spaceBetween: 10,
           },
         },
+        lazy: {
+          loadPrevNext: true,
+        },
+        preloadImages: true,
+        observer: true,
+        observeParents: true,
       });
 
       container.addEventListener('mouseenter', (event) => {
@@ -236,37 +218,37 @@ function Index() {
   }, []);
 
   return (
-    <div className="flex justify-center overflow-hidden">
+    <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-4">
         <div className="flex flex-col border-box col">
           <div className="swiper-container best-of-year">
             <h2 className="text-2xl font-bold mb-4">Best of the Year</h2>
             <div className="swiper-wrapper">
-              {/* Add your Best of the Year game cards here */}
+              {/* Best of the Year game cards here */}
             </div>
             {/* Navs */}
             {/* <div className="swiper-button-next"></div>
-      <div className="swiper-button-prev"></div> */}
+            <div className="swiper-button-prev"></div> */}
           </div>
 
           <div className="swiper-container new-releases mt-4">
             <h2 className="text-2xl font-bold mb-4">New Releases</h2>
             <div className="swiper-wrapper">
-              {/* Add your New Releases game cards here */}
+              {/* New Releases game cards here */}
             </div>
             {/* Navs */}
             {/* <div className="swiper-button-next"></div>
-      <div className="swiper-button-prev"></div> */}
+            <div className="swiper-button-prev"></div> */}
           </div>
 
           <div className="swiper-container all-time-top mt-4">
             <h2 className="text-2xl font-bold mb-4">All Time Top</h2>
-            <div className="swiper-wrapper">
-              {/* Add your All Time Top game cards here */}
+            <div className="swiper-wrapper pb-5">
+              {/* All Time Top game cards here */}
             </div>
             {/* Navs */}
             {/* <div className="swiper-button-next"></div>
-      <div className="swiper-button-prev"></div> */}
+            <div className="swiper-button-prev"></div> */}
           </div>
         </div>
       </div>
