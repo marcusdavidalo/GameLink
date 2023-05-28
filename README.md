@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# GameLink
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+GameLink is a Game Database and Gaming News website developed as a project for the KodeGo Bootcamp. The website allows users to explore a wide range of games, read the latest gaming news, and stay up-to-date with the gaming industry.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Game Database**: GameLink utilizes the RAWG API to fetch game data, allowing users to search for games, view details such as release date, ratings, genres, and descriptions, and access additional information such as screenshots and videos.
 
-### `npm start`
+- **Gaming News**: The website integrates with the NewsCatcher API to provide up-to-date gaming news from various sources. Users can read articles, stay informed about the latest releases, trends, and updates in the gaming world.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **User-Friendly Interface**: GameLink is built using React and styled with Tailwind CSS, resulting in a modern and intuitive user interface. The design prioritizes ease of use, allowing users to navigate the website effortlessly and discover new games and news articles seamlessly.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Motivation and APIs
 
-### `npm test`
+GameLink was developed with the goal of providing gamers with a comprehensive platform to explore games and access gaming-related news conveniently. The project leverages the following APIs:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [RAWG API](https://rawg.io/apidocs): The RAWG API offers a vast database of games, enabling us to fetch game information, including details, ratings, screenshots, and videos. This allows GameLink users to browse and search for their favorite games easily.
 
-### `npm run build`
+- [NewsCatcher API](https://newscatcherapi.com/): The NewsCatcher API provides real-time news articles from numerous sources, including gaming publications and websites. By integrating this API, GameLink ensures that users can stay updated with the latest gaming news and trends.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```md
+1. Clone the repository:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   git clone https://github.com/your-username/GameLink.git
 
-### `npm run eject`
+2. Navigate to the project directory:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   cd GameLink
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Install the dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   npm install
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. Create a `.env` file in the root directory and provide the necessary API keys. You will need the API keys for both the RAWG API and NewsCatcher API.
 
-## Learn More
+   RAWG_API_KEY=your_rawg_api_key
+   NEWSCATCHER_API_KEY=your_newscatcher_api_key
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. Start the development server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   npm start
 
-### Code Splitting
+6. Open your browser and navigate to `http://localhost:3000` to access GameLink.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
+We welcome contributions to GameLink! If you'd like to contribute, please follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Fork the repository.
 
-### Making a Progressive Web App
+2. Create a new branch for your feature:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   git checkout -b feature/my-feature
 
-### Advanced Configuration
+3. Make the necessary changes and commit them:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+   git commit -m "Add my feature"
 
-### Deployment
+4. Push the changes to your forked repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   git push origin feature/my-feature
 
-### `npm run build` fails to minify
+5. Open a pull request, and we will review your changes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Make sure to replace `your-username` with your GitHub username in the installation instructions. Also, don't forget to add your own API keys in the `.env` file instructions.
+
+Remember to replace `your_rawg_api_key` and `your_newscatcher_api_key` with your respective API keys.
+```

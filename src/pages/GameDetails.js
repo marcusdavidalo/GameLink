@@ -12,7 +12,7 @@ function GameDetails() {
 
   useEffect(() => {
     const apiKey = '9d2a05428ec1467e83df95314e32b77b';
-    const newsApiKey = 'a3fe93f026fa49858e43dff9fe1b2c6b';
+    const newscatcherApiKey = '90hh5aaVdPRKInu0oXyJ1-y_Kn-8IhcTeBOBQQRw8aw';
 
     const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
     let gameSlug = '';
@@ -30,9 +30,11 @@ function GameDetails() {
         console.error('Error fetching game details:', error);
       })
       .then(() => {
-        const newsUrl = `https://newsapi.org/v2/everything?q=${gameSlug}&apiKey=${newsApiKey}`;
+        const newsUrl = `https://api.newscatcherapi.com/v2/search?q=${gameSlug}&topic=gaming&lang=en`;
+        const headers = { 'x-api-key': newscatcherApiKey };
+
         axios
-          .get(newsUrl)
+          .get(newsUrl, { headers })
           .then((response) => {
             const articles = response.data.articles.slice(0, 15); // Limit to top 15 news articles
             setTopNews(articles);
@@ -157,7 +159,7 @@ function GameDetails() {
                 <div key={news.title} className="swiper-slide">
                   <div className="card rounded-lg bg-gray-900 shadow-lg">
                     <img
-                      src={news.urlToImage}
+                      src={news.media}
                       className="card-img-top h-64 object-cover"
                       alt="News Per Game"
                     />
@@ -165,9 +167,7 @@ function GameDetails() {
                       <h5 className="card-title text-white text-2xl font-bold mb-4">
                         {news.title}
                       </h5>
-                      <p className="card-text text-gray-400">
-                        {news.description}
-                      </p>
+                      <p className="card-text text-gray-400">{news.summary}</p>
                     </div>
                   </div>
                 </div>

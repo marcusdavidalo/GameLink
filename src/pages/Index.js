@@ -36,7 +36,7 @@ function Index() {
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card card-games-body frosted-blur">
-                <a href='./game?id=${game.id}?name=${game.slug}'>
+                <a href='./game?id=${game.id}'>
                   <div class="scrollable-title ${
                     game.name.length > 30 ? 'marquee' : ''
                   }">
