@@ -59,7 +59,7 @@ We welcome contributions to GameLink! If you'd like to contribute, please follow
    git push origin feature/my-feature
 
 5. Open a pull request, and we will review your changes.
-
+```
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
