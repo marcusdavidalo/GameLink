@@ -80,41 +80,59 @@ function GameDetails() {
                 alt="Game Background"
               />
               <div className="card-body p-5">
-                <h5 className="card-title text-white text-2xl font-bold mb-4">
+                <h3 className="card-title text-white text-2xl font-bold mb-4">
                   {gameData.name}
-                </h5>
-                <p className="card-text text-gray-400">
+                </h3>
+                <p className="card-text text-lg text-gray-400 mb-4">
                   {gameData.description_raw}
                 </p>
-                <h6 className="text-gray-300">
-                  Platforms:{' '}
+                <h4 className="text-gray-300 text-lg mb-4">
+                  <span className="font-bold text-xl">Platforms:</span>{' '}
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
                     .join(', ')}
-                </h6>
-                <h6 className="text-gray-300">
-                  Release Date: {gameData.released}
-                </h6>
-                <h6 className="text-gray-300">
-                  Genres:{' '}
+                </h4>
+                <h4 className="text-gray-300 text-lg mb-4">
+                  <span className="font-bold text-xl">Release Date:</span>{' '}
+                  {gameData.released}
+                </h4>
+                <h4 className="text-gray-300 text-lg mb-4">
+                  <span className="font-bold text-xl">Genres:</span>{' '}
                   {gameData.genres.map((genre) => genre.name).join(', ')}
-                </h6>
-                <h6 className="text-gray-300">
-                  Publisher:{' '}
+                </h4>
+                <h4 className="text-gray-300 text-lg mb-4">
+                  <span className="font-bold text-xl">Publisher:</span>{' '}
                   {gameData.publishers
                     .map((publisher) => publisher.name)
                     .join(', ')}
-                </h6>
-                <h6 className="text-gray-300">
-                  Developer:{' '}
+                </h4>
+                <h4 className="text-gray-300 text-lg mb-4">
+                  <span className="font-bold text-xl">Developer:</span>{' '}
                   {gameData.developers
                     .map((developer) => developer.name)
                     .join(', ')}
-                </h6>
+                </h4>
               </div>
             </div>
           </div>
           <div className="w-full md:w-4/12 mt-5">
+            <div className="card rounded-lg bg-gray-900 shadow-lg mb-5">
+              <div className="card-body">
+                <h5 className="card-title text-white text-2xl font-bold mb-4 p-5">
+                  Game Tags
+                </h5>
+                <ul className="list-group">
+                  {gameData.tags.slice(0, 20).map((tag) => (
+                    <li
+                      key={tag.id}
+                      className="list-group-item bg-gray-800 text-gray-300 px-5 py-1"
+                    >
+                      {tag.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
             <div className="card rounded-lg bg-gray-900 shadow-lg mt-4 md:mt-0">
               <div className="card-body p-5">
                 <h5 className="card-title text-white text-2xl font-bold mb-4">
@@ -123,23 +141,6 @@ function GameDetails() {
                 <p className="card-text text-gray-400">
                   {gameData.description_raw}
                 </p>
-              </div>
-            </div>
-            <div className="card rounded-lg bg-gray-900 shadow-lg mt-4">
-              <div className="card-body">
-                <h5 className="card-title text-white text-2xl font-bold mb-4 p-5">
-                  Related Games
-                </h5>
-                <ul className="list-group">
-                  {gameData.tags.slice(0, 5).map((tag) => (
-                    <li
-                      key={tag.id}
-                      className="list-group-item bg-gray-800 text-gray-300 p-5"
-                    >
-                      {tag.name}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           </div>
