@@ -21,12 +21,12 @@ function Index() {
           const slide = document.createElement('div');
           slide.className = 'swiper-slide';
           slide.innerHTML = `
-            <div class="card dark:bg-[rgba(230,230,230,0.75)]">
-              <div class="card-overlay"></div>
-              <a href='./game?id=${game.id}?name=${game.slug}'>
+            <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
+              <div class="card card-games-overlay"></div>
+              <a href='./game?id=${game.id}'>
                 <img src="${
                   game.background_image
-                }" class="card-img-top swiper-lazy" alt="Game Image" data-src="${
+                }" class="card card-games-img-top swiper-lazy" alt="Game Image" data-src="${
             game.background_image
           }" loading="lazy"/>
               </a>
@@ -35,23 +35,23 @@ function Index() {
               }" aria-data="metacritic">
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
-              <div class="card-body frosted-blur">
+              <div class="card card-games-body frosted-blur">
                 <a href='./game?id=${game.id}?name=${game.slug}'>
                   <div class="scrollable-title ${
                     game.name.length > 30 ? 'marquee' : ''
                   }">
-                    <h5 class="card-title font-extrabold hover:text-cyan-400 pl-1 rounded" title="${
+                    <h5 class="card card-games-title font-extrabold hover:text-cyan-400 pl-1 rounded" title="${
                       game.name
                     }">${game.name}</h5>
                   </div>
                 </a>
-                <p class="card-text">Release Date: ${formatDate(
+                <p class="card card-games-text">Release Date: ${formatDate(
                   game.released
                 )}</p>
-                <p class="card-text">Latest Update: ${formatDate(
+                <p class="card card-games-text">Latest Update: ${formatDate(
                   game.updated
                 )}</p>
-                <p class="genre card-text">Genre: ${game.genres
+                <p class="genre card card-games-text">Genre: ${game.genres
                   .map((genre) => genre.name)
                   .join(', ')}</p>
               </div>
