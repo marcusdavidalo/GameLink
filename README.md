@@ -38,9 +38,10 @@ GameLink was developed with the goal of providing gamers with a comprehensive pl
    npm start
 
 5. Open your browser and navigate to `http://localhost:3000` to access GameLink.
+```
 
 ## Contributing
-
+```
 We welcome contributions to GameLink! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
