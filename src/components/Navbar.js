@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 import logo from '../assets/logo.png';
 
-function Navbar() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const handleDarkModeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark');
-    document.body.classList.toggle('bgimg');
-    document.body.classList.toggle('bgimg-light');
-  };
-
+function Navbar({ isDarkMode, handleDarkModeToggle }) {
   return (
     <nav className="flex justify-center py-2 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
       <div className="container">
@@ -94,19 +85,30 @@ function Navbar() {
 
           {/* Navigation Links */}
           <div className="flex">
-            <Link
+            <NavLink
               to="/"
-              className="ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+                  : isActive
+                  ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]'
+                  : 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+              }
             >
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/about"
-              className="ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+                  : isActive
+                  ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]'
+                  : 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+              }
             >
               About
-            </Link>
-            {/* Add more navigation links */}
+            </NavLink>
           </div>
         </div>
       </div>

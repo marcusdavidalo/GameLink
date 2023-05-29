@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -6,24 +6,37 @@ import Index from './pages/Index';
 import About from './pages/About';
 import Search from './pages/Search';
 import GameDetails from './pages/GameDetails';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const handleDarkModeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark');
+    document.body.classList.toggle('bgimg');
+    document.body.classList.toggle('bgimg-light');
+  };
+
   return (
-    <div>
-      <Router>
-        <div>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/game" element={<GameDetails />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </div>
+    <Router>
+      <Navbar
+        isDarkMode={isDarkMode}
+        handleDarkModeToggle={handleDarkModeToggle}
+      />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/game" element={<GameDetails />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer
+        isDarkMode={isDarkMode}
+        handleDarkModeToggle={handleDarkModeToggle}
+      />
+    </Router>
   );
 }
 

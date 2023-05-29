@@ -25,6 +25,7 @@ function GameDetails() {
         const game = response.data;
         setGameData(game);
         gameSlug = game.slug;
+        console.log(gameSlug);
       })
       .catch((error) => {
         console.error('Error fetching game details:', error);
@@ -36,9 +37,14 @@ function GameDetails() {
         axios
           .get(newsUrl, { headers })
           .then((response) => {
-            const articles = response.data.articles.slice(0, 15); // Limit to top 15 news articles
-            setTopNews(articles);
-            console.log(articles);
+            const articles = response.data.articles;
+            if (articles && articles.length > 0) {
+              const slicedArticles = articles.slice(0, 15); // Limit to top 15 news articles
+              setTopNews(slicedArticles);
+              console.log(slicedArticles);
+            } else {
+              setTopNews([]);
+            }
 
             // Initialize Swiper slider after top news data is fetched
             const swiper = new Swiper('.swiper', {
@@ -82,7 +88,7 @@ function GameDetails() {
                 alt="Game Background"
               />
               <div className="card-body p-5">
-                <h3 className="card-title text-white text-2xl font-bold mb-4">
+                <h3 className="card-title text-gray-200 text-2xl font-bold mb-4">
                   {gameData.name}
                 </h3>
                 <p className="card-text text-lg text-gray-400 mb-4">
@@ -120,7 +126,7 @@ function GameDetails() {
           <div className="w-full md:w-4/12 mt-5">
             <div className="card rounded-lg bg-gray-900 shadow-lg mb-5">
               <div className="card-body">
-                <h5 className="card-title text-white text-2xl font-bold mb-4 p-5">
+                <h5 className="card-title text-gray-200 text-2xl font-bold mb-4 p-5">
                   Game Tags
                 </h5>
                 <ul className="list-group">
@@ -137,7 +143,7 @@ function GameDetails() {
             </div>
             <div className="card rounded-lg bg-gray-900 shadow-lg mt-4 md:mt-0">
               <div className="card-body p-5">
-                <h5 className="card-title text-white text-2xl font-bold mb-4">
+                <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
                   Game Info
                 </h5>
                 <p className="card-text text-gray-400">
@@ -151,31 +157,49 @@ function GameDetails() {
       {/* Top News */}
       <div className="flex justify-center top-news bg-gray-900 py-8 mt-8">
         <div id="TopNews" className="container">
-          <h2 className="text-white text-4xl font-bold mb-8">Top News</h2>
+          <h2 className="text-gray-200 text-4xl font-bold mb-8">Top News</h2>
 
-          <div className="swiper container">
-            <div className="swiper-wrapper">
-              {topNews.map((news) => (
-                <div key={news.title} className="swiper-slide">
-                  <div className="card rounded-lg bg-gray-900 shadow-lg">
-                    <img
-                      src={news.media}
-                      className="card-img-top h-64 object-cover"
-                      alt="News Per Game"
-                    />
-                    <div className="card-body p-5">
-                      <h5 className="card-title text-white text-2xl font-bold mb-4">
-                        {news.title}
-                      </h5>
-                      <p className="card-text text-gray-400">{news.summary}</p>
+          {topNews.length > 0 ? (
+            <div className="swiper container">
+              <div className="swiper-wrapper">
+                {topNews.map((news) => (
+                  <div key={news.title} className="swiper-slide">
+                    <div className="card rounded-lg bg-gray-900 shadow-lg">
+                      {news.media ? (
+                        <img
+                          src={news.media}
+                          className="card-img-top h-64 object-cover"
+                          alt="News Per Game"
+                        />
+                      ) : (
+                        <div
+                          className="h-64 bg-slate-400 flex items-center justify-center"
+                          role="img"
+                          aria-label="No Image"
+                        >
+                          No Image
+                        </div>
+                      )}
+                      <div className="card-body p-5">
+                        <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
+                          {news.title}
+                        </h5>
+                        <p className="card-text text-gray-400">
+                          {news.summary}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="swiper-button-next"></div>
+              <div className="swiper-button-prev"></div>
             </div>
-            <div className="swiper-button-next"></div>
-            <div className="swiper-button-prev"></div>
-          </div>
+          ) : (
+            <div className="text-gray-200 text-center text-3xl pt-20 pb-20 bg-gray-800 rounded-md">
+              No News Available
+            </div>
+          )}
         </div>
       </div>
     </div>
