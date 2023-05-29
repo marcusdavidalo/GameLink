@@ -23,7 +23,7 @@ GameLink was developed with the goal of providing gamers with a comprehensive pl
 ```md
 1. Clone the repository:
 
-   git clone https://github.com/your-username/GameLink.git
+   git clone https://github.com/marcusdavidalo/GameLink.git
 
 2. Navigate to the project directory:
 
@@ -33,19 +33,15 @@ GameLink was developed with the goal of providing gamers with a comprehensive pl
 
    npm install
 
-4. Create a `.env` file in the root directory and provide the necessary API keys. You will need the API keys for both the RAWG API and NewsCatcher API.
-
-   RAWG_API_KEY=your_rawg_api_key
-   NEWSCATCHER_API_KEY=your_newscatcher_api_key
-
-5. Start the development server:
+4. Start the development server:
 
    npm start
 
-6. Open your browser and navigate to `http://localhost:3000` to access GameLink.
+5. Open your browser and navigate to `http://localhost:3000` to access GameLink.
+```
 
 ## Contributing
-
+```
 We welcome contributions to GameLink! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
@@ -63,12 +59,7 @@ We welcome contributions to GameLink! If you'd like to contribute, please follow
    git push origin feature/my-feature
 
 5. Open a pull request, and we will review your changes.
-
+```
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-Make sure to replace `your-username` with your GitHub username in the installation instructions. Also, don't forget to add your own API keys in the `.env` file instructions.
-
-Remember to replace `your_rawg_api_key` and `your_newscatcher_api_key` with your respective API keys.
-```
