@@ -10,6 +10,22 @@ function GameDetails() {
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
 
+  // Function to truncate summary and append "Read More" link
+  const truncateSummary = (news, maxLength) => {
+    if (news && news.summary && news.summary.length > maxLength) {
+      const truncatedSummary = news.summary.substring(0, maxLength - 3) + '...';
+      return (
+        <React.Fragment>
+          {truncatedSummary}{' '}
+          <a href={news.link} target="_blank" rel="noopener noreferrer">
+            Read More
+          </a>
+        </React.Fragment>
+      );
+    }
+    return news ? news.summary : '';
+  };
+
   useEffect(() => {
     const apiKey = '9d2a05428ec1467e83df95314e32b77b';
     const newscatcherApiKey = '90hh5aaVdPRKInu0oXyJ1-y_Kn-8IhcTeBOBQQRw8aw';
@@ -185,7 +201,7 @@ function GameDetails() {
                           {news.title}
                         </h5>
                         <p className="card-text text-gray-400">
-                          {news.summary}
+                          {truncateSummary(news.summary, 150)}
                         </p>
                       </div>
                     </div>

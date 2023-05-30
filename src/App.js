@@ -7,9 +7,13 @@ import About from './pages/About';
 import Search from './pages/Search';
 import GameDetails from './pages/GameDetails';
 import NotFound from './pages/NotFound';
+import AOS from 'aos';
 import './App.css';
+import 'aos/dist/aos.css';
 
 function App() {
+  AOS.init();
+
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const handleDarkModeToggle = () => {
