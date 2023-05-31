@@ -1,0 +1,178 @@
+.card-games {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20rem;
+  width: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: #1e1e1e;
+  transition: all 0.35s ease-out;
+}
+
+.card-games:hover .card-games-img-top::after {
+  background-image: radial-gradient(transparent 10%, black);
+  transform: translateY(-15px);
+  transition: all 0.5s ease-in-out;
+}
+
+.card-games:hover {
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
+  transform: translate3D(0, -1px, 0) scale(1.05);
+  transition: all 0.35s ease-out;
+}
+
+.card-games-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card-games:hover .card-games-overlay {
+  opacity: 1;
+}
+
+.card-games-img-top {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  transition: all 0.35s ease-in-out;
+}
+
+.card-games-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px 0 10px 0;
+  color: #fff;
+  transition: all 0.5s ease-out;
+  transform: translateY(50%);
+}
+
+.card-games:hover .card-games-body {
+  background-color: rgba(0, 0, 0, 0.75);
+  transform: translateY(0);
+}
+
+.card-games-text {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.card-games-title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: none;
+  position: relative;
+}
+
+.scrollable-title {
+  overflow: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.scrollable-title.marquee:hover {
+  white-space: nowrap;
+  text-overflow: initial;
+  animation: marquee 4s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  35% {
+    transform: translateX(-20%);
+  }
+  65% {
+    transform: translateX(-20%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.genre {
+  white-space: nowrap;
+}
+
+.metacritic {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.no-score {
+  background-color: yellow;
+  color: black;
+}
+
+.preloader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30rem;
+  height: 20rem;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: #1e1e1e;
+  transition: all 0.35s ease-out;
+}
+
+.preloader:hover {
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
+  transform: translate3D(0, -1px, 0) scale(1.05);
+  transition: all 0.35s ease-out;
+}
+
+.preloader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.preloader-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  transition: transform 0.5s ease;
+  transform: translateY(60%);
+}

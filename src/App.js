@@ -7,6 +7,8 @@ import About from "./pages/About";
 import Search from "./pages/Search";
 import GameDetails from "./pages/GameDetails";
 import BestOfYear from "./pages/BestOfYear";
+import AllTimeTop from "./pages/AllTimeTop";
+import NewReleases from "./pages/NewReleases";
 import NotFound from "./pages/NotFound";
 import AOS from "aos";
 import "./App.css";
@@ -35,6 +37,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
         <Route path="/best-of-the-year" element={<BestOfYear />} />
+        <Route path="/all-time-top" element={<AllTimeTop />} />
+        <Route path="/new-releases" element={<NewReleases />} />
         <Route path="/game" element={<GameDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
