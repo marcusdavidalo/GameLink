@@ -27,8 +27,8 @@ function GameDetails() {
   };
 
   useEffect(() => {
-    const apiKey = process.env.RAWG_API_KEY;
-    const newscatcherApiKey = process.env.NEWSCATCHER_API_KEY;
+    const apiKey = process.env.REACT_APP_RAWG_API_KEY;
+    const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
     const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
     let gameSlug = '';
 
