@@ -32,8 +32,6 @@ function GameDetails() {
     const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
     let gameSlug = '';
 
-    console.log(rawgUrl);
-
     axios
       .get(rawgUrl)
       .then((response) => {
