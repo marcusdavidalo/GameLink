@@ -1,38 +1,48 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Swiper from "swiper";
-import "swiper/css";
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import Swiper from 'swiper';
+import 'swiper/css';
 
 function GameDetails() {
   const searchParams = new URLSearchParams(window.location.search);
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
+  const NEWS_CACHE_KEY = 'game_news';
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
 
   // Function to truncate summary and append "Read More" link
   const truncateSummary = (news, maxLength) => {
     if (news && news.summary && news.summary.length > maxLength) {
-      const truncatedSummary = news.summary.substring(0, maxLength - 3) + "...";
+      const truncatedSummary = news.summary.substring(0, maxLength - 3) + '...';
       return (
         <React.Fragment>
-          {truncatedSummary}{" "}
+          {truncatedSummary}{' '}
           <a href={news.link} target="_blank" rel="noopener noreferrer">
             Read More
           </a>
         </React.Fragment>
       );
     }
-    return news ? news.summary : "";
+    return news ? news.summary : '';
   };
 
-  useEffect(() => {
-    const apiKey = "9d2a05428ec1467e83df95314e32b77b";
-    const newscatcherApiKey = "90hh5aaVdPRKInu0oXyJ1-y_Kn-8IhcTeBOBQQRw8aw";
-    const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
-    let gameSlug = "";
+  const isNewsStale = useCallback(() => {
+    const newsData = localStorage.getItem(NEWS_CACHE_KEY);
+    if (newsData) {
+      const { timestamp } = JSON.parse(newsData);
+      const currentTime = Date.now();
+      const oneDayInMillis = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+      return currentTime - timestamp > oneDayInMillis;
+    }
+    return true; // If news data doesn't exist, consider it as stale
+  }, []);
 
-    console.log(rawgUrl);
+  const fetchNewsData = useCallback(() => {
+    const apiKey = process.env.REACT_APP_RAWG_API_KEY;
+    const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
+    const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
+    let gameSlug = '';
 
     axios
       .get(rawgUrl)
@@ -43,11 +53,11 @@ function GameDetails() {
         console.log(gameSlug);
       })
       .catch((error) => {
-        console.error("Error fetching game details:", error);
+        console.error('Error fetching game details:', error);
       })
       .then(() => {
         const newsUrl = `https://api.newscatcherapi.com/v2/search?q=${gameSlug}&topic=gaming&lang=en`;
-        const headers = { "x-api-key": newscatcherApiKey };
+        const headers = { 'x-api-key': newscatcherApiKey };
 
         axios
           .get(newsUrl, { headers })
@@ -57,12 +67,19 @@ function GameDetails() {
               const slicedArticles = articles.slice(0, 15); // Limit to top 15 news articles
               setTopNews(slicedArticles);
               console.log(slicedArticles);
+
+              // Store the news data in local storage
+              const newsData = {
+                timestamp: Date.now(),
+                articles: slicedArticles,
+              };
+              localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify(newsData));
             } else {
               setTopNews([]);
             }
 
             // Initialize Swiper slider after top news data is fetched
-            const swiper = new Swiper(".swiper", {
+            const swiper = new Swiper('.swiper', {
               slidesPerView: 1,
               spaceBetween: 10,
               breakpoints: {
@@ -82,12 +99,23 @@ function GameDetails() {
             });
           })
           .catch((error) => {
-            console.error("Error fetching top news:", error);
+            console.error('Error fetching top news:', error);
           });
       });
   }, [id]);
 
+  useEffect(() => {
+    if (isNewsStale()) {
+      fetchNewsData();
+    }
+  }, [isNewsStale, fetchNewsData]);
+
   if (!gameData) {
+    const newsData = localStorage.getItem(NEWS_CACHE_KEY);
+    if (newsData) {
+      const { articles } = JSON.parse(newsData);
+      setTopNews(articles);
+    }
     return <div>Loading...</div>;
   }
 
@@ -110,30 +138,30 @@ function GameDetails() {
                   {gameData.description_raw}
                 </p>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Platforms:</span>{" "}
+                  <span className="font-bold text-xl">Platforms:</span>{' '}
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Release Date:</span>{" "}
+                  <span className="font-bold text-xl">Release Date:</span>{' '}
                   {gameData.released}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Genres:</span>{" "}
-                  {gameData.genres.map((genre) => genre.name).join(", ")}
+                  <span className="font-bold text-xl">Genres:</span>{' '}
+                  {gameData.genres.map((genre) => genre.name).join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Publisher:</span>{" "}
+                  <span className="font-bold text-xl">Publisher:</span>{' '}
                   {gameData.publishers
                     .map((publisher) => publisher.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Developer:</span>{" "}
+                  <span className="font-bold text-xl">Developer:</span>{' '}
                   {gameData.developers
                     .map((developer) => developer.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
               </div>
             </div>
