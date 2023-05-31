@@ -6,7 +6,7 @@ import './Index.css';
 
 function Index() {
   useEffect(() => {
-    const apiKey = '9d2a05428ec1467e83df95314e32b77b';
+    const apiKey = process.env.RAWG_API_KEY;
     const pageSize = 15;
 
     // Function to initialize the Swiper slider
