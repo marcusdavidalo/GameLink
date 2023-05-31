@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-export const BestOfYear = () => {
-  const apiKey = "9d2a05428ec1467e83df95314e32b77b";
+const BestOfYear = () => {
+  const apiKey = '9d2a05428ec1467e83df95314e32b77b';
   const [bestOfYear, setBestOfYear] = useState([]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   const currentDate = new Date();
@@ -17,8 +17,8 @@ export const BestOfYear = () => {
 
   const bestOfYearStartDate = `${currentYear}-01-01`;
   const bestOfYearEndDate = `${currentYear}-${
-    currentMonth < 10 ? "0" + currentMonth : currentMonth
-  }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
+    currentMonth < 10 ? '0' + currentMonth : currentMonth
+  }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
 
   useEffect(() => {
     const getBestOfYear = async () => {
@@ -27,13 +27,13 @@ export const BestOfYear = () => {
           `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating`
         );
         const data = await response.json();
-        setBestOfYear(data);
+        setBestOfYear(data.results);
       } catch (error) {
         console.log(error);
       }
     };
     getBestOfYear();
-  }, []);
+  }, [bestOfYearStartDate, bestOfYearEndDate]);
 
   return (
     <div>
@@ -43,34 +43,36 @@ export const BestOfYear = () => {
             <div className="swiper-container best-of-year">
               <h2 className="text-4xl font-bold mb-5">Best of the Year</h2>
               {bestOfYear.map((game) => (
-                <div>
-                  {/* //////////////////////////////////////////////////////// */}
+                <div key={game.id}>
                   {/* Best of the Year game cards here */}
                   <div className="card card-games dark:bg-[rgba(230,230,230,0.75)]">
                     <div className="card card-games-overlay"></div>
-                    <a href="./game?id=${game.id}">
+                    <a href={`./game?id=${game.id}`}>
                       <img
-                        src="{
-                  game.background_image
-                }"
+                        src={game.background_image}
                         className="card card-games-img-top swiper-lazy"
-                        alt="Game Image"
-                        data-src="{game.background_image}"
+                        alt="Game"
+                        data-src={game.background_image}
                         loading="lazy"
                       />
                     </a>
                     <div
-                      className="metacritic {game.metacritic ? '' : 'no-score'}"
-                      aria-data="metacritic"
+                      className={`metacritic ${
+                        game.metacritic ? '' : 'no-score'
+                      }`}
                     >
-                      {game.metacritic ? game.metacritic : "N"}
+                      {game.metacritic ? game.metacritic : 'N'}
                     </div>
                     <div className="card card-games-body frosted-blur">
-                      <a href="./game?id={game.id}">
-                        <div className="scrollable-title {game.name.length > 30 ? 'marquee' : ''}">
+                      <a href={`./game?id=${game.id}`}>
+                        <div
+                          className={`scrollable-title ${
+                            game.name.length > 30 ? 'marquee' : ''
+                          }`}
+                        >
                           <h5
                             className="card card-games-title font-extrabold hover:text-cyan-400 pl-1 rounded"
-                            title="{game.name}"
+                            title={game.name}
                           >
                             {game.name}
                           </h5>
@@ -83,8 +85,8 @@ export const BestOfYear = () => {
                         Latest Update: {formatDate(game.updated)}
                       </p>
                       <p className="genre card card-games-text">
-                        Genre:
-                        {game.genres.map((genre) => genre.name).join(", ")}
+                        Genre:{' '}
+                        {game.genres.map((genre) => genre.name).join(', ')}
                       </p>
                     </div>
                   </div>
@@ -99,4 +101,4 @@ export const BestOfYear = () => {
   );
 };
 
-export default BestOfYear();
+export default BestOfYear;
