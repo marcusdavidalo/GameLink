@@ -7,7 +7,6 @@ import 'swiper/css';
 function GameDetails() {
   const searchParams = new URLSearchParams(window.location.search);
   const id = searchParams.get('id');
-  const NEWS_CACHE_KEY = 'game_news';
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
 
@@ -26,17 +25,6 @@ function GameDetails() {
     }
     return news ? news.summary : '';
   };
-
-  const isNewsStale = useCallback(() => {
-    const newsData = localStorage.getItem(NEWS_CACHE_KEY);
-    if (newsData) {
-      const { timestamp } = JSON.parse(newsData);
-      const currentTime = Date.now();
-      const oneDayInMillis = 24 * 60 * 60 * 1000; // 1 day in milliseconds
-      return currentTime - timestamp > oneDayInMillis;
-    }
-    return true; // If news data doesn't exist, consider it as stale
-  }, []);
 
   const fetchNewsData = useCallback(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -67,13 +55,6 @@ function GameDetails() {
               const slicedArticles = articles.slice(0, 15); // Limit to top 15 news articles
               setTopNews(slicedArticles);
               console.log(slicedArticles);
-
-              // Store the news data in local storage
-              const newsData = {
-                timestamp: Date.now(),
-                articles: slicedArticles,
-              };
-              localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify(newsData));
             } else {
               setTopNews([]);
             }
@@ -85,10 +66,8 @@ function GameDetails() {
   }, [id]);
 
   useEffect(() => {
-    if (isNewsStale()) {
-      fetchNewsData();
-    }
-  }, [isNewsStale, fetchNewsData]);
+    fetchNewsData();
+  }, [fetchNewsData]);
 
   if (!gameData) {
     return <div>Loading...</div>;
