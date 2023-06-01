@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import Swiper from "swiper";
-import "swiper/css";
-import "./Index.css";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Swiper from 'swiper';
+import 'swiper/css';
+import './Index.css';
 
 function Index() {
   useEffect(() => {
-    const apiKey = "process.env.REACT_APP_RAWG_API_KEY";
+    const apiKey = 'process.env.REACT_APP_RAWG_API_KEY';
     const pageSize = 15;
 
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games) {
       const container = document.querySelector(containerSelector);
-      const slider = container.querySelector(".swiper-wrapper");
+      const slider = container.querySelector('.swiper-wrapper');
 
       games.forEach((game) => {
         if (
-          !game.tags.some((tag) => tag.name === "adult" || tag.name === "Adult")
+          !game.tags.some((tag) => tag.name === 'adult' || tag.name === 'Adult')
         ) {
-          const slide = document.createElement("div");
-          slide.className = "swiper-slide";
+          const slide = document.createElement('div');
+          slide.className = 'swiper-slide';
           slide.innerHTML = `
             <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card card-games-overlay"></div>
@@ -32,14 +32,14 @@ function Index() {
           }" loading="lazy"/>
               </a>
               <div class="metacritic ${
-                game.metacritic ? "" : "no-score"
+                game.metacritic ? '' : 'no-score'
               }" aria-data="metacritic">
-                ${game.metacritic ? game.metacritic : "N"}
+                ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card card-games-body frosted-blur">
                 <a href='./game?id=${game.id}'>
                   <div class="scrollable-title ${
-                    game.name.length > 30 ? "marquee" : ""
+                    game.name.length > 30 ? 'marquee' : ''
                   }">
                     <h5 class="card card-games-title font-extrabold hover:text-cyan-400 pl-1 rounded" title="${
                       game.name
@@ -54,7 +54,7 @@ function Index() {
                 )}</p>
                 <p class="genre card card-games-text">Genre: ${game.genres
                   .map((genre) => genre.name)
-                  .join(", ")}</p>
+                  .join(', ')}</p>
               </div>
             </div>
             <div className="swiper-lazy-preloader"></div>
@@ -83,16 +83,16 @@ function Index() {
           },
         },
         navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
       });
     }
 
     function formatDate(dateString) {
       const date = new Date(dateString);
-      const options = { month: "long", day: "numeric", year: "numeric" };
-      return date.toLocaleDateString("en-US", options);
+      const options = { month: 'long', day: 'numeric', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
     }
     function cacheGameCards(key, games) {
       const cachedData = JSON.stringify(games);
@@ -104,9 +104,9 @@ function Index() {
       return JSON.parse(cachedData);
     }
 
-    const cacheKeyBestOfYear = "bestOfYearGames";
-    const cacheKeyNewReleases = "newReleasesGames";
-    const cacheKeyAllTimeTop = "allTimeTopGames";
+    const cacheKeyBestOfYear = 'bestOfYearGames';
+    const cacheKeyNewReleases = 'newReleasesGames';
+    const cacheKeyAllTimeTop = 'allTimeTopGames';
 
     const cachedBestOfYearGames = loadCachedGameCards(cacheKeyBestOfYear);
     const cachedNewReleasesGames = loadCachedGameCards(cacheKeyNewReleases);
@@ -118,9 +118,9 @@ function Index() {
       cachedAllTimeTopGames
     ) {
       // If game cards are already cached, load them
-      initializeSwiper(".best-of-year", cachedBestOfYearGames);
-      initializeSwiper(".new-releases", cachedNewReleasesGames);
-      initializeSwiper(".all-time-top", cachedAllTimeTopGames);
+      initializeSwiper('.best-of-year', cachedBestOfYearGames);
+      initializeSwiper('.new-releases', cachedNewReleasesGames);
+      initializeSwiper('.all-time-top', cachedAllTimeTopGames);
     } else {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
@@ -129,8 +129,8 @@ function Index() {
 
       const bestOfYearStartDate = `${currentYear}-01-01`;
       const bestOfYearEndDate = `${currentYear}-${
-        currentMonth < 10 ? "0" + currentMonth : currentMonth
-      }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
+        currentMonth < 10 ? '0' + currentMonth : currentMonth
+      }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
 
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
 
@@ -141,10 +141,10 @@ function Index() {
       const endYear = currentYear;
 
       const newReleasesStartDate = `${startYear}-${
-        startMonth < 10 ? "0" + startMonth : startMonth
+        startMonth < 10 ? '0' + startMonth : startMonth
       }-01`;
       const newReleasesEndDate = `${endYear}-${
-        endMonth < 10 ? "0" + endMonth : endMonth
+        endMonth < 10 ? '0' + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
       const bestOfYearURL = `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
@@ -170,10 +170,10 @@ function Index() {
 
               const filteredBestOfYearGames = bestOfYearGames.filter((game) => {
                 const exceptionalRating = game.ratings.find(
-                  (rating) => rating.title === "exceptional"
+                  (rating) => rating.title === 'exceptional'
                 );
                 const recommendedRating = game.ratings.find(
-                  (rating) => rating.title === "recommended"
+                  (rating) => rating.title === 'recommended'
                 );
                 return (
                   exceptionalRating &&
@@ -193,7 +193,7 @@ function Index() {
 
               const filteredNewReleases = newReleases.filter((game) => {
                 return !game.tags.some(
-                  (tag) => tag.name.toLowerCase() === "adult"
+                  (tag) => tag.name.toLowerCase() === 'adult'
                 );
               });
 
@@ -207,10 +207,10 @@ function Index() {
 
               const filteredAllTimeTopGames = allTimeTopGames.filter((game) => {
                 const exceptionalRating = game.ratings.find(
-                  (rating) => rating.title === "exceptional"
+                  (rating) => rating.title === 'exceptional'
                 );
                 const recommendedRating = game.ratings.find(
-                  (rating) => rating.title === "recommended"
+                  (rating) => rating.title === 'recommended'
                 );
                 return (
                   exceptionalRating &&
@@ -219,9 +219,9 @@ function Index() {
                 );
               });
 
-              initializeSwiper(".best-of-year", filteredBestOfYearGames);
-              initializeSwiper(".new-releases", filteredNewReleases);
-              initializeSwiper(".all-time-top", filteredAllTimeTopGames);
+              initializeSwiper('.best-of-year', filteredBestOfYearGames);
+              initializeSwiper('.new-releases', filteredNewReleases);
+              initializeSwiper('.all-time-top', filteredAllTimeTopGames);
 
               // Cache the game cards for future use
               cacheGameCards(cacheKeyBestOfYear, filteredBestOfYearGames);
@@ -231,7 +231,7 @@ function Index() {
           )
         )
         .catch((error) => {
-          console.error("Error:", error);
+          console.error('Error:', error);
         });
     }
   }, []);
@@ -239,7 +239,7 @@ function Index() {
   return (
     <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
-        <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden">
+        <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden px-4">
           <div className="swiper-container best-of-year">
             <div className="flex">
               <Link to="/best-of-the-year">

@@ -1,7 +1,7 @@
 {
   "name": "mini2react",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
@@ -9,8 +9,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "aos": "^2.3.4",
+    "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.6",
+    "postcss": "^8.4.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
