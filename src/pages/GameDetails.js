@@ -40,7 +40,7 @@ function GameDetails() {
 
   const fetchNewsData = useCallback(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
-    const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
+    const newscatcherApiKey = 'LrcBnj80BcDrzrAT3gpMtC2lpbha-ByqE4nUGs5jY5I';
     const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
     let gameSlug = '';
 
@@ -205,7 +205,7 @@ function GameDetails() {
           {topNews.length > 0 ? (
             <div className="swiper container">
               <div className="swiper-wrapper">
-                <div className="block">
+                <div className="flex">
                   {topNews.map((news) => (
                     <div key={news.title} className="swiper-slide">
                       <div className="card rounded-lg bg-gray-900 shadow-lg">
