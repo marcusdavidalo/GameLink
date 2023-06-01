@@ -24,7 +24,7 @@ const AllTimeTop = () => {
       }
     };
     getAllTimeTop();
-  }, []);
+  }, [apiKey]);
 
   return (
     <div>

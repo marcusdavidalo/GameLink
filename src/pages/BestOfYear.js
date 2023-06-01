@@ -34,7 +34,7 @@ const BestOfYear = () => {
       }
     };
     getBestOfYear();
-  }, [bestOfYearStartDate, bestOfYearEndDate]);
+  }, [bestOfYearStartDate, bestOfYearEndDate, apiKey]);
 
   return (
     <div>

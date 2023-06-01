@@ -43,7 +43,7 @@ const NewReleases = () => {
       }
     };
     getNewReleases();
-  }, [newReleasesStartDate, newReleasesEndDate]);
+  }, [newReleasesStartDate, newReleasesEndDate, apiKey]);
 
   return (
     <div>
