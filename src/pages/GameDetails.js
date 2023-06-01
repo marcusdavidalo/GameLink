@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import Swiper from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 function GameDetails() {
@@ -77,26 +77,6 @@ function GameDetails() {
             } else {
               setTopNews([]);
             }
-
-            // Initialize Swiper slider after top news data is fetched
-            const swiper = new Swiper('.swiper', {
-              slidesPerView: 1,
-              spaceBetween: 10,
-              breakpoints: {
-                640: {
-                  slidesPerView: 2,
-                  spaceBetween: 15,
-                },
-                768: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: 4,
-                  spaceBetween: 25,
-                },
-              },
-            });
           })
           .catch((error) => {
             console.error('Error fetching top news:', error);
@@ -199,9 +179,9 @@ function GameDetails() {
 
           {topNews.length > 0 ? (
             <div className="swiper container">
-              <div className="swiper-wrapper">
+              <Swiper spaceBetween={50} slidesPerView={4}>
                 {topNews.map((news) => (
-                  <div key={news.title} className="swiper-slide">
+                  <SwiperSlide key={news.title} className="swiper-slide">
                     <div className="card rounded-lg bg-gray-900 shadow-lg">
                       {news.media ? (
                         <img
@@ -227,9 +207,9 @@ function GameDetails() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </SwiperSlide>
                 ))}
-              </div>
+              </Swiper>
               <div className="swiper-button-next"></div>
               <div className="swiper-button-prev"></div>
             </div>
