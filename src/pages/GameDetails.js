@@ -40,7 +40,7 @@ function GameDetails() {
 
   const fetchNewsData = useCallback(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
-    const newscatcherApiKey = 'LrcBnj80BcDrzrAT3gpMtC2lpbha-ByqE4nUGs5jY5I';
+    const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
     const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
     let gameSlug = '';
 
@@ -80,15 +80,15 @@ function GameDetails() {
 
             // Initialize Swiper slider after top news data is fetched
             const swiper = new Swiper('.swiper', {
-              slidesPerView: 4,
+              slidesPerView: 1,
               spaceBetween: 10,
               breakpoints: {
                 640: {
-                  slidesPerView: 4,
+                  slidesPerView: 2,
                   spaceBetween: 15,
                 },
                 768: {
-                  slidesPerView: 4,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 1024: {
@@ -205,37 +205,35 @@ function GameDetails() {
           {topNews.length > 0 ? (
             <div className="swiper container">
               <div className="swiper-wrapper">
-                <div className="flex">
-                  {topNews.map((news) => (
-                    <div key={news.title} className="swiper-slide">
-                      <div className="card rounded-lg bg-gray-900 shadow-lg">
-                        {news.media ? (
-                          <img
-                            src={news.media}
-                            className="card-img-top h-64 object-cover"
-                            alt="News Per Game"
-                          />
-                        ) : (
-                          <div
-                            className="h-64 bg-slate-400 flex items-center justify-center"
-                            role="img"
-                            aria-label="No Image"
-                          >
-                            No Image
-                          </div>
-                        )}
-                        <div className="card-body p-5">
-                          <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
-                            {news.title}
-                          </h5>
-                          <p className="card-text text-gray-400">
-                            {truncateSummary(news.summary, 150)}
-                          </p>
+                {topNews.map((news) => (
+                  <div key={news.title} className="swiper-slide">
+                    <div className="card rounded-lg bg-gray-900 shadow-lg">
+                      {news.media ? (
+                        <img
+                          src={news.media}
+                          className="card-img-top h-64 object-cover"
+                          alt="News Per Game"
+                        />
+                      ) : (
+                        <div
+                          className="h-64 bg-slate-400 flex items-center justify-center"
+                          role="img"
+                          aria-label="No Image"
+                        >
+                          No Image
                         </div>
+                      )}
+                      <div className="card-body p-5">
+                        <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
+                          {news.title}
+                        </h5>
+                        <p className="card-text text-gray-400">
+                          {truncateSummary(news.summary, 150)}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
               <div className="swiper-button-next"></div>
               <div className="swiper-button-prev"></div>
