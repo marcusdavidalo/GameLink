@@ -111,10 +111,6 @@ function GameDetails() {
   }, [isNewsStale, fetchNewsData]);
 
   if (!gameData) {
-    const newsData = localStorage.getItem(NEWS_CACHE_KEY);
-    if (newsData) {
-      const { articles } = JSON.parse(newsData);
-    }
     return <div>Loading...</div>;
   }
 
