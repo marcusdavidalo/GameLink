@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NewReleases.css';
 
 const NewReleases = () => {
-  const apiKey = '9d2a05428ec1467e83df95314e32b77b';
+  const apiKey = process.env.REACT_APP_RAWG_API_KEY;
   const [newReleases, setNewReleases] = useState([]);
 
   function formatDate(dateString) {

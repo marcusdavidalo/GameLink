@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './AllTimeTop.css';
 
 const AllTimeTop = () => {
-  const apiKey = '9d2a05428ec1467e83df95314e32b77b';
+  const apiKey = process.env.REACT_APP_RAWG_API_KEY;
   const [allTimeTop, setAllTimeTop] = useState([]);
 
   function formatDate(dateString) {
