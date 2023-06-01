@@ -114,7 +114,6 @@ function GameDetails() {
     const newsData = localStorage.getItem(NEWS_CACHE_KEY);
     if (newsData) {
       const { articles } = JSON.parse(newsData);
-      setTopNews(articles);
     }
     return <div>Loading...</div>;
   }
