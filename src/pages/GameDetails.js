@@ -161,7 +161,7 @@ function GameDetails() {
       <div className="container mx-auto mt-5">
         <div className="flex flex-wrap">
           <div className="w-full md:w-8/12">
-            <div className="card rounded-md bg-gray-800/50 shadow-lg m-5">
+            <div className="card rounded-md bg-gray-800/60 shadow-lg m-5">
               <img
                 src={gameData.background_image}
                 className="card-img-top h-64 md:h-auto object-cover rounded-t-md"
@@ -204,12 +204,12 @@ function GameDetails() {
             </div>
           </div>
           <div className="w-full md:w-4/12 mt-5">
-            <div className="card rounded-lg bg-gray-800/50 shadow-lg mb-5">
+            <div className="card rounded-lg bg-gray-800/60 shadow-lg mb-5">
               <div className="card-body">
                 <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
                   Game Tags
                 </h5>
-                <ul className="flex flex-row flex-wrap list-group bg-gray-800/50 p-5">
+                <ul className="flex flex-row flex-wrap list-group bg-gray-800/60 p-5">
                   {gameData.tags.slice(0, 50).map((tag) => (
                     <li
                       key={tag.id}
@@ -223,7 +223,7 @@ function GameDetails() {
                 </ul>
               </div>
             </div>
-            <div className="card rounded-lg bg-gray-800/50 shadow-lg mt-4 md:mt-0">
+            <div className="card rounded-lg bg-gray-800/60 shadow-lg mt-4 md:mt-0">
               <div className="card-body p-5">
                 <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
                   Game Links
@@ -239,7 +239,7 @@ function GameDetails() {
                     href={gameData.metacritic_url}
                     className="text-center card-text bg-emerald-600 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
                   >
-                    Metacritic
+                    Metacritic Website
                   </a>
                 </div>
               </div>
@@ -250,7 +250,12 @@ function GameDetails() {
       {/* Top News */}
       <div className="flex justify-center top-news bg-[rgba(31,41,55,0.5)] py-12 mt-8 mb-5 px-4">
         <div id="TopNews" className="container">
-          <h2 className="text-gray-200 text-4xl font-bold mb-8">Top News</h2>
+          <div className="flex flex-col items-center text-gray-200 mb-8">
+            <h2 className="text-4xl font-bold mb-2">Top News</h2>
+            <h3 className="font-semibold text-2xl border-t-2 border-t-gray-500 px-20">
+              {gameData.name}
+            </h3>
+          </div>
 
           {topNews.length > 0 ? (
             <div className="swiper">
@@ -273,7 +278,7 @@ function GameDetails() {
               >
                 {topNews.map((news) => (
                   <SwiperSlide key={news.title} className="pb-10 ">
-                    <div className="card rounded-lg bg-gray-800/50 shadow-lg shadow-black">
+                    <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black">
                       {news.media ? (
                         <a
                           href={news.link}
@@ -354,7 +359,7 @@ function GameDetails() {
               </Swiper>
             </div>
           ) : (
-            <div className="text-gray-200 text-center text-3xl pt-20 pb-20 bg-gray-800 rounded-md">
+            <div className="text-gray-200 text-center text-3xl pt-20 pb-20 bg-gray-800 6ounded-md">
               No News Available
             </div>
           )}
