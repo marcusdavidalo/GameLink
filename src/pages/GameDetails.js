@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import 'swiper/css/bundle';
+SwiperCore.use([Scrollbar]);
 
 function GameDetails() {
   const swiperElRef = useRef(null);
@@ -150,7 +152,10 @@ function GameDetails() {
 
   if (!gameData || !topNews) {
     return (
-      <div className="fixed h-screen w-screen bg-slate-800/70 backdrop-blur-sm">
+      <div
+        id="loading"
+        className="flex items-center justify-center align-baseline fixed h-screen w-screen text-white text-5xl bg-slate-800/80"
+      >
         Loading...
       </div>
     );
@@ -161,7 +166,7 @@ function GameDetails() {
       <div className="container mx-auto mt-5">
         <div className="flex flex-wrap">
           <div className="w-full md:w-8/12">
-            <div className="card rounded-md bg-gray-800/60 shadow-lg m-5">
+            <div className="card rounded-md bg-gray-800/60 shadow-lg m-2">
               <img
                 src={gameData.background_image}
                 className="card-img-top h-64 md:h-auto object-cover rounded-t-md"
@@ -203,8 +208,8 @@ function GameDetails() {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-4/12 mt-5">
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg mb-5">
+          <div className="w-full md:w-4/12">
+            <div className="card rounded-lg bg-gray-800/60 shadow-lg m-2">
               <div className="card-body">
                 <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
                   Game Tags
@@ -223,7 +228,7 @@ function GameDetails() {
                 </ul>
               </div>
             </div>
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg mt-4 md:mt-0">
+            <div className="card rounded-lg bg-gray-800/60 shadow-lg mt-4 mx-2">
               <div className="card-body p-5">
                 <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
                   Game Links
@@ -258,106 +263,103 @@ function GameDetails() {
           </div>
 
           {topNews.length > 0 ? (
-            <div className="swiper">
-              <Swiper
-                ref={swiperElRef}
-                spaceBetween={20}
-                slidesPerView={1}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                  },
-                }}
-                scrollbar={{ draggable: true }}
-              >
-                {topNews.map((news) => (
-                  <SwiperSlide key={news.title} className="pb-10 ">
-                    <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black">
-                      {news.media ? (
-                        <a
-                          href={news.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <div
-                            id="imgcontainer"
-                            className="relative h-64 max-w-auto overflow-hidden rounded-t-md"
-                          >
-                            <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                              {!news.author || news.author === '' ? (
-                                <p>No Author</p>
-                              ) : (
-                                <p>{news.author}</p>
-                              )}
-                            </span>
-                            <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                              {!news.author || news.author === '' ? (
-                                <p></p>
-                              ) : (
-                                <a
-                                  href={news.clean_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  <p className="hover:scale-105">
-                                    {news.rights}
-                                  </p>
-                                </a>
-                              )}
-                            </span>
-                            <img
-                              src={news.media}
-                              className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
-                              alt="News Per Game"
-                            />
-                          </div>
-                        </a>
-                      ) : (
+            <Swiper
+              ref={swiperElRef}
+              modules={{ Scrollbar }}
+              spaceBetween={20}
+              slidesPerView={1}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                },
+                768: {
+                  slidesPerView: 3,
+                },
+                1024: {
+                  slidesPerView: 4,
+                },
+              }}
+              scrollbar={{ draggable: true }}
+            >
+              {topNews.map((news) => (
+                <SwiperSlide key={news.title} className="pb-10 ">
+                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black">
+                    {news.media ? (
+                      <a
+                        href={news.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <div
-                          className="h-64 bg-slate-400 flex items-center justify-center"
-                          role="img"
-                          aria-label="No Image"
+                          id="imgcontainer"
+                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md"
                         >
-                          No Image
+                          <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
+                            {!news.author || news.author === '' ? (
+                              <p>No Author</p>
+                            ) : (
+                              <p>{news.author}</p>
+                            )}
+                          </span>
+                          <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
+                            {!news.author || news.author === '' ? (
+                              <p></p>
+                            ) : (
+                              <a
+                                href={'https://' + news.clean_url}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <p className="hover:scale-105">{news.rights}</p>
+                              </a>
+                            )}
+                          </span>
+                          <img
+                            src={news.media}
+                            className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
+                            alt="News Per Game"
+                          />
                         </div>
-                      )}
-                      <div className="card-body p-5 mb-10">
-                        <div
-                          id="titlecontainer"
-                          className="h-40 max-w-auto overflow-hidden"
-                        >
-                          <h5 className="card-title text-gray-200 text-2xl font-bold">
-                            <a
-                              href={news.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {news.title}
-                            </a>
-                          </h5>
-                        </div>
-                        <p className="card-text text-gray-400">
-                          {news.summary ? (
-                            <TruncatedSummary
-                              summary={news.summary}
-                              maxLength={100}
-                            />
-                          ) : (
-                            ''
-                          )}
-                        </p>
+                      </a>
+                    ) : (
+                      <div
+                        className="h-64 bg-slate-400 flex items-center justify-center"
+                        role="img"
+                        aria-label="No Image"
+                      >
+                        No Image
                       </div>
+                    )}
+                    <div className="card-body p-5 mb-10">
+                      <div
+                        id="titlecontainer"
+                        className="h-40 max-w-auto overflow-hidden"
+                      >
+                        <h5 className="card-title text-gray-200 text-2xl font-bold">
+                          <a
+                            href={news.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {news.title}
+                          </a>
+                        </h5>
+                      </div>
+                      <p className="card-text text-gray-400">
+                        {news.summary ? (
+                          <TruncatedSummary
+                            summary={news.summary}
+                            maxLength={100}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </p>
                     </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
             <div className="text-gray-200 text-center text-3xl pt-20 pb-20 bg-gray-800 6ounded-md">
               No News Available
