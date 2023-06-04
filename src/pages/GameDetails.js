@@ -60,7 +60,7 @@ function GameDetails() {
 
       return (
         <React.Fragment>
-          {truncatedSummary}{' '}
+          {truncatedSummary}
           <button
             onClick={handleToggleExpand}
             className="font-semibold text-gray-200"
@@ -132,7 +132,6 @@ function GameDetails() {
     const dayOfWeek = today.getUTCDay(); // 0 (Sunday) to 6 (Saturday)
 
     if (dayOfWeek === 1) {
-      // Monday (assuming Monday is the start of the week)
       localStorage.removeItem('newsData'); // Remove the stored news data on Monday
     }
   }, []);
@@ -154,7 +153,7 @@ function GameDetails() {
     return (
       <div
         id="loading"
-        className="flex items-center justify-center align-baseline fixed h-screen w-screen text-white text-5xl bg-slate-800/80"
+        className="flex items-center justify-center align-baseline fixed h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg"
       >
         Loading...
       </div>
@@ -180,27 +179,27 @@ function GameDetails() {
                   {gameData.description_raw}
                 </p>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Platforms:</span>{' '}
+                  <span className="font-bold text-xl">Platforms: </span>
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
                     .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Release Date:</span>{' '}
+                  <span className="font-bold text-xl">Release Date: </span>
                   {gameData.released}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Genres:</span>{' '}
+                  <span className="font-bold text-xl">Genres: </span>
                   {gameData.genres.map((genre) => genre.name).join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Publisher:</span>{' '}
+                  <span className="font-bold text-xl">Publisher: </span>
                   {gameData.publishers
                     .map((publisher) => publisher.name)
                     .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Developer:</span>{' '}
+                  <span className="font-bold text-xl">Developer: </span>
                   {gameData.developers
                     .map((developer) => developer.name)
                     .join(', ')}
@@ -214,7 +213,7 @@ function GameDetails() {
                 <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
                   Game Tags
                 </h5>
-                <ul className="flex flex-row flex-wrap list-group bg-gray-800/60 p-5">
+                <ul className="flex flex-row flex-wrap list-group bg-gray-800/60 p-5 rounded-md">
                   {gameData.tags.slice(0, 50).map((tag) => (
                     <li
                       key={tag.id}
@@ -228,21 +227,21 @@ function GameDetails() {
                 </ul>
               </div>
             </div>
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg mt-4 mx-2">
-              <div className="card-body p-5">
-                <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
+            <div className="card rounded-md bg-gray-800/60 shadow-lg mt-4 mx-2">
+              <div className="card-body">
+                <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
                   Game Links
                 </h5>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 bg-gray-800/60 p-5 rounded-md">
                   <a
                     href={gameData.website}
-                    className="text-center card-text bg-slate-500 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
+                    className="text-center card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
                   >
                     Official Website
                   </a>
                   <a
                     href={gameData.metacritic_url}
-                    className="text-center card-text bg-emerald-600 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
+                    className="text-center card-text bg-emerald-600/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
                   >
                     Metacritic Website
                   </a>
@@ -310,13 +309,15 @@ function GameDetails() {
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                <p className="hover:scale-105">{news.rights}</p>
+                                <p className=" hover:scale-105">
+                                  {news.rights}
+                                </p>
                               </a>
                             )}
                           </span>
                           <img
                             src={news.media}
-                            className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
+                            className="card-img-top h-full w-auto object-cover origin-center  hover:scale-[1.05]"
                             alt="News Per Game"
                           />
                         </div>

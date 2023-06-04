@@ -55,12 +55,12 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
               onChange={handleDarkModeToggle}
               className={`${
                 isDarkMode ? 'bg-slate-600' : 'bg-gray-400'
-              } relative inline-flex items-center h-6 rounded-full w-11`}
+              } relative inline-flex items-center h-6 rounded-full w-11 `}
             >
               <span
                 className={`${
                   isDarkMode ? 'translate-x-6' : 'translate-x-1'
-                } inline-block w-4 h-4 transform bg-white rounded-full`}
+                } inline-block w-4 h-4 transform bg-white rounded-full `}
               />
             </Switch>
             <DarkIcon className="h-5 w-5 mx-2 text-gray-200 dark:text-gray-800" />
