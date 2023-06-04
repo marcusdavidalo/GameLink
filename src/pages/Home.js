@@ -11,7 +11,7 @@ SwiperCore.use([Navigation]);
 function Home() {
   useEffect(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
-    const pageSize = 15;
+    const pageSize = 30;
 
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games, swiperSelector) {
@@ -155,7 +155,7 @@ function Home() {
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
 
       const startMonth =
-        currentMonth - 4 > 0 ? currentMonth - 4 : 12 + (currentMonth - 4);
+        currentMonth - 6 > 0 ? currentMonth - 4 : 12 + (currentMonth - 4);
       const startYear = currentMonth - 4 > 0 ? currentYear : currentYear - 1;
       const endMonth = currentMonth;
       const endYear = currentYear;
@@ -167,7 +167,7 @@ function Home() {
         endMonth < 10 ? '0' + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
-      const bestOfYearURL = `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
+      const bestOfYearURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
       const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
       const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
 
@@ -279,6 +279,7 @@ function Home() {
               <Link
                 to="/best-of-the-year"
                 className="border-b-2 border-gray-500 mb-5 pb-5 pr-[100px]"
+                title="Games"
               >
                 <h2 className="text-4xl font-bold hover:scale-105">
                   Best of the Year
@@ -324,6 +325,7 @@ function Home() {
               <Link
                 to="/new-releases"
                 className="border-b-2 border-gray-500 mb-5 pb-5 pr-[100px]"
+                title="Games"
               >
                 <h2 className="text-4xl font-bold hover:scale-105">
                   New Releases
@@ -369,6 +371,7 @@ function Home() {
               <Link
                 to="/new-releases"
                 className="border-b-2 border-gray-500 mb-5 pb-5 pr-[100px]"
+                title="Games"
               >
                 <h2 className="text-4xl font-bold hover:scale-105">
                   All Time Top

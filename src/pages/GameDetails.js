@@ -79,7 +79,6 @@ function GameDetails() {
     try {
       if (isNewsDataValid(cachedNewsData)) {
         const parsedNewsData = JSON.parse(cachedNewsData);
-        console.log('parsedNewsData:', parsedNewsData);
         setTopNews(parsedNewsData.articles);
       } else {
         const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -146,9 +145,6 @@ function GameDetails() {
     refreshNewsData();
   }, [id, fetchNewsData, refreshNewsData]);
 
-  console.log('topNews:', topNews);
-  console.log('gameData:', gameData);
-
   if (!gameData || !topNews) {
     return (
       <div
@@ -213,7 +209,7 @@ function GameDetails() {
                 <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
                   Game Tags
                 </h5>
-                <ul className="flex flex-row flex-wrap list-group bg-gray-800/60 p-5 rounded-md">
+                <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 p-5 rounded-md">
                   {gameData.tags.slice(0, 50).map((tag) => (
                     <li
                       key={tag.id}

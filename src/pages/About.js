@@ -1,26 +1,26 @@
 import React from 'react';
 import './About.css';
 
-function About() {
-  const teamMembers = [
-    {
-      name: 'Marcus David Alo',
-      role: 'Role Here',
-    },
-    {
-      name: 'Mahdi Atef Adas',
-      role: 'Role Here',
-    },
-    {
-      name: 'Jared Eiden Belvis',
-      role: 'Role Here',
-    },
-    {
-      name: 'Skipper Paloma',
-      role: 'Role Here',
-    },
-  ];
+const teamMembers = [
+  {
+    name: 'Marcus David Alo',
+    role: 'Role Here',
+  },
+  {
+    name: 'Mahdi Atef Adas',
+    role: 'Role Here',
+  },
+  {
+    name: 'Jared Eiden Belvis',
+    role: 'Role Here',
+  },
+  {
+    name: 'Skipper Paloma',
+    role: 'Role Here',
+  },
+];
 
+function About() {
   return (
     <div className="flex justify-center my-20">
       <div className="container flex justify-center">
@@ -54,8 +54,8 @@ function About() {
             Our Team
           </h2>
           <div className="flex flex-wrap justify-center">
-            {teamMembers.map((member, index) => (
-              <div className="w-64 mx-4 mb-4" key={index}>
+            {teamMembers.map((member) => (
+              <div className="w-64 mx-4 mb-4" key={member.name}>
                 <div className="bg-gray-600 dark:bg-gray-300 h-40 mb-2"></div>
                 <div className="text-lg font-bold mt-2 text-white dark:text-gray-800">
                   {member.name}

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 async function searchAPIData() {
   const API_KEY = global.api.apiKey;
@@ -19,21 +19,21 @@ function Search() {
     // console.log(queryString);
     const urlParams = new URLSearchParams(queryString);
     // console.log(urlParams);
-    const showAlert = (global.search.type = urlParams.get("type"));
-    global.search.term = urlParams.get("search-term");
+    const showAlert = (global.search.type = urlParams.get('type'));
+    global.search.term = urlParams.get('search-term');
 
-    if (global.search.term !== "" && global.search.term !== null) {
+    if (global.search.term !== '' && global.search.term !== null) {
       const results = await searchAPIData();
       console.log(results);
     } else {
-      showAlert("Please enter search term");
+      showAlert('Please enter search term');
     }
   };
   function showAlert(message, className) {
-    const alertEl = document.createElement("div");
-    alertEl.classList.add("alert", className);
+    const alertEl = document.createElement('div');
+    alertEl.classList.add('alert', className);
     alertEl.appendChild(document.createTextNode(message));
-    document.querySelector("#alert").appendChild(alertEl);
+    document.querySelector('#alert').appendChild(alertEl);
 
     setTimeout(() => alertEl.remove(), 3000);
   }
@@ -58,4 +58,5 @@ function Search() {
     </section>
   );
 }
+
 export default Search;
