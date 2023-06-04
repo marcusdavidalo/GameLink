@@ -63,7 +63,7 @@ function Home() {
                   .join(', ')}</p>
               </div>
             </div>
-            <div class="swiper-lazy-preloader"></div>
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white animate-spin"></div>
           `;
 
           slider.appendChild(slide);
