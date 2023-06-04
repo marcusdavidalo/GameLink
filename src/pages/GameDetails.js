@@ -23,9 +23,9 @@ function TruncatedSummary({ summary, maxLength }) {
         {truncatedSummary}
         <button
           onClick={handleToggleExpand}
-          className="font-semibold text-gray-200"
+          className="font-semibold text-gray-200 dark:text-slate-800"
         >
-          {isExpanded ? 'Read Less' : 'Read More'}
+          {isExpanded ? ' Read Less' : 'Read More'}
         </button>
       </React.Fragment>
     );
@@ -162,40 +162,40 @@ function GameDetails() {
       <div className="container mx-auto mt-5">
         <div className="flex flex-wrap">
           <div className="w-full md:w-8/12">
-            <div className="card rounded-md bg-gray-800/60 shadow-lg m-2">
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg m-2">
               <img
                 src={gameData.background_image}
-                className="card-img-top h-64 md:h-auto object-cover rounded-t-md"
+                className="card-img-top h-auto w-full md:h-auto object-cover rounded-t-md"
                 alt="Game Background"
               />
               <div className="card-body p-5">
-                <h3 className="card-title text-gray-200 text-2xl font-bold mb-4">
+                <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
                   {gameData.name}
                 </h3>
-                <p className="card-text text-lg text-gray-400 mb-4">
+                <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4">
                   {gameData.description_raw}
                 </p>
-                <h4 className="text-gray-300 text-lg mb-4">
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Platforms: </span>
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
                     .join(', ')}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Release Date: </span>
                   {gameData.released}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Genres: </span>
                   {gameData.genres.map((genre) => genre.name).join(', ')}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Publisher: </span>
                   {gameData.publishers
                     .map((publisher) => publisher.name)
                     .join(', ')}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Developer: </span>
                   {gameData.developers
                     .map((developer) => developer.name)
@@ -205,12 +205,12 @@ function GameDetails() {
             </div>
           </div>
           <div className="w-full md:w-4/12">
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg m-2">
+            <div className="card rounded-lg bg-gray-800/60 dark:bg-slate-200/70 shadow-lg m-2">
               <div className="card-body">
-                <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
+                <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold p-5">
                   Game Tags
                 </h5>
-                <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 p-5 rounded-md">
+                <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
                   {gameData.tags.slice(0, 50).map((tag) => (
                     <li
                       key={tag.id}
@@ -227,12 +227,12 @@ function GameDetails() {
                 </ul>
               </div>
             </div>
-            <div className="card rounded-md bg-gray-800/60 shadow-lg mt-4 mx-2">
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg mt-4 mx-2">
               <div className="card-body">
-                <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
+                <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold p-5">
                   Game Links
                 </h5>
-                <div className="grid grid-cols-2 gap-4 bg-gray-800/60 p-5 rounded-md">
+                <div className="grid grid-cols-2 gap-4 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
                   <a
                     href={gameData.website}
                     className="text-center card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
@@ -252,11 +252,13 @@ function GameDetails() {
         </div>
       </div>
       {/* Top News */}
-      <div className="flex justify-center top-news bg-[rgba(31,41,55,0.5)] py-12 mt-8 mb-5 px-4">
+      <div className="flex justify-center top-news bg-slate-800/50 py-12 mt-8 mb-5 px-4 dark:bg-slate-200/70">
         <div id="TopNews" className="container">
           <div className="flex flex-col items-center text-gray-200 mb-8">
-            <h2 className="text-4xl font-bold mb-2">Top News</h2>
-            <h3 className="font-semibold text-2xl border-t-2 border-t-gray-500 px-20">
+            <h2 className="text-4xl font-bold mb-2 dark:text-slate-800">
+              Top News
+            </h2>
+            <h3 className="font-semibold text-2xl border-t-2 border-t-gray-500 px-20 dark:text-slate-800">
               {gameData.name}
             </h3>
           </div>
@@ -282,7 +284,7 @@ function GameDetails() {
             >
               {topNews.map((news) => (
                 <SwiperSlide key={news.title} className="pb-10 ">
-                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black">
+                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black dark:bg-slate-200/70">
                     {news.media ? (
                       <a
                         href={news.link}
@@ -291,7 +293,7 @@ function GameDetails() {
                       >
                         <div
                           id="imgcontainer"
-                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md"
+                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
                         >
                           <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
                             {!news.author || news.author === '' ? (
@@ -336,7 +338,7 @@ function GameDetails() {
                         id="titlecontainer"
                         className="h-40 max-w-auto overflow-hidden"
                       >
-                        <h5 className="card-title text-gray-200 text-2xl font-bold">
+                        <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold">
                           <a
                             href={news.link}
                             target="_blank"
@@ -346,7 +348,7 @@ function GameDetails() {
                           </a>
                         </h5>
                       </div>
-                      <p className="card-text text-gray-400">
+                      <p className="card-text text-gray-400 dark:text-slate-600">
                         {news.summary ? (
                           <TruncatedSummary
                             summary={news.summary}
