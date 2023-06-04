@@ -87,10 +87,6 @@ function Home() {
             spaceBetween: 25,
           },
         },
-        navigation: {
-          prevEl: `${swiperSelector} .custom-prev-button`,
-          nextEl: `${swiperSelector} .custom-next-button`,
-        },
       });
 
       const prevButton = document.querySelector(
