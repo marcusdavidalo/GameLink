@@ -30,7 +30,7 @@ function Home() {
           slide.innerHTML = `
             <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card card-games-overlay"></div>
-              <a href='./game?id=${game.id}'>
+              <a href='./game/${game.slug}/${game.id}'>
                 <img src="${
                   game.background_image
                 }" class="card card-games-img-top swiper-lazy" alt="Game Image" data-src="${
@@ -43,7 +43,7 @@ function Home() {
                 ${game.metacritic ? game.metacritic : 'N'}
               </div>
               <div class="card card-games-body frosted-blur">
-                <a href='./game?id=${game.id}'>
+                <a href='./game/${game.slug}/${game.id}'>
                   <div class="scrollable-title ${
                     game.name.length > 30 ? 'marquee' : ''
                   }">
@@ -287,11 +287,11 @@ function Home() {
               </Link>
               {/* Swiper Navigations for best of the year swipers */}
               <div className="flex justify-between">
-                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg">
+                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path
@@ -300,11 +300,11 @@ function Home() {
                     />
                   </svg>
                 </button>
-                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg">
+                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80 ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path
@@ -333,11 +333,11 @@ function Home() {
               </Link>
               {/* Swiper Navigations for new releases swipers */}
               <div className="flex justify-between">
-                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg">
+                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path
@@ -346,11 +346,11 @@ function Home() {
                     />
                   </svg>
                 </button>
-                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg">
+                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80 ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path
@@ -379,11 +379,11 @@ function Home() {
               </Link>
               {/* Swiper Navigations for all time top swipers */}
               <div className="flex justify-between">
-                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg">
+                <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path
@@ -392,11 +392,11 @@ function Home() {
                     />
                   </svg>
                 </button>
-                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg">
+                <button className="custom-next-button bg-slate-600/50 text-3xl p-2 my-4 ml-5 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80 ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    className="text-bold h-8 w-8"
+                    className="h-8 w-8 font-extrabold antialiased"
                     viewBox="0 0 16 16"
                   >
                     <path

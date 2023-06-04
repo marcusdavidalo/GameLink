@@ -20,7 +20,7 @@ export const AllRoutes = () => {
         <Route path="/best-of-the-year" element={<BestOfYear />} />
         <Route path="/all-time-top" element={<AllTimeTop />} />
         <Route path="/new-releases" element={<NewReleases />} />
-        <Route path="/game" element={<GameDetails />} />
+        <Route path="/game/:slug/:id" element={<GameDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

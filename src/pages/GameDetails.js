@@ -1,10 +1,37 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
 SwiperCore.use([Scrollbar]);
 
+function TruncatedSummary({ summary, maxLength }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  if (summary && summary.length > maxLength) {
+    const truncatedSummary = isExpanded
+      ? summary
+      : summary.substring(0, maxLength - 3) + '...';
+
+    return (
+      <React.Fragment>
+        {truncatedSummary}
+        <button
+          onClick={handleToggleExpand}
+          className="font-semibold text-gray-200"
+        >
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      </React.Fragment>
+    );
+  }
+  return summary || '';
+}
 function GameDetails() {
   const swiperElRef = useRef(null);
 
@@ -15,10 +42,11 @@ function GameDetails() {
     }
   }, []);
 
-  const searchParams = new URLSearchParams(window.location.search);
-  const id = searchParams.get('id');
+  const { id } = useParams();
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
+
+  console.log(id);
 
   const isNewsDataValid = useCallback((newsData) => {
     if (!newsData) {
@@ -45,33 +73,6 @@ function GameDetails() {
 
     return true; // Data is valid
   }, []);
-
-  function TruncatedSummary({ summary, maxLength }) {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const handleToggleExpand = () => {
-      setIsExpanded(!isExpanded);
-    };
-
-    if (summary && summary.length > maxLength) {
-      const truncatedSummary = isExpanded
-        ? summary
-        : summary.substring(0, maxLength - 3) + '...';
-
-      return (
-        <React.Fragment>
-          {truncatedSummary}
-          <button
-            onClick={handleToggleExpand}
-            className="font-semibold text-gray-200"
-          >
-            {isExpanded ? 'Read Less' : 'Read More'}
-          </button>
-        </React.Fragment>
-      );
-    }
-    return summary || '';
-  }
 
   const fetchNewsData = useCallback(() => {
     const cachedNewsData = localStorage.getItem('newsData-' + id);
@@ -149,7 +150,7 @@ function GameDetails() {
     return (
       <div
         id="loading"
-        className="flex items-center justify-center align-baseline fixed h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg"
+        className="flex items-center justify-center align-baseline absolute top-0 left-0 h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg z-[9999]"
       >
         Loading...
       </div>
@@ -215,7 +216,10 @@ function GameDetails() {
                       key={tag.id}
                       className="list-group-item text-gray-300 mr-2 mb-4"
                     >
-                      <p className="bg-gray-600/60 px-5 py-2 rounded-full">
+                      <p
+                        className="bg-gray-600/60 px-5 py-2 rounded-full"
+                        title={tag.name}
+                      >
                         {tag.name}
                       </p>
                     </li>
