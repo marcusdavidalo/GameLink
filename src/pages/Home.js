@@ -4,7 +4,6 @@ import axios from 'axios';
 import './Home.css';
 import SwiperCore, { Navigation } from 'swiper';
 import Swiper from 'swiper';
-// import 'swiper/css';
 
 SwiperCore.use([Navigation]);
 
@@ -110,6 +109,7 @@ function Home() {
       const options = { month: 'long', day: 'numeric', year: 'numeric' };
       return date.toLocaleDateString('en-US', options);
     }
+
     function cacheGameCards(key, games) {
       const cachedData = JSON.stringify(games);
       sessionStorage.setItem(key, cachedData);
@@ -155,7 +155,7 @@ function Home() {
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
 
       const startMonth =
-        currentMonth - 6 > 0 ? currentMonth - 4 : 12 + (currentMonth - 4);
+        currentMonth - 4 > 0 ? currentMonth - 4 : 12 + (currentMonth - 4);
       const startYear = currentMonth - 4 > 0 ? currentYear : currentYear - 1;
       const endMonth = currentMonth;
       const endYear = currentYear;
@@ -171,102 +171,85 @@ function Home() {
       const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
       const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
 
-      axios
-        .all([
-          axios.get(bestOfYearURL),
-          axios.get(newReleasesURL),
-          axios.get(allTimeTopURL),
-        ])
-        .then(
-          axios.spread(
-            (bestOfYearResponse, newReleasesResponse, allTimeTopResponse) => {
-              const bestOfYearGames = bestOfYearResponse.data.results.map(
-                (game) => ({
-                  ...game,
-                  metacritic: game.metacritic,
-                  updated: game.updated,
-                })
-              );
+      (async () => {
+        try {
+          const [bestOfYearResponse, newReleasesResponse, allTimeTopResponse] =
+            await Promise.all([
+              axios.get(bestOfYearURL),
+              axios.get(newReleasesURL),
+              axios.get(allTimeTopURL),
+            ]);
+          const bestOfYearGames = bestOfYearResponse.data.results.map(
+            (game) => ({
+              ...game,
+              metacritic: game.metacritic,
+              updated: game.updated,
+            })
+          );
 
-              const filteredBestOfYearGames = bestOfYearGames.filter((game) => {
-                const exceptionalRating = game.ratings.find(
-                  (rating) => rating.title === 'exceptional'
-                );
-                const recommendedRating = game.ratings.find(
-                  (rating) => rating.title === 'recommended'
-                );
-                return (
-                  exceptionalRating &&
-                  recommendedRating &&
-                  game.metacritic &&
-                  exceptionalRating.count > recommendedRating.count
-                );
-              });
+          const filteredBestOfYearGames = bestOfYearGames.filter((game) => {
+            const exceptionalRating = game.ratings.find(
+              (rating) => rating.title === 'exceptional'
+            );
+            const recommendedRating = game.ratings.find(
+              (rating) => rating.title === 'recommended'
+            );
+            return (
+              exceptionalRating &&
+              recommendedRating &&
+              game.metacritic &&
+              exceptionalRating.count > recommendedRating.count
+            );
+          });
 
-              const newReleases = newReleasesResponse.data.results.map(
-                (game) => ({
-                  ...game,
-                  metacritic: game.metacritic,
-                  updated: game.updated,
-                })
-              );
+          const newReleases = newReleasesResponse.data.results.map((game) => ({
+            ...game,
+            metacritic: game.metacritic,
+            updated: game.updated,
+          }));
 
-              const filteredNewReleases = newReleases.filter((game) => {
-                return (
-                  game.esrb_rating &&
-                  game.esrb_rating.slug !== 'adults-only' &&
-                  game.esrb_rating.name !== 'Adults Only'
-                );
-              });
+          const allTimeTopGames = allTimeTopResponse.data.results.map(
+            (game) => ({
+              ...game,
+              metacritic: game.metacritic,
+              updated: game.updated,
+            })
+          );
 
-              const allTimeTopGames = allTimeTopResponse.data.results.map(
-                (game) => ({
-                  ...game,
-                  metacritic: game.metacritic,
-                  updated: game.updated,
-                })
-              );
+          const filteredAllTimeTopGames = allTimeTopGames.filter((game) => {
+            const exceptionalRating = game.ratings.find(
+              (rating) => rating.title === 'exceptional'
+            );
+            const recommendedRating = game.ratings.find(
+              (rating) => rating.title === 'recommended'
+            );
+            return (
+              exceptionalRating &&
+              recommendedRating &&
+              exceptionalRating.count > recommendedRating.count
+            );
+          });
 
-              const filteredAllTimeTopGames = allTimeTopGames.filter((game) => {
-                const exceptionalRating = game.ratings.find(
-                  (rating) => rating.title === 'exceptional'
-                );
-                const recommendedRating = game.ratings.find(
-                  (rating) => rating.title === 'recommended'
-                );
-                return (
-                  exceptionalRating &&
-                  recommendedRating &&
-                  exceptionalRating.count > recommendedRating.count
-                );
-              });
+          initializeSwiper(
+            '.best-of-year',
+            filteredBestOfYearGames,
+            '.best-of-year'
+          );
+          initializeSwiper('.new-releases', newReleases, '.new-releases');
+          initializeSwiper(
+            '.all-time-top',
+            filteredAllTimeTopGames,
+            '.all-time-top'
+          );
 
-              initializeSwiper(
-                '.best-of-year',
-                filteredBestOfYearGames,
-                '.best-of-year'
-              );
-              initializeSwiper(
-                '.new-releases',
-                filteredNewReleases,
-                '.new-releases'
-              );
-              initializeSwiper(
-                '.all-time-top',
-                filteredAllTimeTopGames,
-                '.all-time-top'
-              );
-
-              // Cache the game cards for future use
-              cacheGameCards(cacheKeyBestOfYear, filteredBestOfYearGames);
-              cacheGameCards(cacheKeyNewReleases, filteredNewReleases);
-              cacheGameCards(cacheKeyAllTimeTop, filteredAllTimeTopGames);
-            }
-          )
-        )
-        .catch((error) => {
+          // Cache the game cards for future use
+          cacheGameCards(cacheKeyBestOfYear, filteredBestOfYearGames);
+          cacheGameCards(cacheKeyNewReleases, newReleases);
+          cacheGameCards(cacheKeyAllTimeTop, filteredAllTimeTopGames);
+        } catch (error) {
           console.error('Error:', error);
-        });
+        }
+      })();
     }
   }, []);
 
@@ -320,7 +303,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="swiper-container  new-releases mt-10">
+          <div className="swiper-container new-releases mt-10">
             <div className="flex justify-between">
               <Link
                 to="/new-releases"
