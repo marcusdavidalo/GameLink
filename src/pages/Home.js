@@ -7,10 +7,15 @@ import Swiper from 'swiper';
 
 SwiperCore.use([Navigation]);
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { month: 'long', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
 function Home() {
   useEffect(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
-    const pageSize = 30;
+    const pageSize = 10;
 
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games, swiperSelector) {
@@ -19,9 +24,8 @@ function Home() {
 
       games.forEach((game) => {
         if (
-          game.esrb_rating &&
-          game.esrb_rating.slug !== 'adults-only' &&
-          game.esrb_rating.name !== 'Adults Only'
+          game.tag !== 'Sexual Content' ||
+          game.esrb_rating.slug !== 'adults-only'
         ) {
           const slide = document.createElement('div');
           slide.classList.add('swiper-slide');
@@ -104,12 +108,6 @@ function Home() {
       });
     }
 
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const options = { month: 'long', day: 'numeric', year: 'numeric' };
-      return date.toLocaleDateString('en-US', options);
-    }
-
     function cacheGameCards(key, games) {
       const cachedData = JSON.stringify(games);
       sessionStorage.setItem(key, cachedData);
@@ -155,7 +153,7 @@ function Home() {
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
 
       const startMonth =
-        currentMonth - 4 > 0 ? currentMonth - 4 : 12 + (currentMonth - 4);
+        currentMonth - 4 > 0 ? currentMonth - 4 : 12 + (currentMonth - 6);
       const startYear = currentMonth - 4 > 0 ? currentYear : currentYear - 1;
       const endMonth = currentMonth;
       const endYear = currentYear;

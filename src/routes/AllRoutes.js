@@ -12,7 +12,7 @@ import {
 
 export const AllRoutes = () => {
   return (
-    <>
+    <div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -23,6 +23,6 @@ export const AllRoutes = () => {
         <Route path="/game/:slug/:id" element={<GameDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </div>
   );
 };
