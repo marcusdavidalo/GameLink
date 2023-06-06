@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
-import SwiperCore, { Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import SwiperCore, { Scrollbar } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
 SwiperCore.use([Scrollbar]);
 
 function GameDetails() {
@@ -39,7 +39,7 @@ function GameDetails() {
         return false; // Data is expired
       }
     } catch (error) {
-      console.error('Error parsing news data:', error);
+      console.error("Error parsing news data:", error);
       return false; // Invalid JSON data
     }
 
@@ -56,36 +56,36 @@ function GameDetails() {
     if (summary && summary.length > maxLength) {
       const truncatedSummary = isExpanded
         ? summary
-        : summary.substring(0, maxLength - 3) + '...';
+        : summary.substring(0, maxLength - 3) + "...";
 
       return (
         <React.Fragment>
-          {truncatedSummary}{' '}
+          {truncatedSummary}{" "}
           <button
             onClick={handleToggleExpand}
             className="font-semibold text-gray-200"
           >
-            {isExpanded ? 'Read Less' : 'Read More'}
+            {isExpanded ? "Read Less" : "Read More"}
           </button>
         </React.Fragment>
       );
     }
-    return summary || '';
+    return summary || "";
   }
 
   const fetchNewsData = useCallback(() => {
-    const cachedNewsData = localStorage.getItem('newsData-' + id);
+    const cachedNewsData = localStorage.getItem("newsData-" + id);
 
     try {
       if (isNewsDataValid(cachedNewsData)) {
         const parsedNewsData = JSON.parse(cachedNewsData);
-        console.log('parsedNewsData:', parsedNewsData);
+        console.log("parsedNewsData:", parsedNewsData);
         setTopNews(parsedNewsData.articles);
       } else {
         const apiKey = process.env.REACT_APP_RAWG_API_KEY;
         const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
         const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
-        let gameSlug = '';
+        let gameSlug = "";
         let game;
 
         axios
@@ -96,7 +96,7 @@ function GameDetails() {
             gameSlug = game.slug;
 
             const newsUrl = `https://api.newscatcherapi.com/v2/search?q=${gameSlug}&topic=gaming&lang=en`;
-            const headers = { 'x-api-key': newscatcherApiKey };
+            const headers = { "x-api-key": newscatcherApiKey };
 
             return axios.get(newsUrl, { headers });
           })
@@ -110,20 +110,20 @@ function GameDetails() {
                 timestamp: new Date().toISOString(),
                 articles: slicedArticles,
               };
-              localStorage.setItem('newsData-' + id, JSON.stringify(newsData));
+              localStorage.setItem("newsData-" + id, JSON.stringify(newsData));
 
               // Store gameData in local storage as well
-              localStorage.setItem('gameData-' + id, JSON.stringify(game));
+              localStorage.setItem("gameData-" + id, JSON.stringify(game));
             } else {
               setTopNews([]);
             }
           })
           .catch((error) => {
-            console.error('Error fetching game details or top news:', error);
+            console.error("Error fetching game details or top news:", error);
           });
       }
     } catch (error) {
-      console.error('Error parsing news data:', error);
+      console.error("Error parsing news data:", error);
     }
   }, [id, isNewsDataValid]);
 
@@ -133,12 +133,12 @@ function GameDetails() {
 
     if (dayOfWeek === 1) {
       // Monday (assuming Monday is the start of the week)
-      localStorage.removeItem('newsData'); // Remove the stored news data on Monday
+      localStorage.removeItem("newsData"); // Remove the stored news data on Monday
     }
   }, []);
 
   useEffect(() => {
-    const cachedGameData = localStorage.getItem('gameData-' + id);
+    const cachedGameData = localStorage.getItem("gameData-" + id);
     if (cachedGameData) {
       setGameData(JSON.parse(cachedGameData));
     }
@@ -147,8 +147,8 @@ function GameDetails() {
     refreshNewsData();
   }, [id, fetchNewsData, refreshNewsData]);
 
-  console.log('topNews:', topNews);
-  console.log('gameData:', gameData);
+  console.log("topNews:", topNews);
+  console.log("gameData:", gameData);
 
   if (!gameData || !topNews) {
     return (
@@ -295,18 +295,18 @@ function GameDetails() {
                           className="relative h-64 max-w-auto overflow-hidden rounded-t-md"
                         >
                           <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                            {!news.author || news.author === '' ? (
+                            {!news.author || news.author === "" ? (
                               <p>No Author</p>
                             ) : (
                               <p>{news.author}</p>
                             )}
                           </span>
                           <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                            {!news.author || news.author === '' ? (
+                            {!news.clean_url || news.clean_url === "" ? (
                               <p></p>
                             ) : (
                               <a
-                                href={'https://' + news.clean_url}
+                                href={"https://" + news.clean_url}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -352,7 +352,7 @@ function GameDetails() {
                             maxLength={100}
                           />
                         ) : (
-                          ''
+                          ""
                         )}
                       </p>
                     </div>
