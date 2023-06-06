@@ -25,7 +25,7 @@ const BestOfYear = () => {
     const getBestOfYear = async () => {
       try {
         const response = await fetch(
-          `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating`
+          `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=20`
         );
         const data = await response.json();
         setBestOfYear(data.results);
@@ -48,7 +48,7 @@ const BestOfYear = () => {
                   {/* Best of the Year game cards here */}
                   <div className="card card-games dark:bg-[rgba(230,230,230,0.75)]">
                     <div className="card card-games-overlay"></div>
-                    <a href={`./game?id=${game.id}`}>
+                    <a href={`./game/${game.slug}/${game.id}`}>
                       <img
                         src={game.background_image}
                         className="card card-games-img-top swiper-lazy"
@@ -65,7 +65,7 @@ const BestOfYear = () => {
                       {game.metacritic ? game.metacritic : 'N'}
                     </div>
                     <div className="card card-games-body frosted-blur">
-                      <a href={`./game?id=${game.id}`}>
+                      <a href={`./game/${game.slug}/${game.id}`}>
                         <div
                           className={`scrollable-title ${
                             game.name.length > 30 ? 'marquee' : ''

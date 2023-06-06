@@ -235,13 +235,17 @@ function GameDetails() {
                 <div className="grid grid-cols-2 gap-4 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
                   <a
                     href={gameData.website}
+                    target="_blank"
                     className="text-center card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
+                    rel="noreferrer"
                   >
                     Official Website
                   </a>
                   <a
                     href={gameData.metacritic_url}
+                    target="_blank"
                     className="text-center card-text bg-emerald-600/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
+                    rel="noreferrer"
                   >
                     Metacritic Website
                   </a>
@@ -297,14 +301,14 @@ function GameDetails() {
                         >
                           <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
                             {!news.author || news.author === '' ? (
-                              <p>No Author</p>
+                              <p>N/A</p>
                             ) : (
                               <p>{news.author}</p>
                             )}
                           </span>
                           <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                            {!news.author || news.author === '' ? (
-                              <p></p>
+                            {!news.rights || news.rights === '' ? (
+                              <p>N/A</p>
                             ) : (
                               <a
                                 href={'https://' + news.clean_url}
@@ -319,19 +323,54 @@ function GameDetails() {
                           </span>
                           <img
                             src={news.media}
-                            className="card-img-top h-full w-auto object-cover origin-center  hover:scale-[1.05]"
+                            className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
                             alt="News Per Game"
                           />
                         </div>
                       </a>
                     ) : (
-                      <div
-                        className="h-64 bg-slate-400 flex items-center justify-center"
-                        role="img"
-                        aria-label="No Image"
+                      <a
+                        href={news.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        No Image
-                      </div>
+                        <div
+                          id="imgcontainer"
+                          className="flex align-middle relative h-64 max-w-auto overflow-hidden rounded-t-md "
+                        >
+                          <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
+                            {!news.author || news.author === '' ? (
+                              <p>N/A</p>
+                            ) : (
+                              <p>{news.author}</p>
+                            )}
+                          </span>
+                          <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
+                            {!news.rights || news.rights === '' ? (
+                              <p>N/A</p>
+                            ) : (
+                              <a
+                                href={'https://' + news.clean_url}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <p className=" hover:scale-105">
+                                  {news.rights}
+                                </p>
+                              </a>
+                            )}
+                          </span>
+                          <img
+                            src={
+                              'https://placehold.co/512/020617/FFFFFF?text=' +
+                              news.title +
+                              '&font=roboto'
+                            }
+                            class="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
+                            alt="Game News"
+                          />
+                        </div>
+                      </a>
                     )}
                     <div className="card-body p-5 mb-10">
                       <div

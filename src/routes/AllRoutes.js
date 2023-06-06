@@ -8,6 +8,7 @@ import {
   NewReleases,
   GameDetails,
   NotFound,
+  Unauthorized,
 } from '../pages';
 
 export const AllRoutes = () => {
@@ -21,6 +22,8 @@ export const AllRoutes = () => {
         <Route path="/all-time-top" element={<AllTimeTop />} />
         <Route path="/new-releases" element={<NewReleases />} />
         <Route path="/game/:slug/:id" element={<GameDetails />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        {/* {isAdmin && <Route path="/admin" element={<AdminPanel />} />} */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

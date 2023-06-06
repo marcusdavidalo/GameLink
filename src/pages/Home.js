@@ -15,7 +15,7 @@ function formatDate(dateString) {
 function Home() {
   useEffect(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
-    const pageSize = 10;
+    const pageSize = 20;
 
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games, swiperSelector) {
@@ -24,8 +24,21 @@ function Home() {
 
       games.forEach((game) => {
         if (
-          game.tag !== 'Sexual Content' ||
-          game.esrb_rating.slug !== 'adults-only'
+          (!game.tags ||
+            game.tags.slug !== 'sexual-content' ||
+            game.tags.name !== 'Sexual Content') &&
+          (!game.tags ||
+            game.tags.slug !== 'nsfw' ||
+            game.tags.name !== 'NSFW') &&
+          (!game.tags ||
+            game.tags.slug !== 'adult' ||
+            game.tags.name !== 'Adult') &&
+          (!game.tags ||
+            game.tags.slug !== 'akabur' ||
+            game.tags.name !== 'akabur') &&
+          (!game.esrb_rating ||
+            game.esrb_rating.slug !== 'adults-only' ||
+            game.esrb_rating.name !== 'Adults Only')
         ) {
           const slide = document.createElement('div');
           slide.classList.add('swiper-slide');
@@ -34,11 +47,20 @@ function Home() {
             <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card card-games-overlay"></div>
               <a href='./game/${game.slug}/${game.id}'>
-                <img src="${
-                  game.background_image
-                }" class="card card-games-img-top swiper-lazy" alt="Game Image" data-src="${
-            game.background_image
-          }"/>
+              <img src="${
+                game.background_image ||
+                `https://placehold.co/256/1F2937/FFFFFF?text=${encodeURIComponent(
+                  game.name
+                )}&font=roboto`
+              }" class="card card-games-img-top swiper-lazy" alt=${
+            game.name
+          } data-src="${
+            game.background_image ||
+            `https://placehold.co/256/1F2937/FFFFFF?text=${encodeURIComponent(
+              game.name
+            )}&font=roboto`
+          }" />
+
               </a>
               <div class="metacritic ${
                 game.metacritic ? '' : 'no-score'
@@ -168,6 +190,10 @@ function Home() {
       const bestOfYearURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
       const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
       const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
+
+      console.log('Best of Year URL:', bestOfYearURL);
+      console.log('New Releases URL:', newReleasesURL);
+      console.log('All Time Top URL:', allTimeTopURL);
 
       (async () => {
         try {
