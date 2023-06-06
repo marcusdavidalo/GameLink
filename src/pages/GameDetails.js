@@ -1,10 +1,37 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import SwiperCore, { Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 SwiperCore.use([Scrollbar]);
 
+function TruncatedSummary({ summary, maxLength }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  if (summary && summary.length > maxLength) {
+    const truncatedSummary = isExpanded
+      ? summary
+      : summary.substring(0, maxLength - 3) + "...";
+
+    return (
+      <React.Fragment>
+        {truncatedSummary}
+        <button
+          onClick={handleToggleExpand}
+          className="font-semibold text-gray-200 dark:text-slate-800"
+        >
+          {isExpanded ? " Read Less" : "Read More"}
+        </button>
+      </React.Fragment>
+    );
+  }
+  return summary || "";
+}
 function GameDetails() {
   const swiperElRef = useRef(null);
 
@@ -15,10 +42,11 @@ function GameDetails() {
     }
   }, []);
 
-  const searchParams = new URLSearchParams(window.location.search);
-  const id = searchParams.get("id");
+  const { id } = useParams();
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
+
+  console.log(id);
 
   const isNewsDataValid = useCallback((newsData) => {
     if (!newsData) {
@@ -46,40 +74,12 @@ function GameDetails() {
     return true; // Data is valid
   }, []);
 
-  function TruncatedSummary({ summary, maxLength }) {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const handleToggleExpand = () => {
-      setIsExpanded(!isExpanded);
-    };
-
-    if (summary && summary.length > maxLength) {
-      const truncatedSummary = isExpanded
-        ? summary
-        : summary.substring(0, maxLength - 3) + "...";
-
-      return (
-        <React.Fragment>
-          {truncatedSummary}{" "}
-          <button
-            onClick={handleToggleExpand}
-            className="font-semibold text-gray-200"
-          >
-            {isExpanded ? "Read Less" : "Read More"}
-          </button>
-        </React.Fragment>
-      );
-    }
-    return summary || "";
-  }
-
   const fetchNewsData = useCallback(() => {
     const cachedNewsData = localStorage.getItem("newsData-" + id);
 
     try {
       if (isNewsDataValid(cachedNewsData)) {
         const parsedNewsData = JSON.parse(cachedNewsData);
-        console.log("parsedNewsData:", parsedNewsData);
         setTopNews(parsedNewsData.articles);
       } else {
         const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -132,7 +132,6 @@ function GameDetails() {
     const dayOfWeek = today.getUTCDay(); // 0 (Sunday) to 6 (Saturday)
 
     if (dayOfWeek === 1) {
-      // Monday (assuming Monday is the start of the week)
       localStorage.removeItem("newsData"); // Remove the stored news data on Monday
     }
   }, []);
@@ -147,14 +146,11 @@ function GameDetails() {
     refreshNewsData();
   }, [id, fetchNewsData, refreshNewsData]);
 
-  console.log("topNews:", topNews);
-  console.log("gameData:", gameData);
-
   if (!gameData || !topNews) {
     return (
       <div
         id="loading"
-        className="flex items-center justify-center align-baseline fixed h-screen w-screen text-white text-5xl bg-slate-800/80"
+        className="flex items-center justify-center align-baseline absolute top-0 left-0 h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg z-[9999]"
       >
         Loading...
       </div>
@@ -166,41 +162,41 @@ function GameDetails() {
       <div className="container mx-auto mt-5">
         <div className="flex flex-wrap">
           <div className="w-full md:w-8/12">
-            <div className="card rounded-md bg-gray-800/60 shadow-lg m-2">
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg m-2">
               <img
                 src={gameData.background_image}
-                className="card-img-top h-64 md:h-auto object-cover rounded-t-md"
+                className="card-img-top h-auto w-full md:h-auto object-cover rounded-t-md"
                 alt="Game Background"
               />
               <div className="card-body p-5">
-                <h3 className="card-title text-gray-200 text-2xl font-bold mb-4">
+                <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
                   {gameData.name}
                 </h3>
-                <p className="card-text text-lg text-gray-400 mb-4">
+                <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4">
                   {gameData.description_raw}
                 </p>
-                <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Platforms:</span>{" "}
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
+                  <span className="font-bold text-xl">Platforms: </span>
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
                     .join(", ")}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Release Date:</span>{" "}
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
+                  <span className="font-bold text-xl">Release Date: </span>
                   {gameData.released}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Genres:</span>{" "}
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
+                  <span className="font-bold text-xl">Genres: </span>
                   {gameData.genres.map((genre) => genre.name).join(", ")}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Publisher:</span>{" "}
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
+                  <span className="font-bold text-xl">Publisher: </span>
                   {gameData.publishers
                     .map((publisher) => publisher.name)
                     .join(", ")}
                 </h4>
-                <h4 className="text-gray-300 text-lg mb-4">
-                  <span className="font-bold text-xl">Developer:</span>{" "}
+                <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
+                  <span className="font-bold text-xl">Developer: </span>
                   {gameData.developers
                     .map((developer) => developer.name)
                     .join(", ")}
@@ -209,18 +205,21 @@ function GameDetails() {
             </div>
           </div>
           <div className="w-full md:w-4/12">
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg m-2">
+            <div className="card rounded-lg bg-gray-800/60 dark:bg-slate-200/70 shadow-lg m-2">
               <div className="card-body">
-                <h5 className="card-title text-gray-200 text-2xl font-bold p-5">
+                <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold p-5">
                   Game Tags
                 </h5>
-                <ul className="flex flex-row flex-wrap list-group bg-gray-800/60 p-5">
+                <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
                   {gameData.tags.slice(0, 50).map((tag) => (
                     <li
                       key={tag.id}
                       className="list-group-item text-gray-300 mr-2 mb-4"
                     >
-                      <p className="bg-gray-600/60 px-5 py-2 rounded-full">
+                      <p
+                        className="bg-gray-600/60 px-5 py-2 rounded-full"
+                        title={tag.name}
+                      >
                         {tag.name}
                       </p>
                     </li>
@@ -228,21 +227,21 @@ function GameDetails() {
                 </ul>
               </div>
             </div>
-            <div className="card rounded-lg bg-gray-800/60 shadow-lg mt-4 mx-2">
-              <div className="card-body p-5">
-                <h5 className="card-title text-gray-200 text-2xl font-bold mb-4">
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg mt-4 mx-2">
+              <div className="card-body">
+                <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold p-5">
                   Game Links
                 </h5>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
                   <a
                     href={gameData.website}
-                    className="text-center card-text bg-slate-500 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
+                    className="text-center card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
                   >
                     Official Website
                   </a>
                   <a
                     href={gameData.metacritic_url}
-                    className="text-center card-text bg-emerald-600 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
+                    className="text-center card-text bg-emerald-600/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
                   >
                     Metacritic Website
                   </a>
@@ -253,11 +252,13 @@ function GameDetails() {
         </div>
       </div>
       {/* Top News */}
-      <div className="flex justify-center top-news bg-[rgba(31,41,55,0.5)] py-12 mt-8 mb-5 px-4">
+      <div className="flex justify-center top-news bg-slate-800/50 py-12 mt-8 mb-5 px-4 dark:bg-slate-200/70">
         <div id="TopNews" className="container">
           <div className="flex flex-col items-center text-gray-200 mb-8">
-            <h2 className="text-4xl font-bold mb-2">Top News</h2>
-            <h3 className="font-semibold text-2xl border-t-2 border-t-gray-500 px-20">
+            <h2 className="text-4xl font-bold mb-2 dark:text-slate-800">
+              Top News
+            </h2>
+            <h3 className="font-semibold text-2xl border-t-2 border-t-gray-500 px-20 dark:text-slate-800">
               {gameData.name}
             </h3>
           </div>
@@ -283,7 +284,7 @@ function GameDetails() {
             >
               {topNews.map((news) => (
                 <SwiperSlide key={news.title} className="pb-10 ">
-                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black">
+                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black dark:bg-slate-200/70">
                     {news.media ? (
                       <a
                         href={news.link}
@@ -292,7 +293,7 @@ function GameDetails() {
                       >
                         <div
                           id="imgcontainer"
-                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md"
+                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
                         >
                           <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
                             {!news.author || news.author === "" ? (
@@ -310,13 +311,15 @@ function GameDetails() {
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                <p className="hover:scale-105">{news.rights}</p>
+                                <p className=" hover:scale-105">
+                                  {news.rights}
+                                </p>
                               </a>
                             )}
                           </span>
                           <img
                             src={news.media}
-                            className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
+                            className="card-img-top h-full w-auto object-cover origin-center  hover:scale-[1.05]"
                             alt="News Per Game"
                           />
                         </div>
@@ -335,7 +338,7 @@ function GameDetails() {
                         id="titlecontainer"
                         className="h-40 max-w-auto overflow-hidden"
                       >
-                        <h5 className="card-title text-gray-200 text-2xl font-bold">
+                        <h5 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold">
                           <a
                             href={news.link}
                             target="_blank"
@@ -345,7 +348,7 @@ function GameDetails() {
                           </a>
                         </h5>
                       </div>
-                      <p className="card-text text-gray-400">
+                      <p className="card-text text-gray-400 dark:text-slate-600">
                         {news.summary ? (
                           <TruncatedSummary
                             summary={news.summary}

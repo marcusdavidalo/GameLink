@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import gif1 from '../assets/gifs/gif1.gif';
@@ -15,21 +15,21 @@ const random404Message = [
   'GameLink.exe process has died!',
   'Oops! It seems this page has gone on a coffee break',
   "It appears you've entered a forbidden cheat code",
-  'Where are you going?',
+  'What are you looking for?',
   "You're not supposed to be here",
   'How did you get here?',
   'Well this is awkward...',
   "Oi! this isnt where you're supposed to be!",
 ];
 
-function PageNotFound() {
-  const getRandomElement = (array) => {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
-  };
+const getRandomElement = (array) => {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+};
 
-  const randomGif = getRandomElement(gifs);
-  const random404 = getRandomElement(random404Message);
+const PageNotFound = React.memo(() => {
+  const randomGif = useMemo(() => getRandomElement(gifs), []);
+  const random404 = useMemo(() => getRandomElement(random404Message), []);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -53,7 +53,7 @@ function PageNotFound() {
               width="32"
               height="32"
               fill="currentColor"
-              class="text-gray-200 dark:text-gray-800 hover:bg-slate-800 rounded-md"
+              className="text-gray-200 dark:text-gray-800 hover:bg-slate-800 rounded-md"
               viewBox="0 0 16 16"
             >
               {' '}
@@ -87,6 +87,6 @@ function PageNotFound() {
       </div>
     </div>
   );
-}
+});
 
 export default PageNotFound;

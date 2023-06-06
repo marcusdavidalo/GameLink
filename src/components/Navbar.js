@@ -1,11 +1,99 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { Switch } from "@headlessui/react";
-import logo from "../assets/logo.png";
-import { ReactComponent as LightIcon } from "../assets/icons/sun.svg";
-import { ReactComponent as DarkIcon } from "../assets/icons/moon.svg";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Switch } from '@headlessui/react';
+import logo from '../assets/logo.png';
+import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
+import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
+import { ReactComponent as SearchIcon } from '../assets/icons/search.svg';
+import axios from 'axios';
+
+function NavItem({ to, children }) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive, isPending }) =>
+        isPending
+          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+          : isActive
+          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]'
+          : 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+      }
+    >
+      {children}
+    </NavLink>
+  );
+}
 
 function Nav({ isDarkMode, handleDarkModeToggle }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const navigate = useNavigate();
+  const suggestionsRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const timeoutIdRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  function handleOutsideClick(event) {
+    if (
+      suggestionsRef.current &&
+      !suggestionsRef.current.contains(event.target) &&
+      event.target !== searchInputRef.current
+    ) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }
+
+  const handleSearchInputChange = useCallback((event) => {
+    const apiKey = process.env.REACT_APP_RAWG_API_KEY;
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    if (!event.target.value) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    } else {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = setTimeout(() => {
+        axios
+          .get(
+            `https://api.rawg.io/api/games?key=${apiKey}&search=${query}&page_size=6`
+          )
+          .then((response) => {
+            const games = response.data.results.map((game) => ({
+              id: game.id,
+              slug: game.slug,
+              name: game.name,
+              image: game.background_image,
+              releaseDate: game.released,
+              rating: game.rating,
+            }));
+            setSuggestions(games);
+            setShowSuggestions(true);
+          })
+          .catch((error) => {
+            console.error('Error fetching game suggestions:', error);
+          });
+      }, 500);
+    }
+  }, []);
+
+  function handleGameSelect(game) {
+    setSelectedGame(game);
+    navigate(`/game/${game.slug}/${game.id}`);
+    setSearchQuery('');
+    setSuggestions([]);
+  }
+
   return (
     <nav className="flex justify-center py-2 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
       <div className="container">
@@ -25,27 +113,54 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
             <form className="w-full mx-5">
               <div className="relative">
                 <input
+                  ref={searchInputRef}
                   type="text"
                   placeholder="Search"
                   className="border text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-gray-400 dark:text-gray-800"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 15l5.79 5.79"
-                    />
-                  </svg>
+                  <SearchIcon
+                    className="h-5 w-5 text-slate-200 dark:text-slate-800"
+                    aria-hidden="true"
+                  />
                 </div>
               </div>
+              {showSuggestions && suggestions.length > 0 && (
+                <ul
+                  ref={suggestionsRef}
+                  id="suggestions"
+                  className="absolute items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-10"
+                >
+                  {suggestions.map((game) => (
+                    <li
+                      key={game.id}
+                      className="grid grid-cols-3 items-center px-4 py-2 hover:bg-slate-600/80 cursor-pointer"
+                      onClick={() => handleGameSelect(game)}
+                    >
+                      <img
+                        src={game.image}
+                        alt={game.name}
+                        className="w-20 h-20 object-cover rounded-md mr-2"
+                      />
+                      <h3 className="text-slate-200 font-bold border-x-2 border-slate-500/80 px-5 py-5">
+                        {game.name}
+                      </h3>
+                      <div className="px-5">
+                        <p className="text-slate-300">
+                          <span className="font-semibold">Release Date: </span>
+                          {game.releaseDate}
+                        </p>
+                        <p className="text-slate-300">
+                          <span className="font-semibold">Rating: </span>{' '}
+                          {game.rating}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </form>
           </div>
           <div className="flex">
@@ -54,12 +169,12 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
               checked={isDarkMode}
               onChange={handleDarkModeToggle}
               className={`${
-                isDarkMode ? "bg-slate-600" : "bg-gray-400"
+                isDarkMode ? 'bg-slate-600' : 'bg-gray-400'
               } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span
                 className={`${
-                  isDarkMode ? "translate-x-6" : "translate-x-1"
+                  isDarkMode ? 'translate-x-6' : 'translate-x-1'
                 } inline-block w-4 h-4 transform bg-white rounded-full`}
               />
             </Switch>
@@ -68,30 +183,8 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
           {/* Navigation Links */}
           <div className="flex">
-            <NavLink
-              to="/"
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
-                  : isActive
-                  ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]"
-                  : "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/about"
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
-                  : isActive
-                  ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]"
-                  : "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]"
-              }
-            >
-              About
-            </NavLink>
+            <NavItem to="/">Home</NavItem>
+            <NavItem to="/about">About</NavItem>
           </div>
         </div>
       </div>

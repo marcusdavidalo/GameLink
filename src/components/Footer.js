@@ -31,7 +31,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
               <li>
                 <Link
                   to="/"
-                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
                 >
                   Home
                 </Link>
@@ -39,7 +39,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
               <li>
                 <Link
                   to="/about"
-                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
                 >
                   About
                 </Link>
@@ -62,7 +62,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                 />
                 <button
                   type="submit"
-                  className="bg-slate-500 dark:bg-gray-400 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-slate-700 dark:hover:bg-gray-500 transition duration-300"
+                  className="bg-slate-500 dark:bg-gray-400 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-slate-700 dark:hover:bg-gray-500 transition "
                 >
                   Subscribe
                 </button>
@@ -80,25 +80,25 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             {/* Social media icons */}
             <a
               href="http://www.facebook.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
             >
               <FacebookIcon />
             </a>
             <a
               href="http://www.twitter.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
             >
               <TwitterIcon />
             </a>
             <a
               href="http://www.instagram.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
             >
               <InstagramIcon />
             </a>
             <a
               href="http://www.github.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition duration-300"
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
             >
               <GithubIcon />
             </a>
