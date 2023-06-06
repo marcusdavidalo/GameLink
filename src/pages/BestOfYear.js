@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './BestOfYear.css';
+import React, { useState, useEffect } from "react";
+import "./BestOfYear.css";
 
 const BestOfYear = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -7,8 +7,8 @@ const BestOfYear = () => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   }
 
   const currentDate = new Date();
@@ -18,8 +18,8 @@ const BestOfYear = () => {
 
   const bestOfYearStartDate = `${currentYear}-01-01`;
   const bestOfYearEndDate = `${currentYear}-${
-    currentMonth < 10 ? '0' + currentMonth : currentMonth
-  }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
+    currentMonth < 10 ? "0" + currentMonth : currentMonth
+  }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
 
   useEffect(() => {
     const getBestOfYear = async () => {
@@ -59,16 +59,16 @@ const BestOfYear = () => {
                     </a>
                     <div
                       className={`metacritic ${
-                        game.metacritic ? '' : 'no-score'
+                        game.metacritic ? "" : "no-score"
                       }`}
                     >
-                      {game.metacritic ? game.metacritic : 'N'}
+                      {game.metacritic ? game.metacritic : "N"}
                     </div>
                     <div className="card card-games-body frosted-blur">
                       <a href={`./game/${game.slug}/${game.id}`}>
                         <div
                           className={`scrollable-title ${
-                            game.name.length > 30 ? 'marquee' : ''
+                            game.name.length > 30 ? "marquee" : ""
                           }`}
                         >
                           <h5
@@ -86,8 +86,8 @@ const BestOfYear = () => {
                         Latest Update: {formatDate(game.updated)}
                       </p>
                       <p className="genre card card-games-text">
-                        Genre:{' '}
-                        {game.genres.map((genre) => genre.name).join(', ')}
+                        Genre:{" "}
+                        {game.genres.map((genre) => genre.name).join(", ")}
                       </p>
                     </div>
                   </div>
