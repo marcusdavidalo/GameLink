@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import {
   Home,
   About,
@@ -9,7 +9,7 @@ import {
   GameDetails,
   NotFound,
   Unauthorized,
-} from '../pages';
+} from "../pages";
 
 export const AllRoutes = () => {
   return (
