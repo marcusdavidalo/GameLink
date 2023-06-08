@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Pagination } from "flowbite-react";
-import "./AllTimeTop.css";
+import React, { useState, useEffect } from 'react';
+import { Pagination } from 'flowbite-react';
+import './AllTimeTop.css';
 
 const AllTimeTop = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -14,36 +14,52 @@ const AllTimeTop = () => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   useEffect(() => {
-    const filteredGames = allTimeTop.filter(
-      (game) =>
-        (!game.tags ||
-          game.tags.slug !== "sexual-content" ||
-          game.tags.name !== "Sexual Content") &&
-        (!game.tags ||
-          game.tags.slug !== "nsfw" ||
-          game.tags.name !== "NSFW") &&
-        (!game.tags ||
-          game.tags.slug !== "adult" ||
-          game.tags.name !== "Adult") &&
-        (!game.tags ||
-          game.tags.slug !== "akabur" ||
-          game.tags.name !== "akabur") &&
-        (!game.tags ||
-          game.tags.slug !== "your-mom" ||
-          game.tags.name !== "your-mom") &&
-        (!game.name ||
-          game.slug !== "star-channel-34" ||
-          game.name !== "Star Channel 34") &&
-        (!game.esrb_rating ||
-          game.esrb_rating.slug !== "adults-only" ||
-          game.esrb_rating.name !== "Adults Only")
-    );
-    setFilteredAllTimeTop(filteredGames);
+    const ratedRTags = [
+      'sexual-content',
+      'nsfw',
+      'adult',
+      'akabur',
+      'your-mom',
+    ];
+    const ratedRSlugs = [
+      'sexual-content',
+      'nsfw',
+      'adult',
+      'star-channel-34',
+      'adults-only',
+    ];
+    const ratedRNames = [
+      'Sexual Content',
+      'NSFW',
+      'Adult',
+      'akabur',
+      'your-mom',
+      'Star Channel 34',
+      'Adults Only',
+    ];
+
+    const updatedGames = allTimeTop.map((game) => {
+      let isRatedR = false;
+      if (game.tags && ratedRTags.includes(game.tags.slug)) {
+        isRatedR = true;
+      }
+      if (game.slug && ratedRSlugs.includes(game.slug)) {
+        isRatedR = true;
+      }
+      if (game.name && ratedRNames.includes(game.name)) {
+        isRatedR = true;
+      }
+      if (game.esrb_rating && ratedRSlugs.includes(game.esrb_rating.slug)) {
+        isRatedR = true;
+      }
+      return { ...game, isRatedR };
+    });
+    setFilteredAllTimeTop(updatedGames);
   }, [allTimeTop]);
 
   useEffect(() => {
@@ -79,24 +95,31 @@ const AllTimeTop = () => {
                         <a href={`./game/${game.slug}/${game.id}`}>
                           <img
                             src={game.background_image}
-                            className="card card-games-img-top swiper-lazy"
+                            className={`card card-games-img-top swiper-lazy ${
+                              game.isRatedR ? 'blur-lg bg-blend-darken' : ''
+                            }`}
                             alt="Game"
                             data-src={game.background_image}
                             loading="lazy"
                           />
                         </a>
+                        {game.isRatedR && (
+                          <div className="absolute top-2 left-2 bg-red-600/90 text-xl px-3 py-[1px] rounded-sm skew-x-[-12deg] font-bold">
+                            Rated R
+                          </div>
+                        )}
                         <div
                           className={`metacritic ${
-                            game.metacritic ? "" : "no-score"
+                            game.metacritic ? '' : 'no-score'
                           }`}
                         >
-                          {game.metacritic ? game.metacritic : "N"}
+                          {game.metacritic ? game.metacritic : 'N'}
                         </div>
                         <div className="card card-games-body frosted-blur">
                           <a href={`./game/${game.slug}/${game.id}`}>
                             <div
                               className={`scrollable-title ${
-                                game.name.length > 30 ? "marquee" : ""
+                                game.name.length > 30 ? 'marquee' : ''
                               }`}
                             >
                               <h5
@@ -114,8 +137,8 @@ const AllTimeTop = () => {
                             Latest Update: {formatDate(game.updated)}
                           </p>
                           <p className="genre card card-games-text">
-                            Genre:{" "}
-                            {game.genres.map((genre) => genre.name).join(", ")}
+                            Genre:{' '}
+                            {game.genres.map((genre) => genre.name).join(', ')}
                           </p>
                         </div>
                       </div>
