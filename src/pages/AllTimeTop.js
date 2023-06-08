@@ -22,14 +22,21 @@ const AllTimeTop = () => {
     const ratedRTags = [
       'sexual-content',
       'nsfw',
+      'milf',
+      'top-nsfw',
       'adult',
       'akabur',
       'your-mom',
+      'star-channel-34',
+      'adults-only',
     ];
     const ratedRSlugs = [
       'sexual-content',
       'nsfw',
+      'milf',
+      'top-nsfw',
       'adult',
+      'akabur',
       'star-channel-34',
       'adults-only',
     ];
@@ -37,6 +44,8 @@ const AllTimeTop = () => {
       'Sexual Content',
       'NSFW',
       'Adult',
+      'milf',
+      'top-nsfw',
       'akabur',
       'your-mom',
       'Star Channel 34',
