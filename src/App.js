@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { AllRoutes } from './routes/AllRoutes'; // new routing
+import { AllRoutes } from './routes/AllRoutes';
 import AOS from 'aos';
 import './App.css';
 import 'aos/dist/aos.css';

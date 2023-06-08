@@ -7,3 +7,4 @@ export { default as About } from './About';
 export { default as NotFound } from './NotFound';
 export { default as Search } from './Search';
 export { default as Unauthorized } from './Unauthorized';
+export { default as Authentication } from './Authentication';

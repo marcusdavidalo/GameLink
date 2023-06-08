@@ -376,7 +376,7 @@ function Home() {
           <div className="swiper-container  all-time-top mt-10">
             <div className="flex justify-between">
               <Link
-                to="/new-releases"
+                to="/all-time-top"
                 className="border-b-2 border-gray-500 mb-5 pb-5 pr-[100px]"
                 title="Games"
               >

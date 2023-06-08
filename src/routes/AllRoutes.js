@@ -8,6 +8,7 @@ import {
   NewReleases,
   GameDetails,
   NotFound,
+  Authentication,
   Unauthorized,
 } from '../pages';
 
@@ -16,6 +17,7 @@ export const AllRoutes = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Authentication />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
         <Route path="/best-of-the-year" element={<BestOfYear />} />
