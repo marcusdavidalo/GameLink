@@ -19,7 +19,7 @@ const random404Message = [
   "You're not supposed to be here",
   'How did you get here?',
   'Well this is awkward...',
-  "Oi! this isnt where you're supposed to be!",
+  'Oh No! Our Page! Its Broken!',
 ];
 
 const getRandomElement = (array) => {
@@ -32,60 +32,62 @@ const PageNotFound = React.memo(() => {
   const random404 = useMemo(() => getRandomElement(random404Message), []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div
-        className="relative flex flex-col items-center justify-center p-10 bg-[rgba(31,41,55,0.4)] border-2 border-black/70 shadow-lg shadow-black dark:shadow-black/10 dark:bg-slate-200/30 rounded-md"
-        data-aos="zoom-in-down"
-      >
+    <main>
+      <div className="flex flex-col items-center justify-center h-screen">
         <div
-          id="notfoundnav"
-          className="absolute flex justify-between top-0 left-0 px-2 py-1 bg-black/50 dark:bg-gray-200/70 w-full"
+          className="relative flex flex-col items-center justify-center p-10 bg-[rgba(31,41,55,0.4)] border-2 border-black/70 shadow-lg shadow-black dark:shadow-black/10 dark:bg-slate-200/30 rounded-md"
+          data-aos="zoom-in-down"
         >
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-5 w-auto" />
-            <span className="ml-2 text-base text-gray-200 dark:text-gray-800 pointer-events-none">
-              GameLink.exe
+          <div
+            id="notfoundnav"
+            className="absolute flex justify-between top-0 left-0 px-2 py-1 bg-black/50 dark:bg-gray-200/70 w-full"
+          >
+            <Link to="/" className="flex items-center">
+              <img src={logo} alt="Logo" className="h-5 w-auto" />
+              <span className="ml-2 text-base text-gray-200 dark:text-gray-800 pointer-events-none">
+                GameLink.exe
+              </span>
+            </Link>
+            <Link to="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="currentColor"
+                className="text-gray-200 dark:text-gray-800 hover:bg-slate-800 rounded-md"
+                viewBox="0 0 16 16"
+              >
+                {' '}
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />{' '}
+              </svg>
+            </Link>
+          </div>
+          <h1 className="text-4xl font-bold text-gray-200 dark:text-gray-800 mb-2 mt-4">
+            404!
+          </h1>
+          <Link to="/" className="flex items-center mb-4 hover:animate-pulse">
+            <img src={logo} alt="Logo" className="h-8 w-auto" />
+            <span className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
+              GameLink
             </span>
           </Link>
-          <Link to="/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              className="text-gray-200 dark:text-gray-800 hover:bg-slate-800 rounded-md"
-              viewBox="0 0 16 16"
-            >
-              {' '}
-              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />{' '}
-            </svg>
+          <img
+            src={randomGif}
+            alt="Dang The GIF also got 404!"
+            className="m-5 rounded-md text-white text-bold"
+          />
+          <p className="text-2xl text-gray-300 dark:text-gray-800 mb-5">
+            {random404}
+          </p>
+          <Link
+            to="/"
+            className="px-4 py-2 rounded-md text-base font-medium bg-gray-800 text-white hover:bg-gray-900"
+          >
+            Go to Home
           </Link>
         </div>
-        <h1 className="text-4xl font-bold text-gray-200 dark:text-gray-800 mb-2 mt-4">
-          404!
-        </h1>
-        <Link to="/" className="flex items-center mb-4 hover:animate-pulse">
-          <img src={logo} alt="Logo" className="h-8 w-auto" />
-          <span className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
-            GameLink
-          </span>
-        </Link>
-        <img
-          src={randomGif}
-          alt="Dang The GIF also got 404!"
-          className="m-5 rounded-md text-white text-bold"
-        />
-        <p className="text-2xl text-gray-300 dark:text-gray-800 mb-5">
-          {random404}
-        </p>
-        <Link
-          to="/"
-          className="px-4 py-2 rounded-md text-base font-medium bg-gray-800 text-white hover:bg-gray-900"
-        >
-          Go to Home
-        </Link>
       </div>
-    </div>
+    </main>
   );
 });
 
