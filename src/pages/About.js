@@ -1,22 +1,22 @@
-import React from 'react';
-import './About.css';
+import React from "react";
+import "./About.css";
 
 const teamMembers = [
   {
-    name: 'Marcus David Alo',
-    role: 'Role Here',
+    name: "Marcus David Alo",
+    role: "Role Here",
   },
   {
-    name: 'Mahdi Atef Adas',
-    role: 'Role Here',
+    name: "Mahdi Atef Adas",
+    role: "Role Here",
   },
   {
-    name: 'Jared Eiden Belvis',
-    role: 'Role Here',
+    name: "Jared Eiden Belvis",
+    role: "Role Here",
   },
   {
-    name: 'Skipper Paloma',
-    role: 'Role Here',
+    name: "Skipper Paloma",
+    role: "Role Here",
   },
 ];
 
@@ -27,12 +27,13 @@ function About() {
         <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
-            Welcome to our website! We are dedicated to providing you with the
-            best gaming experience by showcasing the latest and greatest games
-            in the industry.
+            Welcome to GameLink ! A website made for the gamers and by the
+            gamers. We are dedicated to provide the community with the trends in
+            gaming by showcasing archives of data about the gaming world and
+            updating us with the latest news about our favorite games.
           </p>
           <p className="mb-4">
-            Our website utilizes the RAWG API to gather information about games,
+            GameLink utilizes the RAWG API to gather information about games,
             including release dates, ratings, and images. We strive to bring you
             the most accurate and up-to-date information about the games you
             love.
@@ -44,7 +45,7 @@ function About() {
             revisit timeless classics.
           </p>
           <p>
-            We hope you enjoy exploring our website and find it helpful in
+            We hope you enjoy exploring GameLink and find it helpful in
             discovering your next gaming adventure. If you have any questions or
             feedback, please don't hesitate to reach out to us. Happy gaming!
           </p>

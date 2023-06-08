@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import './Home.css';
-import SwiperCore, { Navigation } from 'swiper';
-import Swiper from 'swiper';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./Home.css";
+import SwiperCore, { Navigation } from "swiper";
+import Swiper from "swiper";
 
 SwiperCore.use([Navigation]);
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-  const options = { month: 'long', day: 'numeric', year: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
+  const options = { month: "long", day: "numeric", year: "numeric" };
+  return date.toLocaleDateString("en-US", options);
 }
 function Home() {
   useEffect(() => {
@@ -20,29 +20,35 @@ function Home() {
     // Function to initialize the Swiper slider
     function initializeSwiper(containerSelector, games, swiperSelector) {
       const container = document.querySelector(containerSelector);
-      const slider = container.querySelector('.swiper-wrapper');
+      const slider = container.querySelector(".swiper-wrapper");
 
       games.forEach((game) => {
         if (
           (!game.tags ||
-            game.tags.slug !== 'sexual-content' ||
-            game.tags.name !== 'Sexual Content') &&
+            game.tags.slug !== "sexual-content" ||
+            game.tags.name !== "Sexual Content") &&
           (!game.tags ||
-            game.tags.slug !== 'nsfw' ||
-            game.tags.name !== 'NSFW') &&
+            game.tags.slug !== "nsfw" ||
+            game.tags.name !== "NSFW") &&
           (!game.tags ||
-            game.tags.slug !== 'adult' ||
-            game.tags.name !== 'Adult') &&
+            game.tags.slug !== "adult" ||
+            game.tags.name !== "Adult") &&
           (!game.tags ||
-            game.tags.slug !== 'akabur' ||
-            game.tags.name !== 'akabur') &&
+            game.tags.slug !== "akabur" ||
+            game.tags.name !== "akabur") &&
+          (!game.tags ||
+            game.tags.slug !== "your-mom" ||
+            game.tags.name !== "your-mom") &&
+          (!game.name ||
+            game.slug !== "star-channel-34" ||
+            game.name !== "Star Channel 34") &&
           (!game.esrb_rating ||
-            game.esrb_rating.slug !== 'adults-only' ||
-            game.esrb_rating.name !== 'Adults Only')
+            game.esrb_rating.slug !== "adults-only" ||
+            game.esrb_rating.name !== "Adults Only")
         ) {
-          const slide = document.createElement('div');
-          slide.classList.add('swiper-slide');
-          slide.setAttribute('data-aos', 'fade-down');
+          const slide = document.createElement("div");
+          slide.classList.add("swiper-slide");
+          slide.setAttribute("data-aos", "fade-down");
           slide.innerHTML = `
             <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card card-games-overlay"></div>
@@ -63,14 +69,14 @@ function Home() {
 
               </a>
               <div class="metacritic ${
-                game.metacritic ? '' : 'no-score'
+                game.metacritic ? "" : "no-score"
               }" aria-data="metacritic">
-                ${game.metacritic ? game.metacritic : 'N'}
+                ${game.metacritic ? game.metacritic : "N"}
               </div>
               <div class="card card-games-body frosted-blur">
                 <a href='./game/${game.slug}/${game.id}'>
                   <div class="scrollable-title ${
-                    game.name.length > 30 ? 'marquee' : ''
+                    game.name.length > 30 ? "marquee" : ""
                   }">
                     <h5 class="card card-games-title font-extrabold hover:text-cyan-400 pl-1 rounded" title="${
                       game.name
@@ -85,7 +91,7 @@ function Home() {
                 )}</p>
                 <p class="genre card card-games-text">Genre: ${game.genres
                   .map((genre) => genre.name)
-                  .join(', ')}</p>
+                  .join(", ")}</p>
               </div>
             </div>
             <div class="swiper-lazy-preloader swiper-lazy-preloader-white animate-spin"></div>
@@ -121,11 +127,11 @@ function Home() {
         `${swiperSelector} .custom-next-button`
       );
 
-      prevButton.addEventListener('click', () => {
+      prevButton.addEventListener("click", () => {
         swiper.slidePrev();
       });
 
-      nextButton.addEventListener('click', () => {
+      nextButton.addEventListener("click", () => {
         swiper.slideNext();
       });
     }
@@ -140,9 +146,9 @@ function Home() {
       return JSON.parse(cachedData);
     }
 
-    const cacheKeyBestOfYear = 'bestOfYearGames';
-    const cacheKeyNewReleases = 'newReleasesGames';
-    const cacheKeyAllTimeTop = 'allTimeTopGames';
+    const cacheKeyBestOfYear = "bestOfYearGames";
+    const cacheKeyNewReleases = "newReleasesGames";
+    const cacheKeyAllTimeTop = "allTimeTopGames";
 
     const cachedBestOfYearGames = loadCachedGameCards(cacheKeyBestOfYear);
     const cachedNewReleasesGames = loadCachedGameCards(cacheKeyNewReleases);
@@ -154,13 +160,13 @@ function Home() {
       cachedAllTimeTopGames
     ) {
       // If game cards are already cached, load them
-      initializeSwiper('.best-of-year', cachedBestOfYearGames, '.best-of-year');
+      initializeSwiper(".best-of-year", cachedBestOfYearGames, ".best-of-year");
       initializeSwiper(
-        '.new-releases',
+        ".new-releases",
         cachedNewReleasesGames,
-        '.new-releases'
+        ".new-releases"
       );
-      initializeSwiper('.all-time-top', cachedAllTimeTopGames, '.all-time-top');
+      initializeSwiper(".all-time-top", cachedAllTimeTopGames, ".all-time-top");
     } else {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
@@ -169,8 +175,8 @@ function Home() {
 
       const bestOfYearStartDate = `${currentYear}-01-01`;
       const bestOfYearEndDate = `${currentYear}-${
-        currentMonth < 10 ? '0' + currentMonth : currentMonth
-      }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
+        currentMonth < 10 ? "0" + currentMonth : currentMonth
+      }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
 
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
 
@@ -181,19 +187,19 @@ function Home() {
       const endYear = currentYear;
 
       const newReleasesStartDate = `${startYear}-${
-        startMonth < 10 ? '0' + startMonth : startMonth
+        startMonth < 10 ? "0" + startMonth : startMonth
       }-01`;
       const newReleasesEndDate = `${endYear}-${
-        endMonth < 10 ? '0' + endMonth : endMonth
+        endMonth < 10 ? "0" + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
       const bestOfYearURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
       const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
       const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
 
-      console.log('Best of Year URL:', bestOfYearURL);
-      console.log('New Releases URL:', newReleasesURL);
-      console.log('All Time Top URL:', allTimeTopURL);
+      console.log("Best of Year URL:", bestOfYearURL);
+      console.log("New Releases URL:", newReleasesURL);
+      console.log("All Time Top URL:", allTimeTopURL);
 
       (async () => {
         try {
@@ -213,10 +219,10 @@ function Home() {
 
           const filteredBestOfYearGames = bestOfYearGames.filter((game) => {
             const exceptionalRating = game.ratings.find(
-              (rating) => rating.title === 'exceptional'
+              (rating) => rating.title === "exceptional"
             );
             const recommendedRating = game.ratings.find(
-              (rating) => rating.title === 'recommended'
+              (rating) => rating.title === "recommended"
             );
             return (
               exceptionalRating &&
@@ -242,10 +248,10 @@ function Home() {
 
           const filteredAllTimeTopGames = allTimeTopGames.filter((game) => {
             const exceptionalRating = game.ratings.find(
-              (rating) => rating.title === 'exceptional'
+              (rating) => rating.title === "exceptional"
             );
             const recommendedRating = game.ratings.find(
-              (rating) => rating.title === 'recommended'
+              (rating) => rating.title === "recommended"
             );
             return (
               exceptionalRating &&
@@ -255,15 +261,15 @@ function Home() {
           });
 
           initializeSwiper(
-            '.best-of-year',
+            ".best-of-year",
             filteredBestOfYearGames,
-            '.best-of-year'
+            ".best-of-year"
           );
-          initializeSwiper('.new-releases', newReleases, '.new-releases');
+          initializeSwiper(".new-releases", newReleases, ".new-releases");
           initializeSwiper(
-            '.all-time-top',
+            ".all-time-top",
             filteredAllTimeTopGames,
-            '.all-time-top'
+            ".all-time-top"
           );
 
           // Cache the game cards for future use
@@ -271,7 +277,7 @@ function Home() {
           cacheGameCards(cacheKeyNewReleases, newReleases);
           cacheGameCards(cacheKeyAllTimeTop, filteredAllTimeTopGames);
         } catch (error) {
-          console.error('Error:', error);
+          console.error("Error:", error);
         }
       })();
     }
