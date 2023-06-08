@@ -5,6 +5,7 @@ import { ReactComponent as FacebookIcon } from "../assets/icons/facebook.svg";
 import { ReactComponent as TwitterIcon } from "../assets/icons/twitter.svg";
 import { ReactComponent as InstagramIcon } from "../assets/icons/instagram.svg";
 import { ReactComponent as GithubIcon } from "../assets/icons/github.svg";
+import "./Footer.css";
 
 function Footer({ isDarkMode, handleDarkModeToggle }) {
   return (
@@ -62,7 +63,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                 />
                 <button
                   type="submit"
-                  className="bg-slate-500 dark:bg-gray-400 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-slate-700 dark:hover:bg-gray-500 transition "
+                  className="bg-cyan-500 dark:bg-gray-400 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
                 >
                   Subscribe
                 </button>
@@ -80,19 +81,19 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             {/* Social media icons */}
             <a
               href="http://www.facebook.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-facebook"
             >
               <FacebookIcon />
             </a>
             <a
               href="http://www.twitter.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-twitter"
             >
               <TwitterIcon />
             </a>
             <a
               href="http://www.instagram.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
+              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-instagram"
             >
               <InstagramIcon />
             </a>
@@ -105,7 +106,8 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
           </div>
 
           <p className="text-gray-400 dark:text-gray-800">
-            &copy; {new Date().getFullYear()} GameLink. All rights reserved.
+            &copy; {new Date().getFullYear()} GameLink. CharAt(64). All rights
+            reserved.
           </p>
 
           <div className="flex">

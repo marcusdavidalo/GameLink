@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Switch } from '@headlessui/react';
-import logo from '../assets/logo.png';
-import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
-import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
-import { ReactComponent as SearchIcon } from '../assets/icons/search.svg';
-import axios from 'axios';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Switch } from "@headlessui/react";
+import logo from "../assets/logo.png";
+import { ReactComponent as LightIcon } from "../assets/icons/sun.svg";
+import { ReactComponent as DarkIcon } from "../assets/icons/moon.svg";
+import { ReactComponent as SearchIcon } from "../assets/icons/search.svg";
+import axios from "axios";
 
 function NavItem({ to, children }) {
   return (
@@ -13,10 +13,10 @@ function NavItem({ to, children }) {
       to={to}
       className={({ isActive, isPending }) =>
         isPending
-          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+          ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
           : isActive
-          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-[rgba(243,244,246,0.95)] dark:text-gray-200 dark:bg-[rgba(18,18,19,0.95)]'
-          : 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-[rgba(243,244,246,0.95)] dark:text-gray-800 dark:hover:text-gray-200 dark:hover:bg-[rgba(18,18,19,0.95)]'
+          ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-cyan-500  dark:text-gray-200 dark:bg-cyan-500"
+          : "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
       }
     >
       {children}
@@ -25,7 +25,7 @@ function NavItem({ to, children }) {
 }
 
 function Nav({ isDarkMode, handleDarkModeToggle }) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [selectedGame, setSelectedGame] = useState(null);
@@ -34,11 +34,13 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const suggestionsRef = useRef(null);
   const searchInputRef = useRef(null);
   const timeoutIdRef = useRef(null);
+  const [isNavHidden, setIsNavHidden] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
@@ -81,7 +83,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
             setShowSuggestions(true);
           })
           .catch((error) => {
-            console.error('Error fetching game suggestions:', error);
+            console.error("Error fetching game suggestions:", error);
           });
       }, 500);
     }
@@ -90,21 +92,44 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   function handleGameSelect(game) {
     setSelectedGame(game);
     navigate(`/game/${game.slug}/${game.id}`);
-    setSearchQuery('');
+    setSearchQuery("");
     setSuggestions([]);
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      if (prevScrollPos < currentScrollPos) {
+        setIsNavHidden(true);
+      } else {
+        setIsNavHidden(false);
+      }
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
+
   return (
-    <nav className="flex justify-center py-2 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
+    <nav
+      className={`fixed top-0 left-0 right-0 flex justify-center py-2 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] transition-transform duration-500 z-[9998] ${
+        isNavHidden ? "translate-y-[-100%] blur-sm" : ""
+      }`}
+    >
       <div className="container">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
               <img src={logo} alt="Logo" className="h-8 w-auto" />
-              <span className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
-                GameLink
-              </span>
+              <h1 className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
+                Game
+                <span className="text-2xl font-bold text-cyan-500">Link</span>
+              </h1>
             </Link>
           </div>
 
@@ -153,7 +178,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                           {game.releaseDate}
                         </p>
                         <p className="text-slate-300">
-                          <span className="font-semibold">Rating: </span>{' '}
+                          <span className="font-semibold">Rating: </span>{" "}
                           {game.rating}
                         </p>
                       </div>
@@ -169,12 +194,12 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
               checked={isDarkMode}
               onChange={handleDarkModeToggle}
               className={`${
-                isDarkMode ? 'bg-slate-600' : 'bg-gray-400'
+                isDarkMode ? "bg-slate-600" : "bg-gray-400"
               } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span
                 className={`${
-                  isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                  isDarkMode ? "translate-x-6" : "translate-x-1"
                 } inline-block w-4 h-4 transform bg-white rounded-full`}
               />
             </Switch>

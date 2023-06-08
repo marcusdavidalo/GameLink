@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Pagination } from 'flowbite-react';
-import './AllTimeTop.css';
+import React, { useState, useEffect } from "react";
+import { Pagination } from "flowbite-react";
+import "./AllTimeTop.css";
 
 const AllTimeTop = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -14,42 +14,46 @@ const AllTimeTop = () => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   }
 
   useEffect(() => {
     const ratedRTags = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'your-mom',
-      'star-channel-34',
-      'adults-only',
+      "sexual-content",
+      "nsfw",
+      "milf",
+      "top-nsfw",
+      "adult",
+      "akabur",
+      "your-mom",
+      "star-channel-34",
+      "adults-only",
     ];
     const ratedRSlugs = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'star-channel-34',
-      'adults-only',
+      "sexual-content",
+      "nsfw",
+      "milf",
+      "top-nsfw",
+      "adult",
+      "akabur",
+      "star-channel-34",
+      "adults-only",
+      "horos-monster-slayer-and-lover-of-many",
+      "grown-up-titans-(teen-titans)",
     ];
     const ratedRNames = [
-      'Sexual Content',
-      'NSFW',
-      'Adult',
-      'milf',
-      'top-nsfw',
-      'akabur',
-      'your-mom',
-      'Star Channel 34',
-      'Adults Only',
+      "Sexual Content",
+      "NSFW",
+      "Adult",
+      "milf",
+      "top-nsfw",
+      "akabur",
+      "your-mom",
+      "Star Channel 34",
+      "Adults Only",
+      "HOROS - monster slayer and lover of many",
+      "Grown-Up Titans ( Teen Titans)",
     ];
 
     const updatedGames = allTimeTop.map((game) => {
@@ -103,9 +107,14 @@ const AllTimeTop = () => {
                         <div className="card card-games-overlay"></div>
                         <a href={`./game/${game.slug}/${game.id}`}>
                           <img
-                            src={game.background_image}
+                            src={
+                              game.background_image ||
+                              `https://placehold.co/256/1F2937/FFFFFF?text=${encodeURIComponent(
+                                game.name
+                              )}&font=roboto`
+                            }
                             className={`card card-games-img-top swiper-lazy ${
-                              game.isRatedR ? 'blur-lg bg-blend-darken' : ''
+                              game.isRatedR ? "blur-lg bg-blend-darken" : ""
                             }`}
                             alt="Game"
                             data-src={game.background_image}
@@ -119,16 +128,16 @@ const AllTimeTop = () => {
                         )}
                         <div
                           className={`metacritic ${
-                            game.metacritic ? '' : 'no-score'
+                            game.metacritic ? "" : "no-score"
                           }`}
                         >
-                          {game.metacritic ? game.metacritic : 'N'}
+                          {game.metacritic ? game.metacritic : "N"}
                         </div>
                         <div className="card card-games-body frosted-blur">
                           <a href={`./game/${game.slug}/${game.id}`}>
                             <div
                               className={`scrollable-title ${
-                                game.name.length > 30 ? 'marquee' : ''
+                                game.name.length > 30 ? "marquee" : ""
                               }`}
                             >
                               <h5
@@ -146,20 +155,22 @@ const AllTimeTop = () => {
                             Latest Update: {formatDate(game.updated)}
                           </p>
                           <p className="genre card card-games-text">
-                            Genre:{' '}
-                            {game.genres.map((genre) => genre.name).join(', ')}
+                            Genre:{" "}
+                            {game.genres.map((genre) => genre.name).join(", ")}
                           </p>
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p>Loading...</p>
+                  <div className="flex items-center justify-center align-baseline absolute top-0 left-0 h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg z-[9999] dark:text-gray-600">
+                    Loading...
+                  </div>
                 )}
               </div>
             </div>
             <Pagination
-              className="flex justify-center mt-2 h-10 dark"
+              className="flex justify-center my-3 h-10 dark active:bg-cyan-700"
               currentPage={currentPage}
               totalPages={50}
               onPageChange={handlePageChange}

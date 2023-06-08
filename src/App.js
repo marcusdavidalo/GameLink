@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import { AllRoutes } from './routes/AllRoutes';
-import AOS from 'aos';
-import './App.css';
-import 'aos/dist/aos.css';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { AllRoutes } from "./routes/AllRoutes";
+import AOS from "aos";
+import "./App.css";
+import "aos/dist/aos.css";
 
 function App() {
   AOS.init();
@@ -13,9 +13,9 @@ function App() {
 
   const handleDarkModeToggle = () => {
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark');
-    document.body.classList.toggle('bgimg');
-    document.body.classList.toggle('bgimg-light');
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("bgimg");
+    document.body.classList.toggle("bgimg-light");
   };
 
   return (
@@ -24,6 +24,7 @@ function App() {
         isDarkMode={isDarkMode}
         handleDarkModeToggle={handleDarkModeToggle}
       />
+      <div id="navspacer" className="py-10"></div>
       <AllRoutes />
       <Footer
         isDarkMode={isDarkMode}

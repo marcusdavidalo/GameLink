@@ -4,19 +4,19 @@ import "./About.css";
 const teamMembers = [
   {
     name: "Marcus David Alo",
-    role: "Role Here",
+    role: "Head Website Developer",
   },
   {
     name: "Mahdi Atef Adas",
-    role: "Role Here",
+    role: "Website Developer",
   },
   {
     name: "Jared Eiden Belvis",
-    role: "Role Here",
+    role: "Website Developer",
   },
   {
     name: "Skipper Paloma",
-    role: "Role Here",
+    role: "Website Developer",
   },
 ];
 
@@ -27,10 +27,10 @@ function About() {
         <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
-            Welcome to GameLink ! A website made for the gamers and by the
-            gamers. We are dedicated to provide the community with the trends in
-            gaming by showcasing archives of data about the gaming world and
-            updating us with the latest news about our favorite games.
+            Greetings from GameLink! a website created by and for gamers gamers.
+            We are committed to bringing the neighborhood the most recent trends
+            in by displaying data archives on the gaming industry and providing
+            us with the most recent information on our favorite game.
           </p>
           <p className="mb-4">
             GameLink utilizes the RAWG API to gather information about games,

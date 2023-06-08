@@ -29,34 +29,60 @@ const BestOfYear = () => {
   }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
 
   useEffect(() => {
-    const filteredGames = bestOfYear.filter(
-      (game) =>
-        (!game.tags ||
-          game.tags.slug !== "sexual-content" ||
-          game.tags.name !== "Sexual Content") &&
-        (!game.tags ||
-          game.tags.slug !== "nsfw" ||
-          game.tags.name !== "NSFW") &&
-        (!game.tags ||
-          game.tags.slug !== "adult" ||
-          game.tags.name !== "Adult") &&
-        (!game.tags ||
-          game.tags.slug !== "akabur" ||
-          game.tags.name !== "akabur") &&
-        (!game.tags ||
-          game.tags.slug !== "your-mom" ||
-          game.tags.name !== "your-mom") &&
-        (!game.name ||
-          game.slug !== "star-channel-34" ||
-          game.name !== "Star Channel 34") &&
-        // (!game.tags ||
-        //   game.tags.slug !== "sexual-content" ||
-        //   game.tags.name !== "Sexual Content") &&
-        (!game.esrb_rating ||
-          game.esrb_rating.slug !== "adults-only" ||
-          game.esrb_rating.name !== "Adults Only")
-    );
-    setFilteredBestOfYear(filteredGames);
+    const ratedRTags = [
+      "sexual-content",
+      "nsfw",
+      "milf",
+      "top-nsfw",
+      "adult",
+      "akabur",
+      "your-mom",
+      "star-channel-34",
+      "adults-only",
+    ];
+    const ratedRSlugs = [
+      "sexual-content",
+      "nsfw",
+      "milf",
+      "top-nsfw",
+      "adult",
+      "akabur",
+      "star-channel-34",
+      "adults-only",
+      "horos-monster-slayer-and-lover-of-many",
+      "grown-up-titans-(teen-titans)",
+    ];
+    const ratedRNames = [
+      "Sexual Content",
+      "NSFW",
+      "Adult",
+      "milf",
+      "top-nsfw",
+      "akabur",
+      "your-mom",
+      "Star Channel 34",
+      "Adults Only",
+      "HOROS - monster slayer and lover of many",
+      "Grown-Up Titans ( Teen Titans)",
+    ];
+
+    const updatedGames = bestOfYear.map((game) => {
+      let isRatedR = false;
+      if (game.tags && ratedRTags.includes(game.tags.slug)) {
+        isRatedR = true;
+      }
+      if (game.slug && ratedRSlugs.includes(game.slug)) {
+        isRatedR = true;
+      }
+      if (game.name && ratedRNames.includes(game.name)) {
+        isRatedR = true;
+      }
+      if (game.esrb_rating && ratedRSlugs.includes(game.esrb_rating.slug)) {
+        isRatedR = true;
+      }
+      return { ...game, isRatedR };
+    });
+    setFilteredBestOfYear(updatedGames);
   }, [bestOfYear]);
 
   useEffect(() => {
@@ -65,13 +91,14 @@ const BestOfYear = () => {
         const response = await fetch(
           `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page=${currentPage}&page_size=20`
         );
+        console.log(response);
         const data = await response.json();
         setBestOfYear(data.results);
       } catch (error) {
         console.log(error);
       }
-      getBestOfYear();
     };
+    getBestOfYear();
   }, [bestOfYearStartDate, bestOfYearEndDate, apiKey, currentPage]);
 
   return (
@@ -89,13 +116,25 @@ const BestOfYear = () => {
                       <div className="card card-games-overlay"></div>
                       <a href={`./game/${game.slug}/${game.id}`}>
                         <img
-                          src={game.background_image}
-                          className="card card-games-img-top swiper-lazy"
+                          src={
+                            game.background_image ||
+                            `https://placehold.co/256/1F2937/FFFFFF?text=${encodeURIComponent(
+                              game.name
+                            )}&font=roboto`
+                          }
+                          className={`card card-games-img-top swiper-lazy ${
+                            game.isRatedR ? "blur-lg bg-blend-darken" : ""
+                          }`}
                           alt="Game"
                           data-src={game.background_image}
                           loading="lazy"
                         />
                       </a>
+                      {game.isRatedR && (
+                        <div className="absolute top-2 left-2 bg-red-600/90 text-xl px-3 py-[1px] rounded-sm skew-x-[-12deg] font-bold">
+                          Rated R
+                        </div>
+                      )}
                       <div
                         className={`metacritic ${
                           game.metacritic ? "" : "no-score"
@@ -133,12 +172,14 @@ const BestOfYear = () => {
                   </div>
                 ))
               ) : (
-                <p>Loading...</p>
+                <div className="classic flex items-center justify-center align-baseline absolute top-0 left-0 h-screen w-screen text-white text-5xl bg-transparent backdrop-blur-lg animate-pulse z-[9999] dark:text-gray-800">
+                  Loading...
+                </div>
               )}
             </div>
           </div>
           <Pagination
-            className="flex justify-center mt-2 h-10 dark"
+            className="flex justify-center my-2 h-10 dark"
             currentPage={currentPage}
             totalPages={50}
             onPageChange={handlePageChange}
