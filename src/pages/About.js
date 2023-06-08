@@ -1,30 +1,30 @@
-import React from "react";
-import "./About.css";
+import React from 'react';
+import './About.css';
 
 const teamMembers = [
   {
-    name: "Marcus David Alo",
-    role: "Head Website Developer",
+    name: 'Marcus David Alo',
+    role: 'Head Website Developer',
   },
   {
-    name: "Mahdi Atef Adas",
-    role: "Website Developer",
+    name: 'Mahdi Atef Adas',
+    role: 'Website Developer',
   },
   {
-    name: "Jared Eiden Belvis",
-    role: "Website Developer",
+    name: 'Jared Eiden Belvis',
+    role: 'Website Developer',
   },
   {
-    name: "Skipper Paloma",
-    role: "Website Developer",
+    name: 'Skipper Paloma',
+    role: 'Website Developer',
   },
 ];
 
 function About() {
   return (
     <div className="flex justify-center my-20">
-      <div className="container flex justify-center">
-        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800">
+      <div className="container flex justify-center flex-col sm:flex-row">
+        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
             Greetings from GameLink! a website created by and for gamers gamers.
@@ -50,7 +50,7 @@ function About() {
             feedback, please don't hesitate to reach out to us. Happy gaming!
           </p>
         </div>
-        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow ml-4">
+        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow m-2">
           <h2 className="text-2xl font-bold mb-4 text-white dark:text-gray-800">
             Our Team
           </h2>
