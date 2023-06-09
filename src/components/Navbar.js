@@ -167,7 +167,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                     <ul
                       ref={suggestionsRef}
                       id="suggestions"
-                      className="absolute items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-10"
+                      className="absolute items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-[999]"
                     >
                       {suggestions.map((game) => (
                         <li
