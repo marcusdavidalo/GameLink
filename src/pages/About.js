@@ -1,22 +1,30 @@
-import React from 'react';
-import './About.css';
+import React from "react";
+import marcus from "../assets/about/marcusA.webp";
+import adas from "../assets/about/adasM.webp";
+import jared from "../assets/about/jaredB.webp";
+import skipper from "../assets/about/skipperP.webp";
+import "./About.css";
 
 const teamMembers = [
   {
-    name: 'Marcus David Alo',
-    role: 'Head Website Developer',
+    name: "Marcus David Alo",
+    role: "Head Website Developer",
+    image: marcus,
   },
   {
-    name: 'Mahdi Atef Adas',
-    role: 'Website Developer',
+    name: "Mahdi Atef Adas",
+    role: "Website Developer",
+    image: adas,
   },
   {
-    name: 'Jared Eiden Belvis',
-    role: 'Website Developer',
+    name: "Jared Eiden Belvis",
+    role: "Website Developer",
+    image: jared,
   },
   {
-    name: 'Skipper Paloma',
-    role: 'Website Developer',
+    name: "Skipper Paloma",
+    role: "Website Developer",
+    image: skipper,
   },
 ];
 
@@ -57,7 +65,9 @@ function About() {
           <div className="flex flex-wrap justify-center">
             {teamMembers.map((member) => (
               <div className="w-64 mx-4 mb-4" key={member.name}>
-                <div className="bg-gray-600 dark:bg-gray-300 h-40 mb-2"></div>
+                <div className="bg-gray-600 dark:bg-gray-300 h-40 mb-2">
+                  <img src={member.image} alt="" />
+                </div>
                 <div className="text-lg font-bold mt-2 text-white dark:text-gray-800">
                   {member.name}
                 </div>
