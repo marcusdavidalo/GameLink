@@ -63,7 +63,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                 />
                 <button
                   type="submit"
-                  className="bg-cyan-500 dark:bg-gray-400 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
+                  className="bg-cyan-500 dark:bg-cyan-500 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
                 >
                   Subscribe
                 </button>
