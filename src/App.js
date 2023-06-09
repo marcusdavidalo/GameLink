@@ -24,7 +24,6 @@ function App() {
         isDarkMode={isDarkMode}
         handleDarkModeToggle={handleDarkModeToggle}
       />
-      <div id="navspacer" className="py-10"></div>
       <AllRoutes />
       <Footer
         isDarkMode={isDarkMode}

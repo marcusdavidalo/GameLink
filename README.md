@@ -21,23 +21,19 @@ GameLink was developed with the goal of providing gamers with a comprehensive pl
 ## Installation
 
 ```md
-1. Clone the repository:
+1. Clone the repository in vs code:
 
    git clone https://github.com/marcusdavidalo/GameLink.git
 
-2. Navigate to the project directory:
-
-   cd GameLink
-
-3. Install the dependencies:
+2. Install the dependencies:
 
    npm install
 
-4. Start the development server:
+3. Start the development server:
 
    npm start
 
-5. Open your browser and navigate to `http://localhost:3000` to access GameLink.
+4. Open your browser and navigate to `http://localhost:3000` to access GameLink.
 ```
 
 ## Contributing
