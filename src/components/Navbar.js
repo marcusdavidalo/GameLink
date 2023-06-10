@@ -35,6 +35,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const suggestionsRef = useRef(null);
   const searchInputRef = useRef(null);
   const timeoutIdRef = useRef(null);
+  const profileDropDownRef = useRef(null);
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -108,12 +109,15 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
   function handleOutsideClick(event) {
     if (
-      suggestionsRef.current &&
-      !suggestionsRef.current.contains(event.target) &&
-      event.target !== searchInputRef.current
+      (suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target) &&
+        event.target !== searchInputRef.current) ||
+      (profileDropDownRef.current &&
+        !profileDropDownRef.current.contains(event.target))
     ) {
       setSuggestions([]);
       setShowSuggestions(false);
+      setIsDropdownOpen(false);
     }
   }
 
@@ -292,7 +296,10 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                       </button>
 
                       {isDropdownOpen && (
-                        <ul className="absolute right-0 mt-2 py-1 w-[200px] bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md shadow-lg z-[999]">
+                        <ul
+                          ref={profileDropDownRef}
+                          className="absolute right-0 mt-2 py-1 w-[200px] bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md shadow-lg z-[999]"
+                        >
                           <li>
                             <Link
                               to="/profile"
