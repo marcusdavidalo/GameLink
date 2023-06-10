@@ -197,10 +197,6 @@ function Home() {
       const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
       const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
 
-      console.log('Best of Year URL:', bestOfYearURL);
-      console.log('New Releases URL:', newReleasesURL);
-      console.log('All Time Top URL:', allTimeTopURL);
-
       (async () => {
         try {
           const [bestOfYearResponse, newReleasesResponse, allTimeTopResponse] =

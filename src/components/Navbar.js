@@ -6,6 +6,7 @@ import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
 import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
 import { ReactComponent as SearchIcon } from '../assets/icons/search.svg';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 function NavItem({ to, children }) {
   return (
@@ -69,8 +70,13 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
       const fetchUserData = async () => {
         try {
+          // Decode the token to get the user ID
+          const decodedToken = jwtDecode(token);
+          const userId = decodedToken.id;
+
+          // Update the URL to include the user ID
           const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-          const url = `https://api-gamelinkdb.onrender.com/api/users?apiKey=${apiKey}`;
+          const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
           const response = await axios.get(url, {
             headers: { Authorization: `Bearer ${token}` },
           });

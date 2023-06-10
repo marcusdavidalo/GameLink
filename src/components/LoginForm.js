@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -21,11 +22,17 @@ const LoginForm = () => {
 
   const fetchUsername = async (token) => {
     try {
+      // Decode the token to get the user ID
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+
+      // Update the URL to include the user ID
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await axios.get(
-        `https://api-gamelinkdb.onrender.com/api/users?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log(userId);
 
       if (response.status === 200) {
         setUsername(response.data.username);
@@ -71,7 +78,7 @@ const LoginForm = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-700/50 p-5 m-5 rounded-md"
+        className="bg-slate-700/50 p-5 w-1/3 m-5 rounded-md"
       >
         <h2 className="text-2xl font-semibold pb-5">Login</h2>
         {loginStatus && (
@@ -112,6 +119,7 @@ const LoginForm = () => {
             className="border text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
           />
         </div>
         <div className="flex justify-center">
