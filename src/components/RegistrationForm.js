@@ -82,21 +82,23 @@ const RegistrationForm = () => {
               className="w-full px-5"
             >
               {(ref) => (
-                <p
-                  ref={ref}
-                  className={`text-center text-white rounded-md py-2 ${
-                    registrationStatus === 'User registered successfully' ||
-                    registrationStatus === 'Redirecting to login page'
-                      ? 'bg-green-600'
-                      : registrationStatus === 'Email already exists' ||
-                        registrationStatus ===
-                          'Password and Confirm Password do not match'
-                      ? 'bg-yellow-500'
-                      : 'bg-red-600'
-                  }`}
-                >
-                  {registrationStatus}
-                </p>
+                <div>
+                  <p
+                    ref={ref}
+                    className={`text-center text-white rounded-md py-2 ${
+                      registrationStatus === 'User registered successfully' ||
+                      registrationStatus === 'Redirecting to login page'
+                        ? 'bg-green-600'
+                        : registrationStatus === 'Email already exists' ||
+                          registrationStatus ===
+                            'Password and Confirm Password do not match'
+                        ? 'bg-yellow-500'
+                        : 'bg-red-600'
+                    }`}
+                  >
+                    {registrationStatus}
+                  </p>
+                </div>
               )}
             </Transition>
           </div>

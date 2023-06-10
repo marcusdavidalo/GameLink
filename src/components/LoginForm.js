@@ -113,16 +113,18 @@ const LoginForm = () => {
               className="w-full px-5"
             >
               {(ref) => (
-                <p
-                  ref={ref}
-                  className={`text-center text-white rounded-md py-2 ${
-                    loginStatus === 'Login successful'
-                      ? 'bg-green-600'
-                      : 'bg-red-600'
-                  }`}
-                >
-                  {loginStatus}
-                </p>
+                <div>
+                  <p
+                    ref={ref}
+                    className={`text-center text-white rounded-md py-2 ${
+                      loginStatus === 'Login successful'
+                        ? 'bg-green-600'
+                        : 'bg-red-600'
+                    }`}
+                  >
+                    {loginStatus}
+                  </p>
+                </div>
               )}
             </Transition>
           </div>
