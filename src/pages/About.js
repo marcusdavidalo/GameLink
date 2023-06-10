@@ -35,7 +35,7 @@ function About() {
         <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
-            Greetings from GameLink! a website created by and for gamers gamers.
+            Greetings from GameLink! A website created by and for gamers gamers.
             We are committed to bringing the neighborhood the most recent trends
             in by displaying data archives on the gaming industry and providing
             us with the most recent information on our favorite game.

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 import {
   Home,
   About,
@@ -8,16 +8,18 @@ import {
   NewReleases,
   GameDetails,
   NotFound,
-  Authentication,
+  Login,
+  Register,
   Unauthorized,
-} from "../pages";
+} from '../pages';
 
 export const AllRoutes = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Authentication />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
         <Route path="/best-of-the-year" element={<BestOfYear />} />

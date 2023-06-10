@@ -1,34 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Check if there is a token in local storage
+    const token = localStorage.getItem('token');
+    if (token) {
+      // If there is a token, assume that the user is logged in
+      setLoginStatus('Login successful');
+
+      // Fetch the username of the logged-in user from the server
+      fetchUsername(token);
+    }
+  }, []);
+
+  const fetchUsername = async (token) => {
+    try {
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      const response = await axios.get(
+        `https://api-gamelinkdb.onrender.com/api/users?apiKey=${apiKey}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 200) {
+        setUsername(response.data.username);
+        console.log(response.data.username);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Make a POST request to the backend API to log in the user
-      const response = await fetch(
-        'https://api-gamelinkdb.onrender.com/api/auth/login?apiKey=marcusjaredmahdiskipperpalomaadasbelvisalo',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        }
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      const response = await axios.post(
+        `https://api-gamelinkdb.onrender.com/api/auth/login?apiKey=${apiKey}`,
+        { email, password },
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         // Login successful
         setLoginStatus('Login successful');
+
+        // Store the token
+        localStorage.setItem('token', response.data.token);
+
+        // Fetch the username of the logged-in user from the server
+        fetchUsername(response.data.token);
       } else {
         // Login failed
-        const data = await response.json();
-        setLoginStatus(data.error);
+        setLoginStatus(response.data.error);
       }
     } catch (error) {
       // Login failed
+      console.log(error);
       setLoginStatus('An error occurred while logging in');
     }
   };
@@ -39,7 +73,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className="bg-slate-700/50 p-5 m-5 rounded-md"
       >
-        <h2 className="text-2xl font-semibold">Login</h2>
+        <h2 className="text-2xl font-semibold pb-5">Login</h2>
         {loginStatus && (
           <p
             className={`text-center text-white rounded-md my-2 p-2 ${
@@ -47,6 +81,11 @@ const LoginForm = () => {
             }`}
           >
             {loginStatus}
+          </p>
+        )}
+        {username && (
+          <p className="text-center text-white my-2 p-2 bg-green-600">
+            Logged in as {username}
           </p>
         )}
         <div className="flex flex-col justify-between pb-2">

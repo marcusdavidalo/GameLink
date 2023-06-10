@@ -38,6 +38,54 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
+  // State to track if the user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // State to track the username of the logged-in user
+  const [username, setUsername] = useState('');
+
+  // State to track if the dropdown menu is open
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Function to handle logging out
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('token');
+
+    // Update state to indicate that the user is logged out
+    setIsLoggedIn(false);
+    setUsername('');
+  };
+
+  // Function to toggle the dropdown menu
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+
+      const fetchUserData = async () => {
+        try {
+          const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+          const url = `https://api-gamelinkdb.onrender.com/api/users?apiKey=${apiKey}`;
+          const response = await axios.get(url, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          const username = response.data.username;
+          setUsername(username);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, []);
+
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -223,6 +271,74 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                 <div className="flex py-2">
                   <NavItem to="/">Home</NavItem>
                   <NavItem to="/about">About</NavItem>
+
+                  {/* Sign Up button */}
+                  {!isLoggedIn && <NavItem to="/register">Sign Up</NavItem>}
+
+                  {/* Logged-in user menu */}
+                  {isLoggedIn && (
+                    <div className="relative ml-2">
+                      <button
+                        onClick={toggleDropdown}
+                        className="px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
+                      >
+                        Hello, {username}
+                      </button>
+
+                      {isDropdownOpen && (
+                        <ul className="absolute right-0 mt-2 py-1 w-[200px] bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md shadow-lg z-[999]">
+                          <li>
+                            <Link
+                              to="/profile"
+                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              My Profile
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/messages"
+                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              Messages
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/notifications"
+                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              Notifications
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/settings"
+                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              Settings
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/help"
+                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              Help & Support
+                            </Link>
+                          </li>
+                          <li>
+                            <button
+                              onClick={handleLogout}
+                              className="block w-full text-left px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                            >
+                              Logout
+                            </button>
+                          </li>
+                        </ul>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
