@@ -180,7 +180,10 @@ const RegistrationForm = () => {
         </div>
         <div className="flex justify-center py-5 font-semibold text-base">
           Already Have an Account?{' '}
-          <Link to="/login" className="text-cyan-500 px-2">
+          <Link
+            to="/login"
+            className="text-cyan-500 mx-1 px-1 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500 rounded-md hover:motion-safe:animate-pulse"
+          >
             {' '}
             Sign In Here!
           </Link>
