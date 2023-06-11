@@ -81,7 +81,6 @@ const AllTimeTop = () => {
         const response = await fetch(
           `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page=${currentPage}&page_size=20`
         );
-        console.log(response);
         const data = await response.json();
         setAllTimeTop(data.results);
       } catch (error) {

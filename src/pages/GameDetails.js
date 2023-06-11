@@ -46,8 +46,6 @@ function GameDetails() {
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
 
-  console.log(id);
-
   const isNewsDataValid = useCallback((newsData) => {
     if (!newsData) {
       return false;
@@ -95,7 +93,7 @@ function GameDetails() {
             setGameData(game);
             gameSlug = game.slug;
 
-            const newsUrl = `https://api.newscatcherapi.com/v2/search?q=${gameSlug}&topic=gaming&lang=en`;
+            const newsUrl = `https://api.newscatcherapi.com/v2/search?q="${gameSlug}"&topic=gaming&lang=en`;
             const headers = { 'x-api-key': newscatcherApiKey };
 
             return axios.get(newsUrl, { headers });

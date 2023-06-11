@@ -39,11 +39,8 @@ const LoginForm = () => {
         `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(userId);
-
       if (response.status === 200) {
         setUsername(response.data.username);
-        console.log(response.data.username);
       }
     } catch (error) {
       console.log(error);
