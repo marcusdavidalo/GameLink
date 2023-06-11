@@ -9,6 +9,7 @@ const LoginForm = () => {
   const [loginStatus, setLoginStatus] = useState('');
   const [username, setUsername] = useState('');
   const [showMessage, setShowMessage] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     // Check if there is a token in local storage
@@ -56,7 +57,7 @@ const LoginForm = () => {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await axios.post(
         `https://api-gamelinkdb.onrender.com/api/auth/login?apiKey=${apiKey}`,
-        { email, password },
+        { email, password, rememberMe },
         { headers: { 'Content-Type': 'application/json' } }
       );
 
@@ -70,6 +71,11 @@ const LoginForm = () => {
 
         // Store the token
         localStorage.setItem('token', response.data.token);
+
+        if (response.data.refreshToken) {
+          // Add this block
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+        }
 
         // Fetch the username of the logged-in user from the server
         fetchUsername(response.data.token);
@@ -164,10 +170,24 @@ const LoginForm = () => {
                 autoComplete="current-password"
               />
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-evenly items-center w-full">
+              <div className="flex justify-center items-center text-base font-semibold">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label
+                  htmlFor="remember-me"
+                  className="w-auto px-2 whitespace-nowrap"
+                >
+                  Remember Me
+                </label>
+              </div>
               <button
                 type="submit"
-                className="bg-slate-500/60 px-5 py-2 mb-2 rounded-md"
+                className="bg-slate-500/60 px-5 py-2 mb-2 rounded-md w-full ml-5"
               >
                 Login
               </button>
