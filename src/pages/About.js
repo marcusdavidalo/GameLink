@@ -30,15 +30,15 @@ const teamMembers = [
 
 function About() {
   return (
-    <div className="flex justify-center my-20">
-      <div className="container flex justify-center flex-col sm:flex-row">
-        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
+    <div className="flex justify-center my-20 mx-5">
+      <div className="container flex justify-center items-center flex-col sm:flex-row">
+        <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
-            Greetings from GameLink! A website created by and for gamers gamers.
-            We are committed to bringing the neighborhood the most recent trends
-            in by displaying data archives on the gaming industry and providing
-            us with the most recent information on our favorite game.
+            Greetings from GameLink! A website created by and for gamers. We are
+            committed to bringing the neighborhood the most recent trends in by
+            displaying data archives on the gaming industry and providing us
+            with the most recent information on our favorite game.
           </p>
           <p className="mb-4">
             GameLink utilizes the RAWG API to gather information about games,
@@ -58,20 +58,18 @@ function About() {
             feedback, please don't hesitate to reach out to us. Happy gaming!
           </p>
         </div>
-        <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow m-2">
+        <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:w-1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded-md shadow box-border m-2">
           <h2 className="text-2xl font-bold mb-4 text-white dark:text-gray-800">
             Our Team
           </h2>
-          <div className="flex flex-wrap justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {teamMembers.map((member) => (
-              <div className="w-64 mx-4 mb-4" key={member.name}>
-                <div>
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="flex justify-center bg-cyan-400/70 dark:bg-gray-300 h-40 w-auto mb-2 rounded-full"
-                  />
-                </div>
+              <div className="flex flex-col items-center" key={member.name}>
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="h-40 w-40 mb-2 bg-cyan-400/70 rounded-full object-cover"
+                />
                 <div className="text-lg font-bold mt-2 text-white dark:text-gray-800">
                   {member.name}
                 </div>

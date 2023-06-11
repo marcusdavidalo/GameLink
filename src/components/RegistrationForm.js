@@ -65,7 +65,7 @@ const RegistrationForm = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-700/50 p-5 w-1/3 m-5 rounded-md"
+        className="bg-slate-700/50 p-5 max-w-1/3 m-5 rounded-md"
         data-aos="zoom-in"
       >
         <div data-aos="zoom-out-down" data-aos-duration="500">
