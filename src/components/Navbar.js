@@ -165,10 +165,13 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
-      if (prevScrollPos < currentScrollPos) {
-        setIsNavHidden(true);
-      } else {
-        setIsNavHidden(false);
+      // Only update isNavHidden state if screen width is above 768px
+      if (window.innerWidth > 768) {
+        if (prevScrollPos < currentScrollPos) {
+          setIsNavHidden(true);
+        } else {
+          setIsNavHidden(false);
+        }
       }
       setPrevScrollPos(currentScrollPos);
       setShowBackToTop(currentScrollPos > 200);
@@ -184,7 +187,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 flex justify-center pb-40 py-4 sm:py-2 box-content bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] transition-transform duration-500 z-[9998] ${
+        className={`static md:fixed top-0 left-0 right-0 flex justify-center pb-40 py-4 sm:py-2 box-content bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] transition-transform duration-500 z-[9998] ${
           isNavHidden ? 'translate-y-[-100%] blur-sm' : ''
         }`}
       >
@@ -358,10 +361,10 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
           </div>
         </div>
       </nav>
-      <div id="navspacer" className="py-28 sm:py-10"></div>
+      <div id="navspacer" className="py-28 absolute md:static sm:py-10"></div>
       {showBackToTop && (
         <button
-          className="fixed bottom-4 right-4 p-2 bg-gray-800 text-white rounded-full shadow-md hover:bg-gray-700"
+          className="fixed bottom-4 right-4 p-2 bg-cyan-500 text-white rounded-full shadow-md hover:bg-gray-700"
           onClick={handleScrollToTop}
         >
           <svg
