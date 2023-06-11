@@ -286,7 +286,11 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                   <NavItem to="/about">About</NavItem>
 
                   {/* Sign Up button */}
-                  {!isLoggedIn && <NavItem to="/register">Sign Up</NavItem>}
+                  {!isLoggedIn && (
+                    <NavItem to="/register" className="whitespace-nowrap">
+                      Sign Up
+                    </NavItem>
+                  )}
 
                   {/* Logged-in user menu */}
                   {isLoggedIn && (
