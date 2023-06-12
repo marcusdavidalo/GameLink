@@ -193,9 +193,9 @@ function Home() {
         endMonth < 10 ? '0' + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
-      const bestOfYearURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page_size=${pageSize}`;
-      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=-released&page_size=${pageSize}`;
-      const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page_size=${pageSize}`;
+      const bestOfYearURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=ratings&page_size=${pageSize}`;
+      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=ratings&page_size=${pageSize}`;
+      const allTimeTopURL = `https://api.rawg.io/api/games?key=${apiKey}&ordering=ratings&page_size=${pageSize}`;
 
       (async () => {
         try {
