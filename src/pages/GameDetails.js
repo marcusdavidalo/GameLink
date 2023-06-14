@@ -73,7 +73,7 @@ function GameDetails() {
     return true; // Data is valid
   }, []);
 
-  usePageTitle(`GameLink | ${gameData.name}`);
+  usePageTitle(`GameLink | ${gameData?.name || 'Loading...'}`);
 
   const fetchNewsData = useCallback(() => {
     const cachedNewsData = localStorage.getItem('newsData-' + id);
