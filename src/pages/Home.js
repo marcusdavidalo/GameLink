@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Home.css';
 import SwiperCore, { Navigation } from 'swiper';
 import Swiper from 'swiper';
+import usePageTitle from '../hooks/useTitle';
 
 SwiperCore.use([Navigation]);
 
@@ -13,6 +14,7 @@ function formatDate(dateString) {
   return date.toLocaleDateString('en-US', options);
 }
 function Home() {
+  usePageTitle(`GameLink | Home`);
   useEffect(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
     const pageSize = 20;
@@ -280,7 +282,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="flex justify-center overflow-hidden mb-10">
+    <main className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
         <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden px-4">
           <div className="swiper-container best-of-year">
@@ -422,7 +424,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

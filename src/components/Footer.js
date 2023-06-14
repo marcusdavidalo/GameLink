@@ -10,6 +10,8 @@ import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
 import './Footer.css';
 
 function Footer({ isDarkMode, handleDarkModeToggle }) {
+  const currentYear = React.useMemo(() => new Date().getFullYear(), []);
+
   return (
     <footer className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
       <div className="container mx-auto px-4 py-8">
@@ -20,8 +22,9 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
               About
             </h3>
             <p className="text-gray-400 dark:text-gray-800 mt-4">
-              Welcome to GameLink ! A website made for the gamers and by the
-              gamers.
+              Elevating gaming experiences with up-to-date insights, news, and
+              curated content. Join us at GameLink for an unforgettable gaming
+              adventure.
             </p>
           </div>
 
@@ -108,8 +111,8 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
           </div>
 
           <p className="text-center text-gray-400 dark:text-gray-800 mt-4 md:mt-0">
-            © {new Date().getFullYear()} GameLink. CharAt(64). All rights
-            reserved.
+            © {currentYear} GameLink. All rights reserved. Powered by RAWG API
+            and NewsCatcherAPI. Developed by Team Vitamax.
           </p>
 
           <div className="flex items-center mt-4 md:mt-0">

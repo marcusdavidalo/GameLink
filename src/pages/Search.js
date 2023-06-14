@@ -1,4 +1,5 @@
 import React from 'react';
+import usePageTitle from '../hooks/useTitle';
 
 async function searchAPIData() {
   const API_KEY = global.api.apiKey;
@@ -14,6 +15,7 @@ async function searchAPIData() {
 }
 
 function Search() {
+  usePageTitle(`GameLink | Search`);
   return async function search() {
     const queryString = window.location.search;
     // console.log(queryString);

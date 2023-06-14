@@ -3,7 +3,6 @@ import marcus from '../assets/about/marcusA.webp';
 import adas from '../assets/about/adasM.webp';
 import jared from '../assets/about/jaredB.webp';
 import skipper from '../assets/about/skipperP.webp';
-import './About.css';
 
 const teamMembers = [
   {
@@ -30,32 +29,44 @@ const teamMembers = [
 
 function About() {
   return (
-    <div className="flex justify-center my-20 mx-5">
+    <main className="flex justify-center my-20 mx-5">
       <div className="container flex justify-center items-center flex-col sm:flex-row">
         <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
           <h1 className="text-4xl font-bold mb-6">About</h1>
           <p className="mb-4">
-            Greetings from GameLink! A website created by and for gamers. We are
-            committed to bringing the neighborhood the most recent trends in by
-            displaying data archives on the gaming industry and providing us
-            with the most recent information on our favorite game.
+            Welcome to GameLink! We are a passionate community-driven website
+            dedicated to enhancing your gaming experience. Our mission is to
+            provide you with the latest trends, insights, and comprehensive
+            information about your favorite games.
           </p>
           <p className="mb-4">
-            GameLink utilizes the RAWG API to gather information about games,
-            including release dates, ratings, and images. We strive to bring you
-            the most accurate and up-to-date information about the games you
-            love.
+            At GameLink, we understand the power of gaming and the joy it
+            brings. That's why our team of avid gamers has carefully crafted a
+            platform to cater to your gaming needs. We go above and beyond to
+            curate a wide range of data archives and up-to-date content,
+            ensuring you have access to the most relevant and accurate
+            information.
           </p>
           <p className="mb-4">
-            Our team is passionate about gaming and wants to share that passion
-            with you. We carefully curate the Best of the Year, New Releases,
-            and All Time Top games, so you can easily discover new titles or
-            revisit timeless classics.
+            By leveraging the RAWG API, we gather essential details such as
+            release dates, ratings, and images, delivering a seamless and
+            comprehensive gaming experience. Additionally, we utilize the
+            NewsCatcherAPI to bring you the latest news, updates, and articles
+            for each game, keeping you well-informed about the gaming world.
+          </p>
+          <p className="mb-4">
+            Our dedication stems from our genuine passion for gaming. We strive
+            to create a unique space where you can explore the Best of the Year,
+            discover New Releases, and revisit timeless classics. Whether you're
+            looking for your next gaming adventure or seeking information on
+            your favorite titles, GameLink is here to assist you every step of
+            the way.
           </p>
           <p>
-            We hope you enjoy exploring GameLink and find it helpful in
-            discovering your next gaming adventure. If you have any questions or
-            feedback, please don't hesitate to reach out to us. Happy gaming!
+            We sincerely hope that GameLink becomes your go-to resource for all
+            things gaming. If you have any questions or feedback, our team is
+            always ready to assist you. Get ready to embark on unforgettable
+            gaming journeys with us. Happy gaming!
           </p>
         </div>
         <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:w-1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded-md shadow box-border m-2">
@@ -81,7 +92,7 @@ function About() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

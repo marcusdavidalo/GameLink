@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from 'flowbite-react';
 import './NewReleases.css';
+import usePageTitle from '../hooks/useTitle';
 
 const NewReleases = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -106,7 +107,7 @@ const NewReleases = () => {
     };
     getNewReleases();
   }, [newReleasesStartDate, newReleasesEndDate, apiKey, currentPage]);
-
+  usePageTitle(`GameLink | New Releases`);
   return (
     <div>
       <div className="flex justify-center overflow-hidden mb-10">

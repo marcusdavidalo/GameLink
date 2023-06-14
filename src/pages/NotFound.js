@@ -1,25 +1,26 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
-import gif1 from "../assets/gifs/gif1.gif";
-import gif2 from "../assets/gifs/gif2.gif";
-import gif3 from "../assets/gifs/gif3.gif";
-import gif4 from "../assets/gifs/gif4.gif";
-import gif5 from "../assets/gifs/gif5.gif";
-import gif6 from "../assets/gifs/gif6.gif";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import gif1 from '../assets/gifs/gif1.gif';
+import gif2 from '../assets/gifs/gif2.gif';
+import gif3 from '../assets/gifs/gif3.gif';
+import gif4 from '../assets/gifs/gif4.gif';
+import gif5 from '../assets/gifs/gif5.gif';
+import gif6 from '../assets/gifs/gif6.gif';
+import usePageTitle from '../hooks/useTitle';
 
 // Import the list of GIFs
 const gifs = [gif1, gif2, gif3, gif4, gif5, gif6];
 const random404Message = [
   "The page couldn't handle the power of your mad gaming skills. You broke it!",
-  "GameLink.exe process has died!",
-  "Oops! It seems this page has gone on a coffee break",
+  'GameLink.exe process has died!',
+  'Oops! It seems this page has gone on a coffee break',
   "It appears you've entered a forbidden cheat code",
-  "What are you looking for?",
+  'What are you looking for?',
   "You're not supposed to be here",
-  "How did you get here?",
-  "Well this is awkward...",
-  "Oh No! Our Page! Its Broken!",
+  'How did you get here?',
+  'Well this is awkward...',
+  'Oh No! Our Page! Its Broken!',
 ];
 
 const getRandomElement = (array) => {
@@ -30,7 +31,7 @@ const getRandomElement = (array) => {
 const PageNotFound = React.memo(() => {
   const randomGif = useMemo(() => getRandomElement(gifs), []);
   const random404 = useMemo(() => getRandomElement(random404Message), []);
-
+  usePageTitle(`GameLink | 404 Not Found`);
   return (
     <main>
       <div className="flex flex-col items-center justify-center h-screen">
@@ -57,8 +58,8 @@ const PageNotFound = React.memo(() => {
                 className="text-gray-200 dark:text-gray-800 hover:bg-slate-800 rounded-md"
                 viewBox="0 0 16 16"
               >
-                {" "}
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />{" "}
+                {' '}
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />{' '}
               </svg>
             </Link>
           </div>

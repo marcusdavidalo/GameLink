@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Pagination } from "flowbite-react";
-import "./BestOfYear.css";
+import React, { useState, useEffect } from 'react';
+import { Pagination } from 'flowbite-react';
+import './BestOfYear.css';
+import usePageTitle from '../hooks/useTitle';
 
 const BestOfYear = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
@@ -14,8 +15,8 @@ const BestOfYear = () => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   const currentDate = new Date();
@@ -25,45 +26,45 @@ const BestOfYear = () => {
 
   const bestOfYearStartDate = `${currentYear}-01-01`;
   const bestOfYearEndDate = `${currentYear}-${
-    currentMonth < 10 ? "0" + currentMonth : currentMonth
-  }-${currentDay < 10 ? "0" + currentDay : currentDay}`;
+    currentMonth < 10 ? '0' + currentMonth : currentMonth
+  }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
 
   useEffect(() => {
     const ratedRTags = [
-      "sexual-content",
-      "nsfw",
-      "milf",
-      "top-nsfw",
-      "adult",
-      "akabur",
-      "your-mom",
-      "star-channel-34",
-      "adults-only",
+      'sexual-content',
+      'nsfw',
+      'milf',
+      'top-nsfw',
+      'adult',
+      'akabur',
+      'your-mom',
+      'star-channel-34',
+      'adults-only',
     ];
     const ratedRSlugs = [
-      "sexual-content",
-      "nsfw",
-      "milf",
-      "top-nsfw",
-      "adult",
-      "akabur",
-      "star-channel-34",
-      "adults-only",
-      "horos-monster-slayer-and-lover-of-many",
-      "grown-up-titans-(teen-titans)",
+      'sexual-content',
+      'nsfw',
+      'milf',
+      'top-nsfw',
+      'adult',
+      'akabur',
+      'star-channel-34',
+      'adults-only',
+      'horos-monster-slayer-and-lover-of-many',
+      'grown-up-titans-(teen-titans)',
     ];
     const ratedRNames = [
-      "Sexual Content",
-      "NSFW",
-      "Adult",
-      "milf",
-      "top-nsfw",
-      "akabur",
-      "your-mom",
-      "Star Channel 34",
-      "Adults Only",
-      "HOROS - monster slayer and lover of many",
-      "Grown-Up Titans ( Teen Titans)",
+      'Sexual Content',
+      'NSFW',
+      'Adult',
+      'milf',
+      'top-nsfw',
+      'akabur',
+      'your-mom',
+      'Star Channel 34',
+      'Adults Only',
+      'HOROS - monster slayer and lover of many',
+      'Grown-Up Titans ( Teen Titans)',
     ];
 
     const updatedGames = bestOfYear.map((game) => {
@@ -100,7 +101,7 @@ const BestOfYear = () => {
     };
     getBestOfYear();
   }, [bestOfYearStartDate, bestOfYearEndDate, apiKey, currentPage]);
-
+  usePageTitle(`GameLink | Best Of ${currentYear}`);
   return (
     <div>
       <div className="flex justify-center overflow-hidden mb-10">
@@ -123,7 +124,7 @@ const BestOfYear = () => {
                             )}&font=roboto`
                           }
                           className={`card card-games-img-top swiper-lazy ${
-                            game.isRatedR ? "blur-lg bg-blend-darken" : ""
+                            game.isRatedR ? 'blur-lg bg-blend-darken' : ''
                           }`}
                           alt="Game"
                           data-src={game.background_image}
@@ -137,16 +138,16 @@ const BestOfYear = () => {
                       )}
                       <div
                         className={`metacritic ${
-                          game.metacritic ? "" : "no-score"
+                          game.metacritic ? '' : 'no-score'
                         }`}
                       >
-                        {game.metacritic ? game.metacritic : "N"}
+                        {game.metacritic ? game.metacritic : 'N'}
                       </div>
                       <div className="card card-games-body frosted-blur">
                         <a href={`./game/${game.slug}/${game.id}`}>
                           <div
                             className={`scrollable-title ${
-                              game.name.length > 30 ? "marquee" : ""
+                              game.name.length > 30 ? 'marquee' : ''
                             }`}
                           >
                             <h5
@@ -164,8 +165,8 @@ const BestOfYear = () => {
                           Latest Update: {formatDate(game.updated)}
                         </p>
                         <p className="genre card card-games-text">
-                          Genre:{" "}
-                          {game.genres.map((genre) => genre.name).join(", ")}
+                          Genre:{' '}
+                          {game.genres.map((genre) => genre.name).join(', ')}
                         </p>
                       </div>
                     </div>

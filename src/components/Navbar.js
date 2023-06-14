@@ -185,7 +185,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   }, [prevScrollPos]);
 
   return (
-    <>
+    <header>
       <nav
         className={`static md:fixed top-0 left-0 right-0 flex justify-center pb-40 py-4 sm:py-2 box-content bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] transition-transform duration-500 z-[9998] ${
           isNavHidden ? 'translate-y-[-100%] blur-sm' : ''
@@ -387,7 +387,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
           </svg>
         </button>
       )}
-    </>
+    </header>
   );
 }
 

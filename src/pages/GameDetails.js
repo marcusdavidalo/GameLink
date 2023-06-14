@@ -4,6 +4,7 @@ import axios from 'axios';
 import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
+import usePageTitle from '../hooks/useTitle';
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -71,6 +72,8 @@ function GameDetails() {
 
     return true; // Data is valid
   }, []);
+
+  usePageTitle(`GameLink | ${gameData.name}`);
 
   const fetchNewsData = useCallback(() => {
     const cachedNewsData = localStorage.getItem('newsData-' + id);
@@ -151,7 +154,6 @@ function GameDetails() {
       </div>
     );
   }
-
   return (
     <div>
       <div className="container mx-auto mt-5">
