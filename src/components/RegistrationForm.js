@@ -174,7 +174,7 @@ const RegistrationForm = () => {
               <div className="py-4"></div>
               <button
                 type="submit"
-                className={`bg-slate-500/60 px-5 py-2 mb-2 h-full rounded-md ${
+                className={`bg-cyan-500/60 px-5 py-2 mb-2 h-full rounded-md ${
                   isLoading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 disabled={isLoading} // Disable the button when loading

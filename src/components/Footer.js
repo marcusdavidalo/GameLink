@@ -23,7 +23,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             </h3>
             <p className="text-gray-400 dark:text-gray-800 mt-4">
               Elevating gaming experiences with up-to-date insights, news, and
-              curated content. Join us at GameLink for an unforgettable gaming
+              curated content. Join us at <span className="font-bold text-cyan-500">GameLinked</span> for an unforgettable gaming
               adventure.
             </p>
           </div>

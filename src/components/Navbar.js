@@ -204,7 +204,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                 <img src={logo} alt="Logo" className="h-8 w-auto" />
                 <h1 className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
                   Game
-                  <span className="text-2xl font-bold text-cyan-500">Link</span>
+                  <span className="text-2xl font-bold text-cyan-500">Linked</span>
                 </h1>
               </Link>
             </div>
