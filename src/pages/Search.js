@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import usePageTitle from '../hooks/useTitle';
 
 async function searchAPIData() {
-  const API_KEY = global.api.apiKey;
+  const API_KEY = process.env.REACT_APP;
   const API_URL = global.api.apiUrl;
 
   const response = await fetch(
@@ -16,21 +16,26 @@ async function searchAPIData() {
 
 function Search() {
   usePageTitle(`GameLink | Search`);
-  return async function search() {
-    const queryString = window.location.search;
-    // console.log(queryString);
-    const urlParams = new URLSearchParams(queryString);
-    // console.log(urlParams);
-    const showAlert = (global.search.type = urlParams.get('type'));
-    global.search.term = urlParams.get('search-term');
 
-    if (global.search.term !== '' && global.search.term !== null) {
-      const results = await searchAPIData();
-      console.log(results);
-    } else {
-      showAlert('Please enter search term');
+  useEffect(() => {
+    async function search() {
+      const queryString = window.location.search;
+      // console.log(queryString);
+      const urlParams = new URLSearchParams(queryString);
+      // console.log(urlParams);
+      global.search.type = urlParams.get('type');
+      global.search.term = urlParams.get('search-term');
+
+      if (global.search.term !== '' && global.search.term !== null) {
+        const results = await searchAPIData();
+        console.log(results);
+      } else {
+        showAlert('Please enter search term', 'error');
+      }
     }
-  };
+    search();
+  }, []);
+
   function showAlert(message, className) {
     const alertEl = document.createElement('div');
     alertEl.classList.add('alert', className);
@@ -39,6 +44,7 @@ function Search() {
 
     setTimeout(() => alertEl.remove(), 3000);
   }
+
   return (
     <section className="search">
       <div className="container">
