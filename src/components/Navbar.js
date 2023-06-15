@@ -39,6 +39,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -84,6 +85,10 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
           const username = response.data.username;
           setUsername(username);
+
+          // Set admin status based on the user data
+          const isAdmin = response.data.admin;
+          setIsAdmin(isAdmin);
         } catch (error) {
           console.log(error);
         }
@@ -315,6 +320,16 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                               My Profile
                             </Link>
                           </li>
+                          {isAdmin && ( // Add this condition to show the /admin link only for admins
+                            <li>
+                              <Link
+                                to="/admin"
+                                className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                              >
+                                Admin Dashboard
+                              </Link>
+                            </li>
+                          )}
                           <li>
                             <Link
                               to="/messages"

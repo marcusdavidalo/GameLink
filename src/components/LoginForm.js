@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { Transition } from '@headlessui/react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -10,42 +11,51 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+
+  const fetchUserData = useCallback(
+    async (token) => {
+      try {
+        // Decode the token to get the user ID
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+
+        // Update the URL to include the user ID
+        const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+        const response = await axios.get(
+          `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (response.status === 200) {
+          setUsername(response.data.username);
+          if (response.data.admin) {
+            navigate('/admin');
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [navigate]
+  );
 
   useEffect(() => {
-    // Check if there is a token in local storage
-    const token = localStorage.getItem('token');
-    if (token) {
-      // If there is a token, assume that the user is logged in
-      setLoginStatus('Login successful');
-      setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 2000);
+    const checkLoggedInStatus = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        setLoginStatus('Login successful');
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 2000);
 
-      // Fetch the username of the logged-in user from the server
-      fetchUsername(token);
-    }
-  }, []);
-
-  const fetchUsername = async (token) => {
-    try {
-      // Decode the token to get the user ID
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.id;
-
-      // Update the URL to include the user ID
-      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const response = await axios.get(
-        `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        setUsername(response.data.username);
+        await fetchUserData(token);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
+
+    checkLoggedInStatus();
+  }, [fetchUserData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,16 +76,13 @@ const LoginForm = () => {
           setShowMessage(false);
         }, 2000);
 
-        // Store the token
         localStorage.setItem('token', response.data.token);
 
         if (response.data.refreshToken) {
-          // Add this block
           localStorage.setItem('refreshToken', response.data.refreshToken);
         }
 
-        // Fetch the username of the logged-in user from the server
-        fetchUsername(response.data.token);
+        await fetchUserData(response.data.token);
       } else {
         // Login failed
         setLoginStatus(response.data.error);

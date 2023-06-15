@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   Home,
   About,
@@ -11,9 +11,12 @@ import {
   Login,
   Register,
   Unauthorized,
+  AdminPanel,
 } from '../pages';
 
 export const AllRoutes = () => {
+  const isAdmin = false; // Set this value based on your logic
+
   return (
     <div>
       <Routes>
@@ -27,7 +30,15 @@ export const AllRoutes = () => {
         <Route path="/new-releases" element={<NewReleases />} />
         <Route path="/game/:slug/:id" element={<GameDetails />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        {/* {isAdmin && <Route path="/admin" element={<AdminPanel />} />} */}
+        {isAdmin ? (
+          <Route path="/admin" element={<AdminPanel />} />
+        ) : (
+          // Redirect to unauthorized page if the user is not an admin
+          <Route
+            path="/admin"
+            element={<Navigate to="/unauthorized" replace />}
+          />
+        )}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

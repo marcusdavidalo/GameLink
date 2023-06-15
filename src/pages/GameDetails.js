@@ -96,7 +96,7 @@ function GameDetails() {
             setGameData(game);
             gameSlug = game.slug;
 
-            const newsUrl = `https://api.newscatcherapi.com/v2/search?q="${gameSlug}"&topic=gaming&lang=en`;
+            const newsUrl = `https://api.newscatcherapi.com/v2/search?q="${gameSlug}"&topic=gaming&sort_by=relevancy&lang=en`;
             const headers = { 'x-api-key': newscatcherApiKey };
 
             return axios.get(newsUrl, { headers });
@@ -292,76 +292,72 @@ function GameDetails() {
                 <SwiperSlide key={news.title} className="pb-10 ">
                   <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black dark:bg-slate-200/70">
                     {news.media ? (
-                      <a
-                        href={news.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <div
+                        id="imgcontainer"
+                        className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
-                        <div
-                          id="imgcontainer"
-                          className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
+                        <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
+                          {!news.author || news.author === '' ? (
+                            <p>N/A</p>
+                          ) : (
+                            <p>{news.author}</p>
+                          )}
+                        </span>
+                        <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
+                          {!news.rights || news.rights === '' ? (
+                            <p>N/A</p>
+                          ) : (
+                            <a
+                              href={'https://' + news.clean_url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <p className=" hover:scale-105">{news.rights}</p>
+                            </a>
+                          )}
+                        </span>
+                        <a
+                          href={news.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                            {!news.author || news.author === '' ? (
-                              <p>N/A</p>
-                            ) : (
-                              <p>{news.author}</p>
-                            )}
-                          </span>
-                          <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                            {!news.rights || news.rights === '' ? (
-                              <p>N/A</p>
-                            ) : (
-                              <a
-                                href={'https://' + news.clean_url}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <p className=" hover:scale-105">
-                                  {news.rights}
-                                </p>
-                              </a>
-                            )}
-                          </span>
                           <img
                             src={news.media}
                             className="card-img-top h-full w-auto object-cover origin-center hover:scale-[1.05]"
                             alt="News Per Game"
                           />
-                        </div>
-                      </a>
+                        </a>
+                      </div>
                     ) : (
-                      <a
-                        href={news.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <div
+                        id="imgcontainer"
+                        className="flex align-middle relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
-                        <div
-                          id="imgcontainer"
-                          className="flex align-middle relative h-64 max-w-auto overflow-hidden rounded-t-md "
+                        <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
+                          {!news.author || news.author === '' ? (
+                            <p>N/A</p>
+                          ) : (
+                            <p>{news.author}</p>
+                          )}
+                        </span>
+                        <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
+                          {!news.rights || news.rights === '' ? (
+                            <p>N/A</p>
+                          ) : (
+                            <a
+                              href={'https://' + news.clean_url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <p className=" hover:scale-105">{news.rights}</p>
+                            </a>
+                          )}
+                        </span>
+                        <a
+                          href={news.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                            {!news.author || news.author === '' ? (
-                              <p>N/A</p>
-                            ) : (
-                              <p>{news.author}</p>
-                            )}
-                          </span>
-                          <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                            {!news.rights || news.rights === '' ? (
-                              <p>N/A</p>
-                            ) : (
-                              <a
-                                href={'https://' + news.clean_url}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <p className=" hover:scale-105">
-                                  {news.rights}
-                                </p>
-                              </a>
-                            )}
-                          </span>
                           <img
                             src={
                               'https://placehold.co/512/020617/FFFFFF?text=' +
@@ -371,8 +367,8 @@ function GameDetails() {
                             class="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
                             alt="Game News"
                           />
-                        </div>
-                      </a>
+                        </a>
+                      </div>
                     )}
                     <div className="card-body p-5 mb-10">
                       <div
