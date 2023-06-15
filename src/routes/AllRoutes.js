@@ -1,4 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 import {
   Home,
   About,
@@ -15,7 +18,31 @@ import {
 } from '../pages';
 
 export const AllRoutes = () => {
-  const isAdmin = false; // Set this value based on your logic
+  // Add isAdmin state to check if the user is an admin
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Fetch the user's admin status here and update the isAdmin state accordingly
+    // Example logic:
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
+
+      axios
+        .get(url, { headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => {
+          setIsAdmin(response.data.admin);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setIsAdmin(false);
+    }
+  }, []);
 
   return (
     <div>
