@@ -12,3 +12,6 @@ export { default as Profile } from './Profile';
 export { default as Settings } from './Settings';
 export { default as Register } from './Register';
 export { default as AdminPanel } from './AdminPanel';
+export { default as Help } from './Help';
+export { default as Messages } from './Messages';
+export { default as Notifications } from './Notifications';
