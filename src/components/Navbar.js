@@ -40,14 +40,8 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
-  // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // State to track the username of the logged-in user
   const [username, setUsername] = useState('');
-
-  // State to track if the dropdown menu is open
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Function to handle logging out
@@ -160,6 +154,11 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
     }
   }, []);
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/search/${searchQuery}`);
+  };
+
   function handleGameSelect(game) {
     setSelectedGame(game);
     navigate(`/game/${game.slug}/${game.id}`);
@@ -204,7 +203,9 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                 <img src={logo} alt="Logo" className="h-8 w-auto" />
                 <h1 className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
                   Game
-                  <span className="text-2xl font-bold text-cyan-500">Linked</span>
+                  <span className="text-2xl font-bold text-cyan-500">
+                    Linked
+                  </span>
                 </h1>
               </Link>
             </div>
@@ -212,7 +213,10 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
             <div className="flex items-center justify-end flex-col sm:flex-row w-full">
               {/* Search Bar */}
               <div className="flex justify-center flex-grow">
-                <form className="w-full mx-5 my-2">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="w-full mx-5 my-2"
+                >
                   <div className="relative">
                     <input
                       ref={searchInputRef}

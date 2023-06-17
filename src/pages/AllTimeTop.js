@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from 'flowbite-react';
-import './AllTimeTop.css';
 import usePageTitle from '../hooks/useTitle';
 
 const AllTimeTop = () => {

@@ -17,7 +17,6 @@ import {
   Settings,
   Unauthorized,
   AdminPanel,
-  
 } from '../pages';
 
 export const AllRoutes = () => {
@@ -54,7 +53,7 @@ export const AllRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search/:search" element={<Search />} />
         <Route path="/best-of-the-year" element={<BestOfYear />} />
         <Route path="/all-time-top" element={<AllTimeTop />} />
         <Route path="/new-releases" element={<NewReleases />} />

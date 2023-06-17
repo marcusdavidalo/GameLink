@@ -34,18 +34,20 @@ function About() {
         <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded shadow text-white dark:text-gray-800 m-2">
           <h1 className="text-4xl font-bold mb-6 text-cyan-500">About</h1>
           <p className="mb-4">
-            Welcome to <span className="font-bold text-cyan-500">GameLinked</span>! We are a passionate community-driven website
-            dedicated to enhancing your gaming experience. Our mission is to
-            provide you with the latest trends, insights, and comprehensive
-            information about your favorite games.
+            Welcome to{' '}
+            <span className="font-bold text-cyan-500">GameLinked</span>! We are
+            a passionate community-driven website dedicated to enhancing your
+            gaming experience. Our mission is to provide you with the latest
+            trends, insights, and comprehensive information about your favorite
+            games.
           </p>
           <p className="mb-4">
-            At <span className="font-bold text-cyan-500">GameLinked</span>, we understand the power of gaming and the joy it
-            brings. That's why our team of avid gamers has carefully crafted a
-            platform to cater to your gaming needs. We go above and beyond to
-            curate a wide range of data archives and up-to-date content,
-            ensuring you have access to the most relevant and accurate
-            information.
+            At <span className="font-bold text-cyan-500">GameLinked</span>, we
+            understand the power of gaming and the joy it brings. That's why our
+            team of avid gamers has carefully crafted a platform to cater to
+            your gaming needs. We go above and beyond to curate a wide range of
+            data archives and up-to-date content, ensuring you have access to
+            the most relevant and accurate information.
           </p>
           <p className="mb-4">
             By leveraging the RAWG API, we gather essential details such as
@@ -59,20 +61,20 @@ function About() {
             to create a unique space where you can explore the Best of the Year,
             discover New Releases, and revisit timeless classics. Whether you're
             looking for your next gaming adventure or seeking information on
-            your favorite titles, <span className="font-bold text-cyan-500">GameLinked</span> is here to assist you every step of
-            the way.
+            your favorite titles,{' '}
+            <span className="font-bold text-cyan-500">GameLinked</span> is here
+            to assist you every step of the way.
           </p>
           <p>
-            We sincerely hope that <span className="font-bold text-cyan-500">GameLinked</span> becomes your go-to resource for all
-            things gaming. If you have any questions or feedback, our team is
-            always ready to assist you. Get ready to embark on unforgettable
-            gaming journeys with us. Happy gaming!
+            We sincerely hope that{' '}
+            <span className="font-bold text-cyan-500">GameLinked</span> becomes
+            your go-to resource for all things gaming. If you have any questions
+            or feedback, our team is always ready to assist you. Get ready to
+            embark on unforgettable gaming journeys with us. Happy gaming!
           </p>
         </div>
         <div className="bg-[rgba(31,41,55,0.5)] h-full w-full md:w-1/2 dark:bg-[rgba(255,255,255,0.75)] p-8 rounded-md shadow box-border m-2">
-          <h2 className="text-2xl font-bold mb-4 text-cyan-500">
-            Our Team
-          </h2>
+          <h2 className="text-2xl font-bold mb-4 text-cyan-500">Our Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {teamMembers.map((member) => (
               <div className="flex flex-col items-center" key={member.name}>
