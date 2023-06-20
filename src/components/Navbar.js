@@ -43,6 +43,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   // Function to handle logging out
   const handleLogout = () => {
@@ -68,7 +69,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
         try {
           // Decode the token to get the user ID
           const decodedToken = jwtDecode(token);
-          const userId = decodedToken.id;
+          setUserId(decodedToken.id);
 
           // Update the URL to include the user ID
           const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
@@ -90,7 +91,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
       fetchUserData();
     }
-  }, []);
+  }, [userId]);
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -318,7 +319,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                         >
                           <li>
                             <Link
-                              to="/profile"
+                              to={`/profile/${userId}`}
                               className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
                             >
                               My Profile
