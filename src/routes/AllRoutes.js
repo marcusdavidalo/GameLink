@@ -27,8 +27,6 @@ export const AllRoutes = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Fetch the user's admin status here and update the isAdmin state accordingly
-    // Example logic:
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwtDecode(token);

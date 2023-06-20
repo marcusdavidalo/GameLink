@@ -2,11 +2,35 @@ import React, { useState, useEffect } from 'react';
 import CreatePostForm from '../components/CreatePostForm';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
   const { id } = useParams();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
+
+      axios
+        .get(url, { headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => {
+          setIsAdmin(response.data.admin);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setIsAdmin(false);
+    }
+  }, []);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -53,42 +77,82 @@ const Profile = () => {
   return (
     <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
-        <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden px-4">
+        <div className="border-box text-white dark:text-gray-800 overflow-hidden px-4">
           {user && (
-            <div className="border-y-2 border-slate-500/40 rounded-md mx-20 py-10">
-              <div className="flex flex-col align-middle items-center mb-4">
-                {user.avatarUrl ? (
-                  <img
-                    src={user.avatarUrl}
-                    alt="Avatar"
-                    className="w-20 h-20 rounded-full"
-                  />
-                ) : (
-                  <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-20 h-20 rounded-full bg-slate-600/50 border-2">
-                    ?
-                  </div>
-                )}
-                <p className="text-2xl font-semibold mt-2">{user.username}</p>
-              </div>
-              <div className="flex font-bold justify-center">
-                <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                  <span className="font-bold text-3xl">{user.likes}</span> Likes
-                </p>
-                <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                  <span className="font-bold text-3xl">{user.followers}</span>{' '}
-                  Followers
-                </p>
-                <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                  <span className="font-bold text-3xl">{user.views}</span> Views
-                </p>
-              </div>
-              {user.admin && (
+            <div
+              className={`flex ${
+                isAdmin ? 'justify-between' : 'justify-center'
+              } border-y-2 border-slate-500/40 rounded-md mx-20 py-10`}
+            >
+              {isAdmin && (
                 <>
-                  <p>Email: {user.email}</p>
-                  <p>Admin: {user.admin ? 'Yes' : 'No'}</p>
-                  <p>Birthdate: {formatDate(user.birthdate)}</p>
-                  <p>Created At: {formatDate(user.createdAt)}</p>
-                  <p>Updated At: {formatDate(user.updatedAt)}</p>
+                  <div className="rounded-lg p-3 my-2 w-[24rem] bg-slate-700/30">
+                    <h3 className="font-semibold border-b-2 border-slate-400/50 text-3xl text-center text-green-600 py-2 mb-2 ">
+                      Extra Information
+                    </h3>
+                    <pre>
+                      <code>
+                        <p>Email: {user.email}</p>
+                        <p>Admin: {user.admin ? 'Yes' : 'No'}</p>
+                        <p>Birthdate: {formatDate(user.birthdate)}</p>
+                        <p>Created At: {formatDate(user.createdAt)}</p>
+                        <p>Updated At: {formatDate(user.updatedAt)}</p>
+                      </code>
+                    </pre>
+                  </div>
+                </>
+              )}
+              <div className="flex flex-col ">
+                <div className="flex flex-col align-middle items-center mb-4">
+                  {user.avatarUrl ? (
+                    <img
+                      src={user.avatarUrl}
+                      alt="Avatar"
+                      className="w-20 h-20 rounded-full"
+                    />
+                  ) : (
+                    <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-20 h-20 rounded-full bg-slate-600/50 border-2">
+                      ?
+                    </div>
+                  )}
+                  <p className="text-2xl font-semibold mt-2">{user.username}</p>
+                </div>
+                <div className="flex font-bold justify-center">
+                  <p className="flex flex-col items-center font-semibold text-2xl px-5">
+                    <span className="font-bold text-3xl">{user.likes}</span>{' '}
+                    Likes
+                  </p>
+                  <p className="flex flex-col items-center font-semibold text-2xl px-5">
+                    <span className="font-bold text-3xl">{user.followers}</span>{' '}
+                    Followers
+                  </p>
+                  <p className="flex flex-col items-center font-semibold text-2xl px-5">
+                    <span className="font-bold text-3xl">{user.views}</span>{' '}
+                    Views
+                  </p>
+                </div>
+              </div>
+
+              {isAdmin && (
+                <>
+                  <div className="text-center rounded-lg p-3 my-2 w-[24rem] bg-slate-700/30">
+                    <h3 className="font-semibold border-b-2 border-slate-400/50 text-3xl text-red-600 py-2 mb-2">
+                      Danger Zone
+                    </h3>
+                    <pre>
+                      <code className="flex flex-col">
+                        <button className="p-2 m-2 rounded-full bg-red-600 hover:bg-red-700/90">
+                          Delete Account
+                        </button>
+                        <button className="p-2 m-2 rounded-full bg-red-600 hover:bg-red-700/90">
+                          Suspend Account
+                        </button>
+                        <button className="p-2 m-2 rounded-full bg-cyan-600 hover:bg-cyan-700/90">
+                          Make User Admin
+                        </button>
+                      </code>
+                    </pre>
+                  </div>
                 </>
               )}
             </div>
