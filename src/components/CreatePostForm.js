@@ -33,7 +33,7 @@ const CreatePostForm = () => {
     try {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await fetch(
-        `http://localhost:5000/api/posts?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/posts?apiKey=${apiKey}`,
         {
           method: 'POST',
           body: formData,

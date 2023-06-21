@@ -22,7 +22,7 @@ const Profile = () => {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const url = `http://localhost:5000/api/users/${userId}?apiKey=${apiKey}`;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
       axios
         .get(url, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
@@ -43,7 +43,7 @@ const Profile = () => {
       try {
         console.log(id);
         const response = await fetch(
-          `http://localhost:5000/api/users/${id}?apiKey=${apiKey}`
+          `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`
         );
         const data = await response.json();
         setUser(data);
@@ -61,7 +61,7 @@ const Profile = () => {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       try {
         const response = await fetch(
-          `http://localhost:5000/api/posts?userId=${id}&apiKey=${apiKey}`
+          `https://api-gamelinkdb.onrender.com/api/posts?userId=${id}&apiKey=${apiKey}`
         );
         const data = await response.json();
         console.log(data);
