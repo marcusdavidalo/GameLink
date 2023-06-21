@@ -31,11 +31,12 @@ const RegistrationForm = () => {
     }
 
     try {
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       setIsLoading(true); // Set loading state to true
 
       // Make a POST request to the backend API to register the user
       await axios.post(
-        `https://api-gamelinkdb.onrender.com/api/auth/register?apiKey=marcusjaredmahdiskipperpalomaadasbelvisalo`,
+        `https://api-gamelinkdb.onrender.com/api/auth/register?apiKey=${apiKey}`,
         {
           username,
           email,

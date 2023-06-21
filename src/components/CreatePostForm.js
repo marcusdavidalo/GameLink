@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const CreatePostForm = () => {
   const [content, setContent] = useState('');
@@ -8,8 +9,18 @@ const CreatePostForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Get the JWT from localStorage
+    const token = localStorage.getItem('token');
+    let userId;
+    if (token) {
+      // Decode the JWT to get the userId value
+      const decodedToken = jwtDecode(token);
+      userId = decodedToken.id;
+    }
+
     // Create a FormData object to hold the form data
     const formData = new FormData();
+    formData.append('userId', userId);
     formData.append('content', content);
     if (photo) {
       formData.append('photo', photo);
@@ -22,7 +33,7 @@ const CreatePostForm = () => {
     try {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await fetch(
-        `https://api-gamelinkdb.onrender.com/api/posts?apiKey=${apiKey}`,
+        `http://localhost:5000/api/posts?apiKey=${apiKey}`,
         {
           method: 'POST',
           body: formData,
