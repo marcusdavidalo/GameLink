@@ -199,7 +199,7 @@ const Profile = () => {
                   )}
                   {post.videoUrl && (
                     <iframe
-                      title={user.username}
+                      title="video"
                       src={post.videoUrl}
                       className="h-auto w-full"
                       controls
