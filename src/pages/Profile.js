@@ -230,11 +230,11 @@ const Profile = () => {
                   )}
                   {post.videoUrl && (
                     <div className="relative w-full h-40 rounded-t-md overflow-hidden cursor-pointer">
-                      <img
+                      <video
                         className="object-cover w-full h-full"
-                        src={post.thumbnailUrl}
+                        src={post.videoUrl}
                         alt="Post Thumbnail"
-                        onClick={() => openModal(post)}
+                        controls
                       />
                     </div>
                   )}
