@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import SwiperCore, { Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
-import usePageTitle from '../hooks/useTitle';
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import SwiperCore, { Scrollbar } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
+import usePageTitle from "../hooks/useTitle";
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -17,7 +17,7 @@ function TruncatedSummary({ summary, maxLength }) {
   if (summary && summary.length > maxLength) {
     const truncatedSummary = isExpanded
       ? summary
-      : summary.substring(0, maxLength - 3) + '...';
+      : summary.substring(0, maxLength - 3) + "...";
 
     return (
       <React.Fragment>
@@ -26,12 +26,12 @@ function TruncatedSummary({ summary, maxLength }) {
           onClick={handleToggleExpand}
           className="font-semibold text-gray-200 dark:text-slate-800"
         >
-          {isExpanded ? ' Read Less' : 'Read More'}
+          {isExpanded ? " Read Less" : "Read More"}
         </button>
       </React.Fragment>
     );
   }
-  return summary || '';
+  return summary || "";
 }
 function GameDetails() {
   const swiperElRef = useRef(null);
@@ -66,17 +66,17 @@ function GameDetails() {
         return false; // Data is expired
       }
     } catch (error) {
-      console.error('Error parsing news data:', error);
+      console.error("Error parsing news data:", error);
       return false; // Invalid JSON data
     }
 
     return true; // Data is valid
   }, []);
 
-  usePageTitle(`GameLink | ${gameData?.name || 'Loading...'}`);
+  usePageTitle(`GameLink | ${gameData?.name || "Loading..."}`);
 
   const fetchNewsData = useCallback(() => {
-    const cachedNewsData = localStorage.getItem('newsData-' + id);
+    const cachedNewsData = localStorage.getItem("newsData-" + id);
 
     try {
       if (isNewsDataValid(cachedNewsData)) {
@@ -86,7 +86,7 @@ function GameDetails() {
         const apiKey = process.env.REACT_APP_RAWG_API_KEY;
         const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
         const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
-        let gameSlug = '';
+        let gameSlug = "";
         let game;
 
         axios
@@ -97,7 +97,7 @@ function GameDetails() {
             gameSlug = game.slug;
 
             const newsUrl = `https://api.newscatcherapi.com/v2/search?q="${gameSlug}"&topic=gaming&sort_by=relevancy&lang=en`;
-            const headers = { 'x-api-key': newscatcherApiKey };
+            const headers = { "x-api-key": newscatcherApiKey };
 
             return axios.get(newsUrl, { headers });
           })
@@ -111,20 +111,20 @@ function GameDetails() {
                 timestamp: new Date().toISOString(),
                 articles: slicedArticles,
               };
-              localStorage.setItem('newsData-' + id, JSON.stringify(newsData));
+              localStorage.setItem("newsData-" + id, JSON.stringify(newsData));
 
               // Store gameData in local storage as well
-              localStorage.setItem('gameData-' + id, JSON.stringify(game));
+              localStorage.setItem("gameData-" + id, JSON.stringify(game));
             } else {
               setTopNews([]);
             }
           })
           .catch((error) => {
-            console.error('Error fetching game details or top news:', error);
+            console.error("Error fetching game details or top news:", error);
           });
       }
     } catch (error) {
-      console.error('Error parsing news data:', error);
+      console.error("Error parsing news data:", error);
     }
   }, [id, isNewsDataValid]);
 
@@ -133,12 +133,12 @@ function GameDetails() {
     const dayOfWeek = today.getUTCDay(); // 0 (Sunday) to 6 (Saturday)
 
     if (dayOfWeek === 1) {
-      localStorage.removeItem('newsData'); // Remove the stored news data on Monday
+      localStorage.removeItem("newsData"); // Remove the stored news data on Monday
     }
   }, []);
 
   useEffect(() => {
-    const cachedGameData = localStorage.getItem('gameData-' + id);
+    const cachedGameData = localStorage.getItem("gameData-" + id);
     if (cachedGameData) {
       setGameData(JSON.parse(cachedGameData));
     }
@@ -175,13 +175,20 @@ function GameDetails() {
                   {gameData.name}
                 </h3>
                 <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4">
-                  {gameData.description_raw}
+                  {gameData.description_raw ? (
+                    <TruncatedSummary
+                      summary={gameData.description_raw}
+                      maxLength={400}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </p>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Platforms: </span>
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
-                    .join(', ')}
+                    .join(", ")}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Release Date: </span>
@@ -189,19 +196,19 @@ function GameDetails() {
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Genres: </span>
-                  {gameData.genres.map((genre) => genre.name).join(', ')}
+                  {gameData.genres.map((genre) => genre.name).join(", ")}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Publisher: </span>
                   {gameData.publishers
                     .map((publisher) => publisher.name)
-                    .join(', ')}
+                    .join(", ")}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Developer: </span>
                   {gameData.developers
                     .map((developer) => developer.name)
-                    .join(', ')}
+                    .join(", ")}
                 </h4>
               </div>
             </div>
@@ -297,18 +304,18 @@ function GameDetails() {
                         className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
                         <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                          {!news.author || news.author === '' ? (
+                          {!news.author || news.author === "" ? (
                             <p>N/A</p>
                           ) : (
                             <p>{news.author}</p>
                           )}
                         </span>
                         <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                          {!news.rights || news.rights === '' ? (
+                          {!news.rights || news.rights === "" ? (
                             <p>N/A</p>
                           ) : (
                             <a
-                              href={'https://' + news.clean_url}
+                              href={"https://" + news.clean_url}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -334,18 +341,18 @@ function GameDetails() {
                         className="flex align-middle relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
                         <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                          {!news.author || news.author === '' ? (
+                          {!news.author || news.author === "" ? (
                             <p>N/A</p>
                           ) : (
                             <p>{news.author}</p>
                           )}
                         </span>
                         <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                          {!news.rights || news.rights === '' ? (
+                          {!news.rights || news.rights === "" ? (
                             <p>N/A</p>
                           ) : (
                             <a
-                              href={'https://' + news.clean_url}
+                              href={"https://" + news.clean_url}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -360,9 +367,9 @@ function GameDetails() {
                         >
                           <img
                             src={
-                              'https://placehold.co/512/020617/FFFFFF?text=' +
+                              "https://placehold.co/512/020617/FFFFFF?text=" +
                               news.title +
-                              '&font=roboto'
+                              "&font=roboto"
                             }
                             class="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
                             alt="Game News"
@@ -392,7 +399,7 @@ function GameDetails() {
                             maxLength={100}
                           />
                         ) : (
-                          ''
+                          ""
                         )}
                       </p>
                     </div>
@@ -405,6 +412,152 @@ function GameDetails() {
               No News Available
             </div>
           )}
+        </div>
+      </div>
+
+      {/* COMMENT SECTION */}
+      <div class=" mx-auto max-w-screen-lg px-4 pt-8">
+        <h1 class="text-2xl font-bold mb-4 text-gray-200 text-center">
+          Discussion
+        </h1>
+
+        {/* Comment Form */}
+        <form class="">
+          <div class="flex flex-col mb-4">
+            <label for="name" class="font-bold mb-2 text-gray-200">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            ></input>
+          </div>
+
+          <div class="flex flex-col mb-4">
+            <label for="comment" class="font-bold mb-2 text-gray-200">
+              Comment
+            </label>
+            <textarea
+              id="comment"
+              name="comment"
+              rows="4"
+              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+
+      {/* <!-- component --> */}
+      <div class="container mx-auto max-w-screen-lg">
+        <h3 class="text-2xl font-bold mb-4 text-gray-200 text-center">
+          Comments
+        </h3>
+
+        <div class="space-y-4 rounded-lg bg-slate-800/50 py-12 mb-5 px-4 dark:bg-slate-200/70">
+          <div class="flex row">
+            <div class="flex-shrink-0 mr-3">
+              <img
+                class="mt-2 rounded-lg w-8 h-8 sm:w-10 sm:h-10"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+              <strong class="text-gray-200">Sarah</strong>{" "}
+              <span class="text-xs text-gray-400">3:34 PM</span>
+              <p class="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <div class="mt-4 flex items-center">
+                <div class="flex -space-x-2 mr-2">
+                  <img
+                    class="rounded-full w-6 h-6 border-white"
+                    src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                    alt=""
+                  />
+                  <img
+                    class="rounded-full w-6 h-6 border-white"
+                    src="https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                    alt=""
+                  />
+                </div>
+                <div class="text-sm text-gray-500 font-semibold">5 Replies</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="flex-shrink-0 mr-3">
+              <img
+                class="mt-2 rounded-lg w-8 h-8 sm:w-10 sm:h-10"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+              <strong className="text-gray-200">Sarah</strong>{" "}
+              <span class="text-xs text-gray-400">3:34 PM</span>
+              <p class="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <h4 class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">
+                Replies
+              </h4>
+              <div class="space-y-4">
+                <div class="flex">
+                  <div class="flex-shrink-0 mr-3">
+                    <img
+                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong>Sarah</strong>{" "}
+                    <span class="text-xs text-gray-400">3:34 PM</span>
+                    <p class="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div class="flex-shrink-0 mr-3">
+                    <img
+                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong>Sarah</strong>{" "}
+                    <span class="text-xs text-gray-400">3:34 PM</span>
+                    <p class="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
