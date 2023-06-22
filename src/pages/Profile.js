@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import CreatePostForm from '../components/CreatePostForm';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
+import { ReactComponent as Views } from '../assets/icons/eye.svg';
+import Modal from 'react-modal';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+
+Modal.setAppElement('#root');
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,6 +19,8 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const { id } = useParams();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -36,12 +42,19 @@ const Profile = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setLoggedInUserId(decodedToken.id);
+    }
+  }, []);
+
   // Fetch user data from backend
   useEffect(() => {
     const fetchUserData = async () => {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       try {
-        console.log(id);
         const response = await fetch(
           `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`
         );
@@ -73,6 +86,16 @@ const Profile = () => {
 
     fetchPosts();
   }, [id]);
+
+  const openModal = (post) => {
+    console.log('Opening modal:', post);
+    setSelectedPost(post);
+  };
+
+  const closeModal = () => {
+    console.log('Closing modal');
+    setSelectedPost(null);
+  };
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">
@@ -183,40 +206,57 @@ const Profile = () => {
               </div>
             </div>
           )}
-          <h3 className="text-2xl font-bold mt-8 mb-4">Create Post</h3>
-          <CreatePostForm />
+          {loggedInUserId === id && (
+            <>
+              <h3 className="text-2xl font-bold mt-8 mb-4">Create Post</h3>
+              <CreatePostForm />
+            </>
+          )}
           <h3 className="text-2xl font-bold mt-8 mb-4">Latest Posts</h3>
-          <div className="flex">
+          <div className="grid grid-cols-4 gap-4 flex-wrap">
             {posts.map((post) => (
-              <div className="w-64 m-5" key={post._id}>
-                <div className="flex align-middle relative h-64 w-64 max-w-auto overflow-hidden rounded-t-md">
+              <div
+                className="w-full text-slate-200 dark:text-slate-800"
+                key={post._id}
+              >
+                <div className="text-slate-200 dark:text-slate-800 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] rounded-lg shadow p-2">
                   {post.photoUrl && (
                     <img
-                      className="object-cover"
+                      className="object-cover w-full h-40 rounded-t-md cursor-pointer"
                       src={post.photoUrl}
                       alt="Post"
+                      onClick={() => openModal(post)}
                     />
                   )}
                   {post.videoUrl && (
-                    <iframe
-                      title="video"
-                      src={post.videoUrl}
-                      className="h-auto w-full"
-                      controls
-                    />
-                  )}
-                </div>
-                <div className="p-2">
-                  <div className="flex justify-between">
-                    <p>{post.content}</p>
-                    <p>{formatDate(post.createdAt)}</p>
-                  </div>
-                  <div className="flex">
-                    <div className="flex justify-center align-middle items-center mr-3 text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition ">
-                      <ThumbsUp />
-                      <p className="text-xl">{post.likes}</p>
+                    <div className="relative w-full h-40 rounded-t-md overflow-hidden cursor-pointer">
+                      <img
+                        className="object-cover w-full h-full"
+                        src={post.thumbnailUrl}
+                        alt="Post Thumbnail"
+                        onClick={() => openModal(post)}
+                      />
                     </div>
-                    <p> {post.views}</p>
+                  )}
+                  <div className="p-2">
+                    <div className="flex justify-between">
+                      <p className="text-slate-200 dark:text-slate-800">
+                        {post.content}
+                      </p>
+                      <p className="text-slate-200 dark:text-slate-800">
+                        {formatDate(post.createdAt)}
+                      </p>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <div className="flex items-center mr-3 text-gray-400 dark:text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 transition">
+                        <ThumbsUp />
+                        <p className="text-2xl px-1">{post.likes}</p>
+                      </div>
+                      <div className="flex items-center mr-3 text-gray-400 dark:text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 transition">
+                        <Views />
+                        <p className="text-2xl px-1">{post.views}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -224,6 +264,19 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {selectedPost && (
+        <Modal
+          isOpen={true}
+          onRequestClose={closeModal}
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <div className="modal-content">
+            test modal
+            {/* Render the post details and comment section */}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

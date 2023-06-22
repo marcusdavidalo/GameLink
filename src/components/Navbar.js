@@ -60,6 +60,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  console.log(userId);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {

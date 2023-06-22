@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import jwtDecode from 'jwt-decode';
+import { ReactComponent as ImageUp } from '../assets/icons/image.svg';
+import { ReactComponent as VideoUp } from '../assets/icons/video.svg';
 
 const CreatePostForm = () => {
   const [content, setContent] = useState('');
@@ -47,36 +49,50 @@ const CreatePostForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input
-          type="text"
+    <form onSubmit={handleSubmit} className="my-4">
+      <div className="relative mb-4">
+        <textarea
           id="content"
           className="border w-full text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
           value={content}
-          placeholder="Whats new?"
+          placeholder="What's new?"
           onChange={(event) => setContent(event.target.value)}
         />
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+          <label htmlFor="photo" className="mr-2">
+            <input
+              type="file"
+              id="photo"
+              accept="image/*"
+              className="hidden"
+              onChange={(event) => setPhoto(event.target.files[0])}
+            />
+            <ImageUp
+              className="w-6 h-6 text-gray-200 dark:text-gray-700 cursor-pointer"
+              title="Upload Image"
+            />
+          </label>
+          <label htmlFor="video" className="mr-2">
+            <input
+              type="file"
+              id="video"
+              accept="video/*"
+              className="hidden"
+              onChange={(event) => setVideo(event.target.files[0])}
+            />
+            <VideoUp
+              className="w-6 h-6 text-gray-200 dark:text-gray-700 cursor-pointer"
+              title="Upload Video"
+            />
+          </label>
+        </div>
       </div>
-      <div>
-        <label htmlFor="photo">Photo:</label>
-        <input
-          type="file"
-          id="photo"
-          accept="image/*"
-          onChange={(event) => setPhoto(event.target.files[0])}
-        />
-      </div>
-      <div>
-        <label htmlFor="video">Video:</label>
-        <input
-          type="file"
-          id="video"
-          accept="video/*"
-          onChange={(event) => setVideo(event.target.files[0])}
-        />
-      </div>
-      <button type="submit">Create Post</button>
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+      >
+        Create Post
+      </button>
     </form>
   );
 };
