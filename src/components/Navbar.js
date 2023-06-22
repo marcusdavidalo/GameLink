@@ -247,7 +247,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                     <input
                       ref={searchInputRef}
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search for games by typing in the game name, or search for users by typing in @user"
                       className="border text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
                       value={searchQuery}
                       onChange={handleSearchInputChange}
@@ -382,7 +382,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                               </Link>
                             </li>
                           )}
-                          <li>
+                          {/* <li>
                             <Link
                               to="/messages"
                               className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
@@ -397,7 +397,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                             >
                               Notifications
                             </Link>
-                          </li>
+                          </li> */}
                           <li>
                             <Link
                               to="/settings"

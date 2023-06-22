@@ -18,8 +18,8 @@ import {
   Unauthorized,
   AdminPanel,
   Help,
-  Notifications,
-  Messages,
+  // Notifications,
+  // Messages,
 } from '../pages';
 
 export const AllRoutes = () => {
@@ -63,8 +63,8 @@ export const AllRoutes = () => {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<Help />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/notifications" element={<Notifications />} />
+        {/* <Route path="/messages" element={<Messages />} />
+        <Route path="/notifications" element={<Notifications />} /> */}
         {isAdmin ? (
           <Route path="/admin" element={<AdminPanel />} />
         ) : (
