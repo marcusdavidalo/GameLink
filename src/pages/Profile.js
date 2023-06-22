@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CreatePostForm from '../components/CreatePostForm';
 import { useParams } from 'react-router-dom';
-import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
-import { ReactComponent as Views } from '../assets/icons/eye.svg';
-import Modal from 'react-modal';
+// import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
+// import { ReactComponent as Views } from '../assets/icons/eye.svg';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-
-Modal.setAppElement('#root');
+import PostModal from '../components/PostModal';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -20,7 +18,6 @@ const Profile = () => {
   const { id } = useParams();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
-  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -86,16 +83,6 @@ const Profile = () => {
 
     fetchPosts();
   }, [id]);
-
-  const openModal = (post) => {
-    console.log('Opening modal:', post);
-    setSelectedPost(post);
-  };
-
-  const closeModal = () => {
-    console.log('Closing modal');
-    setSelectedPost(null);
-  };
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">
@@ -219,64 +206,12 @@ const Profile = () => {
                 className="w-full text-slate-200 dark:text-slate-800"
                 key={post._id}
               >
-                <div className="text-slate-200 dark:text-slate-800 bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] rounded-lg shadow p-2">
-                  {post.photoUrl && (
-                    <img
-                      className="object-cover w-full h-40 rounded-t-md cursor-pointer"
-                      src={post.photoUrl}
-                      alt="Post"
-                      onClick={() => openModal(post)}
-                    />
-                  )}
-                  {post.videoUrl && (
-                    <div className="relative w-full h-40 rounded-t-md overflow-hidden cursor-pointer">
-                      <video
-                        className="object-cover w-full h-full"
-                        src={post.videoUrl}
-                        alt="Post Thumbnail"
-                        controls
-                      />
-                    </div>
-                  )}
-                  <div className="p-2">
-                    <div className="flex justify-between">
-                      <p className="text-slate-200 dark:text-slate-800">
-                        {post.content}
-                      </p>
-                      <p className="text-slate-200 dark:text-slate-800">
-                        {formatDate(post.createdAt)}
-                      </p>
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <div className="flex items-center mr-3 text-gray-400 dark:text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 transition">
-                        <ThumbsUp />
-                        <p className="text-2xl px-1">{post.likes}</p>
-                      </div>
-                      <div className="flex items-center mr-3 text-gray-400 dark:text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 transition">
-                        <Views />
-                        <p className="text-2xl px-1">{post.views}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <PostModal post={post} />
               </div>
             ))}
           </div>
         </div>
       </div>
-      {selectedPost && (
-        <Modal
-          isOpen={true}
-          onRequestClose={closeModal}
-          className="modal"
-          overlayClassName="overlay"
-        >
-          <div className="modal-content">
-            test modal
-            {/* Render the post details and comment section */}
-          </div>
-        </Modal>
-      )}
     </div>
   );
 };

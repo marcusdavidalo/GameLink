@@ -30,6 +30,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [suggestions, setSuggestions] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [selectedGame, setSelectedGame] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
   const suggestionsRef = useRef(null);
@@ -60,7 +61,6 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  console.log(userId);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -102,28 +102,31 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   };
 
   useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        (suggestionsRef.current &&
+          !suggestionsRef.current.contains(event.target) &&
+          event.target !== searchInputRef.current &&
+          showSuggestions) ||
+        (profileDropDownRef.current &&
+          !profileDropDownRef.current.contains(event.target) &&
+          !event.target.closest('#profileDropdown'))
+      ) {
+        setSuggestions([]);
+        setShowSuggestions(false);
+        setIsDropdownOpen(false);
+      }
+    }
+
     document.addEventListener('mousedown', handleOutsideClick);
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, []);
-
-  function handleOutsideClick(event) {
-    if (
-      (suggestionsRef.current &&
-        !suggestionsRef.current.contains(event.target) &&
-        event.target !== searchInputRef.current) ||
-      (profileDropDownRef.current &&
-        !profileDropDownRef.current.contains(event.target))
-    ) {
-      setSuggestions([]);
-      setShowSuggestions(false);
-      setIsDropdownOpen(false);
-    }
-  }
+  }, [showSuggestions]);
 
   const handleSearchInputChange = useCallback((event) => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
+    const dbKey = process.env.REACT_APP_GAMELINK_DB_KEY;
     const query = event.target.value;
     setSearchQuery(query);
 
@@ -133,26 +136,47 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
     } else {
       clearTimeout(timeoutIdRef.current);
       timeoutIdRef.current = setTimeout(() => {
-        axios
-          .get(
-            `https://api.rawg.io/api/games?key=${apiKey}&search=${query}&page_size=6`
-          )
-          .then((response) => {
-            const games = response.data.results.map((game) => ({
-              id: game.id,
-              slug: game.slug,
-              name: game.name,
-              image: game.background_image,
-              releaseDate: game.released,
-              rating: game.rating,
-            }));
-            setSuggestions(games);
-            setShowSuggestions(true);
-          })
-          .catch((error) => {
-            console.error('Error fetching game suggestions:', error);
-          });
-      }, 500);
+        if (query.startsWith('@')) {
+          const usernameQuery = query.slice(1);
+          axios
+            .get(
+              `https://api-gamelinkdb.onrender.com/api/users?apiKey=${dbKey}`
+            )
+            .then((response) => {
+              const users = response.data.filter(
+                (user) =>
+                  user.username
+                    .toLowerCase()
+                    .indexOf(usernameQuery.toLowerCase()) !== -1
+              );
+              setSuggestions(users);
+              setShowSuggestions(true);
+            })
+            .catch((error) => {
+              console.error('Error fetching user suggestions:', error);
+            });
+        } else {
+          axios
+            .get(
+              `https://api.rawg.io/api/games?key=${apiKey}&search=${query}&page_size=6`
+            )
+            .then((response) => {
+              const games = response.data.results.map((game) => ({
+                id: game.id,
+                slug: game.slug,
+                name: game.name,
+                image: game.background_image,
+                releaseDate: game.released,
+                rating: game.rating,
+              }));
+              setSuggestions(games);
+              setShowSuggestions(true);
+            })
+            .catch((error) => {
+              console.error('Error fetching game suggestions:', error);
+            });
+        }
+      }, 200);
     }
   }, []);
 
@@ -235,42 +259,63 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                       />
                     </div>
                   </div>
-                  {showSuggestions && suggestions.length > 0 && (
-                    <ul
-                      ref={suggestionsRef}
-                      id="suggestions"
-                      className="absolute overflow-visible items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-[999]"
-                    >
-                      {suggestions.map((game) => (
-                        <li
-                          key={game.id}
-                          className="grid grid-cols-3 items-center px-4 py-2 hover:bg-slate-600/80 cursor-pointer"
-                          onClick={() => handleGameSelect(game)}
-                        >
-                          <img
-                            src={game.image}
-                            alt={game.name}
-                            className="w-20 h-20 object-cover rounded-md mr-2"
-                          />
-                          <h3 className="text-slate-200 font-bold border-x-2 border-slate-500/80 px-5 py-5">
-                            {game.name}
-                          </h3>
-                          <div className="px-5">
-                            <p className="text-slate-300">
-                              <span className="font-semibold">
-                                Release Date:{' '}
-                              </span>
-                              {game.releaseDate}
-                            </p>
-                            <p className="text-slate-300">
-                              <span className="font-semibold">Rating: </span>{' '}
-                              {game.rating}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  <ul
+                    ref={suggestionsRef}
+                    id="suggestions"
+                    className="absolute overflow-visible items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-[999]"
+                  >
+                    {searchQuery.startsWith('@')
+                      ? suggestions.map((user) => (
+                          <li
+                            key={user.id}
+                            className="grid grid-cols-3 items-center px-4 hover:bg-slate-600/80 cursor-pointer"
+                            onClick={() => navigate(`/profile/${user._id}`)}
+                          >
+                            {user.avatarUrl ? (
+                              <img
+                                src={user.avatarUrl}
+                                alt="Avatar"
+                                className="w-10 h-10 my-2 rounded-full"
+                              />
+                            ) : (
+                              <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-10 h-10 my-2 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
+                                ?
+                              </div>
+                            )}
+                            <h3 className="text-slate-200 font-bold border-x-2 border-slate-500/80 px-5">
+                              {user.username}
+                            </h3>
+                          </li>
+                        ))
+                      : suggestions.map((game) => (
+                          <li
+                            key={game.id}
+                            className="grid grid-cols-3 items-center px-4 py-2 hover:bg-slate-600/80 cursor-pointer"
+                            onClick={() => handleGameSelect(game)}
+                          >
+                            <img
+                              src={game.image}
+                              alt={game.name}
+                              className="w-20 h-20 object-cover rounded-md mr-2"
+                            />
+                            <h3 className="text-slate-200 font-bold border-x-2 border-slate-500/80 px-5 py-5">
+                              {game.name}
+                            </h3>
+                            <div className="px-5">
+                              <p className="text-slate-300">
+                                <span className="font-semibold">
+                                  Release Date:{' '}
+                                </span>
+                                {game.releaseDate}
+                              </p>
+                              <p className="text-slate-300">
+                                <span className="font-semibold">Rating: </span>{' '}
+                                {game.rating}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                  </ul>
                 </form>
               </div>
               <div className="flex items-center md:flex-row flex-col-reverse py-2">
@@ -316,6 +361,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                       {isDropdownOpen && (
                         <ul
                           ref={profileDropDownRef}
+                          id="profileDropdown"
                           className="absolute right-0 mt-2 py-1 w-[200px] bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md shadow-lg z-[999]"
                         >
                           <li>
@@ -326,7 +372,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                               My Profile
                             </Link>
                           </li>
-                          {isAdmin && ( // Add this condition to show the /admin link only for admins
+                          {isAdmin && (
                             <li>
                               <Link
                                 to="/admin"
