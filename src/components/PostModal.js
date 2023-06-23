@@ -30,7 +30,9 @@ const PostModal = ({ post }) => {
   }, [isOpen]);
 
   const openModal = () => {
-    setIsOpen(true);
+    if (post.videoUrl) {
+      setIsOpen(true);
+    }
   };
 
   const closeModal = () => {
@@ -38,7 +40,7 @@ const PostModal = ({ post }) => {
   };
 
   return (
-    <div className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
+    <div className="rounded-md bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
       <div onClick={openModal}>
         {/* Display post thumbnail here */}
         {post.photoUrl && (
@@ -54,10 +56,10 @@ const PostModal = ({ post }) => {
               className="object-cover w-full h-full"
               src={post.videoUrl}
               alt="Post Thumbnail"
-              controls
             />
           </div>
         )}
+
         {/* Display post information */}
         <div className="p-2">
           <div className="flex justify-between">
