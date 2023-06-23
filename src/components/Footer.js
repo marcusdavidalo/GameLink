@@ -65,7 +65,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="border text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-l-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
+                  className="border placeholder-slate-400 text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-l-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
                 />
                 <button
                   type="submit"

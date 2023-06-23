@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import SwiperCore, { Scrollbar } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/bundle";
-import usePageTitle from "../hooks/useTitle";
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import SwiperCore, { Scrollbar } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css/bundle';
+import usePageTitle from '../hooks/useTitle';
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -17,7 +17,7 @@ function TruncatedSummary({ summary, maxLength }) {
   if (summary && summary.length > maxLength) {
     const truncatedSummary = isExpanded
       ? summary
-      : summary.substring(0, maxLength - 3) + "...";
+      : summary.substring(0, maxLength - 3) + '...';
 
     return (
       <React.Fragment>
@@ -26,12 +26,12 @@ function TruncatedSummary({ summary, maxLength }) {
           onClick={handleToggleExpand}
           className="font-semibold text-gray-200 dark:text-slate-800"
         >
-          {isExpanded ? " Read Less" : "Read More"}
+          {isExpanded ? ' Read Less' : 'Read More'}
         </button>
       </React.Fragment>
     );
   }
-  return summary || "";
+  return summary || '';
 }
 function GameDetails() {
   const swiperElRef = useRef(null);
@@ -66,17 +66,17 @@ function GameDetails() {
         return false; // Data is expired
       }
     } catch (error) {
-      console.error("Error parsing news data:", error);
+      console.error('Error parsing news data:', error);
       return false; // Invalid JSON data
     }
 
     return true; // Data is valid
   }, []);
 
-  usePageTitle(`GameLink | ${gameData?.name || "Loading..."}`);
+  usePageTitle(`GameLink | ${gameData?.name || 'Loading...'}`);
 
   const fetchNewsData = useCallback(() => {
-    const cachedNewsData = localStorage.getItem("newsData-" + id);
+    const cachedNewsData = localStorage.getItem('newsData-' + id);
 
     try {
       if (isNewsDataValid(cachedNewsData)) {
@@ -86,7 +86,7 @@ function GameDetails() {
         const apiKey = process.env.REACT_APP_RAWG_API_KEY;
         const newscatcherApiKey = process.env.REACT_APP_NEWSCATCHER_API_KEY;
         const rawgUrl = `https://api.rawg.io/api/games/${id}?key=${apiKey}`;
-        let gameSlug = "";
+        let gameSlug = '';
         let game;
 
         axios
@@ -97,7 +97,7 @@ function GameDetails() {
             gameSlug = game.slug;
 
             const newsUrl = `https://api.newscatcherapi.com/v2/search?q="${gameSlug}"&topic=gaming&sort_by=relevancy&lang=en`;
-            const headers = { "x-api-key": newscatcherApiKey };
+            const headers = { 'x-api-key': newscatcherApiKey };
 
             return axios.get(newsUrl, { headers });
           })
@@ -111,20 +111,20 @@ function GameDetails() {
                 timestamp: new Date().toISOString(),
                 articles: slicedArticles,
               };
-              localStorage.setItem("newsData-" + id, JSON.stringify(newsData));
+              localStorage.setItem('newsData-' + id, JSON.stringify(newsData));
 
               // Store gameData in local storage as well
-              localStorage.setItem("gameData-" + id, JSON.stringify(game));
+              localStorage.setItem('gameData-' + id, JSON.stringify(game));
             } else {
               setTopNews([]);
             }
           })
           .catch((error) => {
-            console.error("Error fetching game details or top news:", error);
+            console.error('Error fetching game details or top news:', error);
           });
       }
     } catch (error) {
-      console.error("Error parsing news data:", error);
+      console.error('Error parsing news data:', error);
     }
   }, [id, isNewsDataValid]);
 
@@ -133,12 +133,12 @@ function GameDetails() {
     const dayOfWeek = today.getUTCDay(); // 0 (Sunday) to 6 (Saturday)
 
     if (dayOfWeek === 1) {
-      localStorage.removeItem("newsData"); // Remove the stored news data on Monday
+      localStorage.removeItem('newsData'); // Remove the stored news data on Monday
     }
   }, []);
 
   useEffect(() => {
-    const cachedGameData = localStorage.getItem("gameData-" + id);
+    const cachedGameData = localStorage.getItem('gameData-' + id);
     if (cachedGameData) {
       setGameData(JSON.parse(cachedGameData));
     }
@@ -181,14 +181,14 @@ function GameDetails() {
                       maxLength={400}
                     />
                   ) : (
-                    ""
+                    ''
                   )}
                 </p>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Platforms: </span>
                   {gameData.platforms
                     .map((platform) => platform.platform.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Release Date: </span>
@@ -196,19 +196,19 @@ function GameDetails() {
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Genres: </span>
-                  {gameData.genres.map((genre) => genre.name).join(", ")}
+                  {gameData.genres.map((genre) => genre.name).join(', ')}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Publisher: </span>
                   {gameData.publishers
                     .map((publisher) => publisher.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
                 <h4 className="text-gray-300 dark:text-slate-800 text-lg mb-4">
                   <span className="font-bold text-xl">Developer: </span>
                   {gameData.developers
                     .map((developer) => developer.name)
-                    .join(", ")}
+                    .join(', ')}
                 </h4>
               </div>
             </div>
@@ -304,18 +304,18 @@ function GameDetails() {
                         className="relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
                         <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                          {!news.author || news.author === "" ? (
+                          {!news.author || news.author === '' ? (
                             <p>N/A</p>
                           ) : (
                             <p>{news.author}</p>
                           )}
                         </span>
                         <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                          {!news.rights || news.rights === "" ? (
+                          {!news.rights || news.rights === '' ? (
                             <p>N/A</p>
                           ) : (
                             <a
-                              href={"https://" + news.clean_url}
+                              href={'https://' + news.clean_url}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -341,18 +341,18 @@ function GameDetails() {
                         className="flex align-middle relative h-64 max-w-auto overflow-hidden rounded-t-md "
                       >
                         <span className="absolute top-0 left-0 px-2 py-1 bg-amber-500/70 text-white font-semibold z-20">
-                          {!news.author || news.author === "" ? (
+                          {!news.author || news.author === '' ? (
                             <p>N/A</p>
                           ) : (
                             <p>{news.author}</p>
                           )}
                         </span>
                         <span className="absolute bottom-0 right-0 px-2 py-1 bg-blue-700/80 backdrop-blur-sm text-white font-semibold z-20 uppercase">
-                          {!news.rights || news.rights === "" ? (
+                          {!news.rights || news.rights === '' ? (
                             <p>N/A</p>
                           ) : (
                             <a
-                              href={"https://" + news.clean_url}
+                              href={'https://' + news.clean_url}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -367,9 +367,9 @@ function GameDetails() {
                         >
                           <img
                             src={
-                              "https://placehold.co/512/020617/FFFFFF?text=" +
+                              'https://placehold.co/512/020617/FFFFFF?text=' +
                               news.title +
-                              "&font=roboto"
+                              '&font=roboto'
                             }
                             class="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
                             alt="Game News"
@@ -399,7 +399,7 @@ function GameDetails() {
                             maxLength={100}
                           />
                         ) : (
-                          ""
+                          ''
                         )}
                       </p>
                     </div>
@@ -474,7 +474,7 @@ function GameDetails() {
               />
             </div>
             <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-              <strong class="text-gray-200">Sarah</strong>{" "}
+              <strong class="text-gray-200">Sarah</strong>{' '}
               <span class="text-xs text-gray-400">3:34 PM</span>
               <p class="text-sm text-gray-200">
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
@@ -508,7 +508,7 @@ function GameDetails() {
               />
             </div>
             <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-              <strong className="text-gray-200">Sarah</strong>{" "}
+              <strong className="text-gray-200">Sarah</strong>{' '}
               <span class="text-xs text-gray-400">3:34 PM</span>
               <p class="text-sm text-gray-200">
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
@@ -528,7 +528,7 @@ function GameDetails() {
                     />
                   </div>
                   <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{" "}
+                    <strong>Sarah</strong>{' '}
                     <span class="text-xs text-gray-400">3:34 PM</span>
                     <p class="text-xs sm:text-sm">
                       Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
@@ -546,7 +546,7 @@ function GameDetails() {
                     />
                   </div>
                   <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{" "}
+                    <strong>Sarah</strong>{' '}
                     <span class="text-xs text-gray-400">3:34 PM</span>
                     <p class="text-xs sm:text-sm">
                       Lorem ipsum dolor sit amet, consetetur sadipscing elitr,

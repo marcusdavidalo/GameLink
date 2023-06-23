@@ -7,9 +7,26 @@ const CreatePostForm = () => {
   const [content, setContent] = useState('');
   const [photo, setPhoto] = useState(null);
   const [video, setVideo] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [videoPreview, setVideoPreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePhotoChange = (event) => {
+    const selectedPhoto = event.target.files[0];
+    setPhoto(selectedPhoto);
+    setPhotoPreview(URL.createObjectURL(selectedPhoto));
+  };
+
+  const handleVideoChange = (event) => {
+    const selectedVideo = event.target.files[0];
+    setVideo(selectedVideo);
+    setVideoPreview(URL.createObjectURL(selectedVideo));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     // Get the JWT from localStorage
     const token = localStorage.getItem('token');
@@ -43,9 +60,18 @@ const CreatePostForm = () => {
       );
       const data = await response.json();
       console.log('Post created:', data);
+
+      // Reset the form
+      setContent('');
+      setPhoto(null);
+      setVideo(null);
+      setPhotoPreview(null);
+      setVideoPreview(null);
     } catch (error) {
       console.error('Error creating post:', error);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -53,8 +79,9 @@ const CreatePostForm = () => {
       <div className="relative mb-4">
         <textarea
           id="content"
-          className="border w-full text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
+          className="border w-full placeholder-slate-400 text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
           value={content}
+          rows={4}
           placeholder="What's new?"
           onChange={(event) => setContent(event.target.value)}
         />
@@ -65,33 +92,80 @@ const CreatePostForm = () => {
               id="photo"
               accept="image/*"
               className="hidden"
-              onChange={(event) => setPhoto(event.target.files[0])}
+              onChange={handlePhotoChange}
             />
             <ImageUp
               className="w-6 h-6 text-gray-200 dark:text-gray-700 cursor-pointer"
               title="Upload Image"
             />
           </label>
+          {photoPreview && (
+            <img
+              src={photoPreview}
+              alt="Preview"
+              className="w-16 h-16 mr-2 rounded-md object-cover cursor-pointer"
+              onClick={() => {
+                setPhoto(null);
+                setPhotoPreview(null);
+              }}
+            />
+          )}
           <label htmlFor="video" className="mr-2">
             <input
               type="file"
               id="video"
               accept="video/*"
               className="hidden"
-              onChange={(event) => setVideo(event.target.files[0])}
+              onChange={handleVideoChange}
             />
             <VideoUp
               className="w-6 h-6 text-gray-200 dark:text-gray-700 cursor-pointer"
               title="Upload Video"
             />
           </label>
+          {videoPreview && (
+            <video
+              src={videoPreview}
+              alt="Video Preview"
+              className="w-8 h-8 rounded-md object-cover cursor-pointer"
+              onClick={() => {
+                setVideo(null);
+                setVideoPreview(null);
+              }}
+              controls
+            />
+          )}
         </div>
       </div>
       <button
         type="submit"
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+        disabled={isLoading}
       >
-        Create Post
+        {isLoading ? (
+          <svg
+            className="animate-spin w-5 h-5 mx-auto"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0012 20c4.411 0 8-3.589 8-8h-2c0 3.309-2.691 6-6 6s-6-2.691-6-6H6c0 3.309-2.691 6-6 6z"
+            ></path>
+          </svg>
+        ) : (
+          'Create Post'
+        )}
       </button>
     </form>
   );

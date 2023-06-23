@@ -72,7 +72,6 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
           const decodedToken = jwtDecode(token);
           setUserId(decodedToken.id);
 
-          // Update the URL to include the user ID
           const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
           const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
           const response = await axios.get(url, {
@@ -248,7 +247,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
                       ref={searchInputRef}
                       type="text"
                       placeholder="Search for games by typing in the game name, or search for users by typing in @user"
-                      className="border text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
+                      className="border placeholder-slate-400 text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
                       value={searchQuery}
                       onChange={handleSearchInputChange}
                     />
