@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -8,15 +8,15 @@ const Search = () => {
   const [platforms, setPlatforms] = useState([]);
   const [genres, setGenres] = useState([]);
   const [tags, setTags] = useState([]);
-  const [selectedPlatform, setSelectedPlatform] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedReleaseDate, setSelectedReleaseDate] = useState('');
+  const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedReleaseDate, setSelectedReleaseDate] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   }
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Search = () => {
           url += `&dates=${selectedReleaseDate}-01-01,${selectedReleaseDate}-12-31`;
         }
         if (selectedTags.length > 0) {
-          url += `&tags=${selectedTags.join(',')}`;
+          url += `&tags=${selectedTags.join(",")}`;
         }
         const response = await fetch(url);
         const data = await response.json();
@@ -105,8 +105,10 @@ const Search = () => {
   return (
     <main className="text-white">
       <div className="container mx-auto px-4 mt-10">
-        <h1 className="text-4xl font-bold mb-5">Searched For: {searchTerm}</h1>
-        <div className="flex justify-between">
+        <h1 className="text-4xl font-bold pb-5 mb-5">
+          Searched For: {searchTerm}
+        </h1>
+        {/* <div className="flex justify-between">
           <div className="flex flex-col mb-4">
             <label htmlFor="platform" className="mr-2">
               Platform:
@@ -117,9 +119,15 @@ const Search = () => {
               onChange={(e) => setSelectedPlatform(e.target.value)}
               className="border border-gray-300 rounded px-2 py-1"
             >
-              <option value="">All</option>
+              <option value="" className="text-gray-800">
+                All
+              </option>
               {platforms.map((platform) => (
-                <option key={platform.id} value={platform.id}>
+                <option
+                  key={platform.id}
+                  value={platform.id}
+                  className="text-gray-800"
+                >
                   {platform.name}
                 </option>
               ))}
@@ -135,9 +143,15 @@ const Search = () => {
               onChange={(e) => setSelectedGenre(e.target.value)}
               className="border border-gray-300 rounded px-2 py-1"
             >
-              <option value="">All</option>
+              <option value="" className="text-gray-800">
+                All
+              </option>
               {genres.map((genre) => (
-                <option key={genre.id} value={genre.id}>
+                <option
+                  key={genre.id}
+                  value={genre.id}
+                  className="text-gray-800"
+                >
                   {genre.name}
                 </option>
               ))}
@@ -167,7 +181,7 @@ const Search = () => {
                 key={tag.id}
                 onClick={() => handleTagToggle(tag.id)}
                 className={`border border-gray-300 rounded px-2 py-1 mr-2 mb-2 ${
-                  selectedTags.includes(tag.id) ? 'bg-blue-500 text-white' : ''
+                  selectedTags.includes(tag.id) ? "bg-blue-500 text-white" : ""
                 }`}
               >
                 {tag.name}
@@ -180,7 +194,7 @@ const Search = () => {
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
         >
           Filter
-        </button>
+        </button> */}
         <ul className="mt-4 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 px-4">
           {games.map((game) => (
             <div key={game.id}>
@@ -196,7 +210,7 @@ const Search = () => {
                       )}&font=roboto`
                     }
                     className={`card card-games-img-top swiper-lazy ${
-                      game.isRatedR ? 'blur-lg bg-blend-darken' : ''
+                      game.isRatedR ? "blur-lg bg-blend-darken" : ""
                     }`}
                     alt="Game"
                     data-src={game.background_image}
@@ -209,15 +223,15 @@ const Search = () => {
                   </div>
                 )}
                 <div
-                  className={`metacritic ${game.metacritic ? '' : 'no-score'}`}
+                  className={`metacritic ${game.metacritic ? "" : "no-score"}`}
                 >
-                  {game.metacritic ? game.metacritic : 'N'}
+                  {game.metacritic ? game.metacritic : "N"}
                 </div>
                 <div className="card card-games-body frosted-blur">
                   <a href={`./game/${game.slug}/${game.id}`}>
                     <div
                       className={`scrollable-title ${
-                        game.name.length > 30 ? 'marquee' : ''
+                        game.name.length > 30 ? "marquee" : ""
                       }`}
                     >
                       <h5
@@ -235,7 +249,7 @@ const Search = () => {
                     Latest Update: {formatDate(game.updated)}
                   </p>
                   <p className="genre card card-games-text">
-                    Genre: {game.genres.map((genre) => genre.name).join(', ')}
+                    Genre: {game.genres.map((genre) => genre.name).join(", ")}
                   </p>
                 </div>
               </div>
