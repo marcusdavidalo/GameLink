@@ -174,7 +174,7 @@ function GameDetails() {
                 <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
                   {gameData.name}
                 </h3>
-                <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4">
+                <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4 text-justify">
                   {gameData.description_raw ? (
                     <TruncatedSummary
                       summary={gameData.description_raw}
@@ -264,6 +264,143 @@ function GameDetails() {
           </div>
         </div>
       </div>
+
+      {/* COMMENT SECTION */}
+      <div class=" mx-auto max-w-screen-lg px-4 pt-8">
+        <h1 class="text-4xl font-bold mb-4 text-gray-200 text-center">
+          Discussion
+        </h1>
+
+        {/* Comment Form */}
+        <form class="">
+          <div class="flex flex-col mb-4">
+            <label for="name" class="font-bold mb-2 text-gray-200">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            ></input>
+          </div>
+
+          <div class="flex flex-col mb-4">
+            <label for="comment" class="font-bold mb-2 text-gray-200">
+              Comment
+            </label>
+            <textarea
+              id="comment"
+              name="comment"
+              rows="4"
+              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+
+      {/* <!-- COMMENT --> */}
+      <div class="container mx-auto max-w-screen-lg">
+        <h3 class="text-4xl font-bold mb-4 text-gray-200 text-center">
+          Comments
+        </h3>
+
+        <div class="space-y-4 rounded-lg bg-slate-800/50 py-8 mb-5 px-5 dark:bg-slate-200/70">
+          <div class="flex row">
+            <div class="flex-shrink-0">
+              <img
+                class="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div class="flex-1 rounded-lg px-4 py-2 sm:px-5 sm:py-3 md:px-6 md:py-4 lg:px-7 lg:py-5 leading-relaxed">
+              <strong class="text-gray-200">Sarah</strong>{' '}
+              <span class="text-xs text-gray-400">&nbsp;6hr ago</span>
+              <p class="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <div class="mt-4 flex items-center">
+                <div class="text-xs uppercase tracking-wide text-gray-400 font-bold underline underline-offset-4">
+                  Show Replies
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <img
+                class="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+              <strong className="text-gray-200">Sarah</strong>{' '}
+              <span class="text-xs text-gray-400">&nbsp;3hr ago</span>
+              <p class="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <div class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs underline underline-offset-4">
+                Hide Replies
+              </div>
+              <div class="space-y-4">
+                <div class="flex">
+                  <div class="flex-shrink-0 mr-3">
+                    <img
+                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong>Sarah</strong>{' '}
+                    <span class="text-xs text-gray-400">&nbsp;1hr ago</span>
+                    <p class="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div class="flex-shrink-0 mr-3">
+                    <img
+                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong>Sarah</strong>{' '}
+                    <span class="text-xs text-gray-400">&nbsp;2mins ago</span>
+                    <p class="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Top News */}
       <div className="flex justify-center top-news bg-slate-800/50 py-12 mt-8 mb-5 px-4 dark:bg-slate-200/70">
         <div id="TopNews" className="container">
@@ -412,152 +549,6 @@ function GameDetails() {
               No News Available
             </div>
           )}
-        </div>
-      </div>
-
-      {/* COMMENT SECTION */}
-      <div class=" mx-auto max-w-screen-lg px-4 pt-8">
-        <h1 class="text-2xl font-bold mb-4 text-gray-200 text-center">
-          Discussion
-        </h1>
-
-        {/* Comment Form */}
-        <form class="">
-          <div class="flex flex-col mb-4">
-            <label for="name" class="font-bold mb-2 text-gray-200">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            ></input>
-          </div>
-
-          <div class="flex flex-col mb-4">
-            <label for="comment" class="font-bold mb-2 text-gray-200">
-              Comment
-            </label>
-            <textarea
-              id="comment"
-              name="comment"
-              rows="4"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-
-      {/* <!-- component --> */}
-      <div class="container mx-auto max-w-screen-lg">
-        <h3 class="text-2xl font-bold mb-4 text-gray-200 text-center">
-          Comments
-        </h3>
-
-        <div class="space-y-4 rounded-lg bg-slate-800/50 py-12 mb-5 px-4 dark:bg-slate-200/70">
-          <div class="flex row">
-            <div class="flex-shrink-0 mr-3">
-              <img
-                class="mt-2 rounded-lg w-8 h-8 sm:w-10 sm:h-10"
-                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-              <strong class="text-gray-200">Sarah</strong>{' '}
-              <span class="text-xs text-gray-400">3:34 PM</span>
-              <p class="text-sm text-gray-200">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua.
-              </p>
-              <div class="mt-4 flex items-center">
-                <div class="flex -space-x-2 mr-2">
-                  <img
-                    class="rounded-full w-6 h-6 border-white"
-                    src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
-                    alt=""
-                  />
-                  <img
-                    class="rounded-full w-6 h-6 border-white"
-                    src="https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
-                    alt=""
-                  />
-                </div>
-                <div class="text-sm text-gray-500 font-semibold">5 Replies</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex">
-            <div class="flex-shrink-0 mr-3">
-              <img
-                class="mt-2 rounded-lg w-8 h-8 sm:w-10 sm:h-10"
-                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-              <strong className="text-gray-200">Sarah</strong>{' '}
-              <span class="text-xs text-gray-400">3:34 PM</span>
-              <p class="text-sm text-gray-200">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua.
-              </p>
-              <h4 class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">
-                Replies
-              </h4>
-              <div class="space-y-4">
-                <div class="flex">
-                  <div class="flex-shrink-0 mr-3">
-                    <img
-                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{' '}
-                    <span class="text-xs text-gray-400">3:34 PM</span>
-                    <p class="text-xs sm:text-sm">
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                      magna aliquyam erat, sed diam voluptua.
-                    </p>
-                  </div>
-                </div>
-                <div class="flex">
-                  <div class="flex-shrink-0 mr-3">
-                    <img
-                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{' '}
-                    <span class="text-xs text-gray-400">3:34 PM</span>
-                    <p class="text-xs sm:text-sm">
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                      magna aliquyam erat, sed diam voluptua.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
