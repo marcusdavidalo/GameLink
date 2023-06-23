@@ -22,7 +22,7 @@ import {
   // Messages,
 } from '../pages';
 
-export const AllRoutes = () => {
+export const AllRoutes = ({ setIsLoggedIn }) => {
   // Add isAdmin state to check if the user is an admin
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -51,7 +51,10 @@ export const AllRoutes = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/search/:search" element={<Search />} />

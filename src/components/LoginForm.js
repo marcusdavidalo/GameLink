@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
@@ -81,6 +81,7 @@ const LoginForm = () => {
         if (response.data.refreshToken) {
           localStorage.setItem('refreshToken', response.data.refreshToken);
         }
+        setIsLoggedIn(true);
 
         await fetchUserData(response.data.token);
       } else {

@@ -10,6 +10,7 @@ function App() {
   AOS.init();
 
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleDarkModeToggle = () => {
     setIsDarkMode(!isDarkMode);
@@ -23,8 +24,10 @@ function App() {
       <Navbar
         isDarkMode={isDarkMode}
         handleDarkModeToggle={handleDarkModeToggle}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
       />
-      <AllRoutes />
+      <AllRoutes setIsLoggedIn={setIsLoggedIn} />
       <Footer
         isDarkMode={isDarkMode}
         handleDarkModeToggle={handleDarkModeToggle}
