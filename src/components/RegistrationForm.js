@@ -194,7 +194,7 @@ const RegistrationForm = () => {
               Sign In Here!
             </Link>
           </div>
-          <div className="flex flex-col justify-center mt-5">
+          {/* <div className="flex flex-col justify-center mt-5">
             <button className="bg-red-600 px-5 py-2 rounded-md mb-4">
               Continue with Google
             </button>
@@ -204,7 +204,7 @@ const RegistrationForm = () => {
             <button className="bg-blue-800 px-5 py-2 rounded-md mb-4">
               Continue with Facebook
             </button>
-          </div>
+          </div> */}
         </div>
       </form>
     </>
