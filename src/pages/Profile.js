@@ -218,7 +218,12 @@ const Profile = () => {
                 className="w-full text-slate-200 dark:text-slate-800"
                 key={post._id}
               >
-                <PostModal post={post} handleDelete={handleDelete} />
+                <PostModal
+                  post={post}
+                  handleDelete={handleDelete}
+                  loggedInUserId={loggedInUserId}
+                  isAdmin={isAdmin}
+                />
               </div>
             ))}
           </div>

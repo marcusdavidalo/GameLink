@@ -7,7 +7,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const PostModal = ({ post, handleDelete }) => {
+const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
 
@@ -108,12 +108,14 @@ const PostModal = ({ post, handleDelete }) => {
               <div className="ml-4 w-full">
                 <div className="flex justify-between">
                   <p>{post.content}</p>
-                  <button
-                    className="p-2 m-2 rounded-full text-white bg-red-600 hover:bg-red-700/90"
-                    onClick={() => handleDelete(post._id)}
-                  >
-                    Delete
-                  </button>
+                  {(isAdmin || post.userId === loggedInUserId) && (
+                    <button
+                      className="p-2 m-2 rounded-full text-white bg-red-600 hover:bg-red-700/90"
+                      onClick={() => handleDelete(post._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                   {/* Display comments */}
                 </div>
               </div>
