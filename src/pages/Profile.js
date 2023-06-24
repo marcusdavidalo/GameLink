@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import PostModal from '../components/PostModal';
+import usePageTitle from '../hooks/useTitle';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -67,7 +68,6 @@ const Profile = () => {
   }, [id]);
 
   useEffect(() => {
-    // Replace this with your actual API call to fetch posts
     const fetchPosts = async () => {
       try {
         const response = await fetch(
@@ -95,6 +95,8 @@ const Profile = () => {
       console.error('Error deleting post:', error);
     }
   };
+
+  usePageTitle(`GameLink | Profile`);
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">
