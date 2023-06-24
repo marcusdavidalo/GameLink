@@ -274,7 +274,7 @@ function GameDetails() {
         {/* Comment Form */}
         <form class="">
           <div class="flex flex-col mb-4">
-            <label for="name" class="font-bold mb-2 text-gray-200">
+            <label htmlFor="name" class="font-bold mb-2 text-gray-200">
               Name
             </label>
             <input
@@ -287,7 +287,7 @@ function GameDetails() {
           </div>
 
           <div class="flex flex-col mb-4">
-            <label for="comment" class="font-bold mb-2 text-gray-200">
+            <label htmlFor="comment" class="font-bold mb-2 text-gray-200">
               Comment
             </label>
             <textarea

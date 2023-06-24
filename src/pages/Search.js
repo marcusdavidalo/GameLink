@@ -223,7 +223,7 @@ const Search = () => {
                 </a>
                 {game.isRatedR && (
                   <div className="absolute top-2 left-2 bg-red-600/90 text-xl px-3 py-[1px] rounded-sm skew-x-[-12deg] font-bold">
-                    Rated R
+                    18+
                   </div>
                 )}
                 <div

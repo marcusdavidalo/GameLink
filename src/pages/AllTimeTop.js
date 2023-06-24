@@ -20,42 +20,10 @@ const AllTimeTop = () => {
   }
 
   useEffect(() => {
-    const ratedRTags = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'your-mom',
-      'star-channel-34',
-      'adults-only',
-    ];
-    const ratedRSlugs = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'star-channel-34',
-      'adults-only',
-      'horos-monster-slayer-and-lover-of-many',
-      'grown-up-titans-(teen-titans)',
-    ];
-    const ratedRNames = [
-      'Sexual Content',
-      'NSFW',
-      'Adult',
-      'milf',
-      'top-nsfw',
-      'akabur',
-      'your-mom',
-      'Star Channel 34',
-      'Adults Only',
-      'HOROS - monster slayer and lover of many',
-      'Grown-Up Titans ( Teen Titans)',
-    ];
+    const explicitContentFilters = require('../json/explicitContentFilters.json');
+    const ratedRTags = [...explicitContentFilters.tags];
+    const ratedRSlugs = [...explicitContentFilters.slugs];
+    const ratedRNames = [...explicitContentFilters.names];
 
     const updatedGames = allTimeTop.map((game) => {
       let isRatedR = false;
@@ -80,7 +48,7 @@ const AllTimeTop = () => {
     const getAllTimeTop = async () => {
       try {
         const response = await fetch(
-          `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating&page=${currentPage}&page_size=20`
+          `https://api.rawg.io/api/games?key=${apiKey}&ordering=ratings&page=${currentPage}&page_size=20`
         );
         const data = await response.json();
         setAllTimeTop(data.results);
@@ -123,7 +91,7 @@ const AllTimeTop = () => {
                         </a>
                         {game.isRatedR && (
                           <div className="absolute top-2 left-2 bg-red-600/90 text-xl px-3 py-[1px] rounded-sm skew-x-[-12deg] font-bold">
-                            Rated R
+                            18+
                           </div>
                         )}
                         <div

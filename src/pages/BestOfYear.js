@@ -29,42 +29,10 @@ const BestOfYear = () => {
   }-${currentDay < 10 ? '0' + currentDay : currentDay}`;
 
   useEffect(() => {
-    const ratedRTags = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'your-mom',
-      'star-channel-34',
-      'adults-only',
-    ];
-    const ratedRSlugs = [
-      'sexual-content',
-      'nsfw',
-      'milf',
-      'top-nsfw',
-      'adult',
-      'akabur',
-      'star-channel-34',
-      'adults-only',
-      'horos-monster-slayer-and-lover-of-many',
-      'grown-up-titans-(teen-titans)',
-    ];
-    const ratedRNames = [
-      'Sexual Content',
-      'NSFW',
-      'Adult',
-      'milf',
-      'top-nsfw',
-      'akabur',
-      'your-mom',
-      'Star Channel 34',
-      'Adults Only',
-      'HOROS - monster slayer and lover of many',
-      'Grown-Up Titans ( Teen Titans)',
-    ];
+    const explicitContentFilters = require('../json/explicitContentFilters.json');
+    const ratedRTags = [...explicitContentFilters.tags];
+    const ratedRSlugs = [...explicitContentFilters.slugs];
+    const ratedRNames = [...explicitContentFilters.names];
 
     const updatedGames = bestOfYear.map((game) => {
       let isRatedR = false;
@@ -89,7 +57,7 @@ const BestOfYear = () => {
     const getBestOfYear = async () => {
       try {
         const response = await fetch(
-          `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=-rating&page=${currentPage}&page_size=20`
+          `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=ratings&page=${currentPage}&page_size=20`
         );
         console.log(response);
         const data = await response.json();
@@ -132,7 +100,7 @@ const BestOfYear = () => {
                       </a>
                       {game.isRatedR && (
                         <div className="absolute top-2 left-2 bg-red-600/90 text-xl px-3 py-[1px] rounded-sm skew-x-[-12deg] font-bold">
-                          Rated R
+                          18+
                         </div>
                       )}
                       <div
