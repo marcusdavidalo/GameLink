@@ -25,7 +25,7 @@ function NavItem({ to, children }) {
   );
 }
 
-function Nav({ isDarkMode, handleDarkModeToggle }) {
+function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -41,7 +41,6 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -91,7 +90,7 @@ function Nav({ isDarkMode, handleDarkModeToggle }) {
 
       fetchUserData();
     }
-  }, [userId]);
+  }, [userId, setIsLoggedIn]);
 
   const handleScrollToTop = () => {
     window.scrollTo({

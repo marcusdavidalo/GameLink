@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
@@ -81,6 +81,7 @@ const LoginForm = () => {
         if (response.data.refreshToken) {
           localStorage.setItem('refreshToken', response.data.refreshToken);
         }
+        setIsLoggedIn(true);
 
         await fetchUserData(response.data.token);
       } else {
@@ -197,7 +198,7 @@ const LoginForm = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col justify-center mt-5">
+          {/* <div className="flex flex-col justify-center mt-5">
             <button className="bg-red-600 px-5 py-2 rounded-md mb-4">
               Continue with Google
             </button>
@@ -207,7 +208,7 @@ const LoginForm = () => {
             <button className="bg-blue-800 px-5 py-2 rounded-md mb-4">
               Continue with Facebook
             </button>
-          </div>
+          </div> */}
         </div>
       </form>
     </>

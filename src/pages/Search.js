@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import usePageTitle from '../hooks/useTitle';
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -8,16 +10,18 @@ const Search = () => {
   const [platforms, setPlatforms] = useState([]);
   const [genres, setGenres] = useState([]);
   const [tags, setTags] = useState([]);
-  const [selectedPlatform, setSelectedPlatform] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedReleaseDate, setSelectedReleaseDate] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedReleaseDate, setSelectedReleaseDate] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
+
+  usePageTitle(`GameLink | Search`);
 
   useEffect(() => {
     const fetchPlatforms = async () => {
@@ -74,7 +78,7 @@ const Search = () => {
           url += `&dates=${selectedReleaseDate}-01-01,${selectedReleaseDate}-12-31`;
         }
         if (selectedTags.length > 0) {
-          url += `&tags=${selectedTags.join(",")}`;
+          url += `&tags=${selectedTags.join(',')}`;
         }
         const response = await fetch(url);
         const data = await response.json();
@@ -210,7 +214,7 @@ const Search = () => {
                       )}&font=roboto`
                     }
                     className={`card card-games-img-top swiper-lazy ${
-                      game.isRatedR ? "blur-lg bg-blend-darken" : ""
+                      game.isRatedR ? 'blur-lg bg-blend-darken' : ''
                     }`}
                     alt="Game"
                     data-src={game.background_image}
@@ -223,15 +227,15 @@ const Search = () => {
                   </div>
                 )}
                 <div
-                  className={`metacritic ${game.metacritic ? "" : "no-score"}`}
+                  className={`metacritic ${game.metacritic ? '' : 'no-score'}`}
                 >
-                  {game.metacritic ? game.metacritic : "N"}
+                  {game.metacritic ? game.metacritic : 'N'}
                 </div>
                 <div className="card card-games-body frosted-blur">
                   <a href={`./game/${game.slug}/${game.id}`}>
                     <div
                       className={`scrollable-title ${
-                        game.name.length > 30 ? "marquee" : ""
+                        game.name.length > 30 ? 'marquee' : ''
                       }`}
                     >
                       <h5
@@ -249,7 +253,7 @@ const Search = () => {
                     Latest Update: {formatDate(game.updated)}
                   </p>
                   <p className="genre card card-games-text">
-                    Genre: {game.genres.map((genre) => genre.name).join(", ")}
+                    Genre: {game.genres.map((genre) => genre.name).join(', ')}
                   </p>
                 </div>
               </div>

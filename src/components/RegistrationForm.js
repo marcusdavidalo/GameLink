@@ -7,12 +7,13 @@ const RegistrationForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [registrationStatus, setRegistrationStatus] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate(); // useNavigate hook for navigation
+  const navigate = useNavigate();
 
   const showWarningMessage = (message) => {
     setRegistrationStatus(message);
@@ -22,11 +23,52 @@ const RegistrationForm = () => {
     }, 2000);
   };
 
+  const calculatePasswordStrength = (password) => {
+    const length = password.length;
+    const hasSpecialSymbols = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(
+      password
+    );
+    const hasNumbers = /\d+/.test(password);
+    const hasCapitalLetters = /[A-Z]+/.test(password);
+
+    if (length >= 10 && hasSpecialSymbols && hasNumbers && hasCapitalLetters) {
+      return 'strong';
+    } else if (
+      (length >= 8 && hasNumbers && hasCapitalLetters) ||
+      (length >= 8 && hasSpecialSymbols && hasNumbers) ||
+      (length >= 8 && hasSpecialSymbols && hasCapitalLetters)
+    ) {
+      return 'medium';
+    } else {
+      return 'weak';
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
       showWarningMessage('Password and Confirm Password do not match');
+      return;
+    }
+
+    // Validate username for forbidden characters
+    const forbiddenChars = /[@#$%^&*()!{}[\]:";'<>?,.\\/|+=`~]/;
+    if (forbiddenChars.test(username)) {
+      showWarningMessage('Username contains forbidden characters');
+      return;
+    }
+
+    const currentDate = new Date();
+    const selectedDate = new Date(birthdate);
+    const age = Math.floor(
+      (currentDate - selectedDate) / (365.25 * 24 * 60 * 60 * 1000)
+    );
+
+    if (age < 16) {
+      showWarningMessage(
+        'You must be at least 16 years old or older to register'
+      );
       return;
     }
 
@@ -80,27 +122,24 @@ const RegistrationForm = () => {
               leave="transition duration-500 ease-in"
               leaveFrom="opacity-100 transform translate-y-50"
               leaveTo="opacity-0 transform translate-y-[-100%]"
-              className="w-full px-5"
+              className="flex px-5"
             >
-              {(ref) => (
-                <div>
-                  <p
-                    ref={ref}
-                    className={`text-center text-white rounded-md py-2 ${
-                      registrationStatus === 'User registered successfully' ||
-                      registrationStatus === 'Redirecting to login page'
-                        ? 'bg-green-600'
-                        : registrationStatus === 'Email already exists' ||
-                          registrationStatus ===
-                            'Password and Confirm Password do not match'
-                        ? 'bg-yellow-500'
-                        : 'bg-red-600'
-                    }`}
-                  >
-                    {registrationStatus}
-                  </p>
-                </div>
-              )}
+              <div>
+                <span
+                  className={`text-center text-white rounded-md py-2 px-2 ${
+                    registrationStatus === 'User registered successfully' ||
+                    registrationStatus === 'Redirecting to login page'
+                      ? 'bg-green-600'
+                      : registrationStatus === 'Email already exists' ||
+                        registrationStatus ===
+                          'Password and Confirm Password do not match'
+                      ? 'bg-yellow-500'
+                      : 'bg-red-600'
+                  }`}
+                >
+                  {registrationStatus}
+                </span>
+              </div>
             </Transition>
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -129,6 +168,7 @@ const RegistrationForm = () => {
                 className="border placeholder-slate-400 text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
             </div>
             <div className="flex flex-col justify-between pb-2">
@@ -141,9 +181,47 @@ const RegistrationForm = () => {
                 placeholder="Enter your password"
                 className="border placeholder-slate-400 text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordStrength(
+                    e.target.value
+                      ? calculatePasswordStrength(e.target.value)
+                      : ''
+                  );
+                }}
                 autoComplete="new-password"
               />
+              {password && (
+                <div
+                  className="flex items-center mt-2 transition-all"
+                  data-aos="zoom-out-left"
+                >
+                  <div
+                    className={`w-full h-2 mr-2 rounded transition-all ${
+                      passwordStrength === 'strong'
+                        ? 'bg-green-500'
+                        : passwordStrength === 'medium'
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500'
+                    }`}
+                  ></div>
+                  <span
+                    className={`text-xs transition-all ${
+                      passwordStrength === 'strong'
+                        ? 'text-green-500'
+                        : passwordStrength === 'medium'
+                        ? 'text-yellow-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    {passwordStrength === 'strong'
+                      ? 'Strong'
+                      : passwordStrength === 'medium'
+                      ? 'Medium'
+                      : 'Weak'}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="flex flex-col justify-between pb-2">
               <label htmlFor="confirmPassword" className="mb-2 font-semibold">
@@ -158,6 +236,23 @@ const RegistrationForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 autoComplete="new-password"
               />
+              {password && (
+                <div
+                  className="flex items-center mt-2 transition-all"
+                  data-aos="zoom-out-right"
+                >
+                  <div className="w-full h-2 mr-2 rounded"></div>
+                  <span
+                    className={`text-xs transition-all py-2 ${
+                      passwordStrength === 'strong'
+                        ? 'text-green-500'
+                        : passwordStrength === 'medium'
+                        ? 'text-yellow-500'
+                        : 'text-red-500'
+                    }`}
+                  ></span>
+                </div>
+              )}
             </div>
             <div className="flex flex-col justify-between pb-2">
               <label htmlFor="birthdate" className="mb-2 font-semibold">
@@ -193,17 +288,6 @@ const RegistrationForm = () => {
               {' '}
               Sign In Here!
             </Link>
-          </div>
-          <div className="flex flex-col justify-center mt-5">
-            <button className="bg-red-600 px-5 py-2 rounded-md mb-4">
-              Continue with Google
-            </button>
-            <button className="bg-blue-400 px-5 py-2 rounded-md mb-4">
-              Continue with Twitter
-            </button>
-            <button className="bg-blue-800 px-5 py-2 rounded-md mb-4">
-              Continue with Facebook
-            </button>
           </div>
         </div>
       </form>

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import PostModal from '../components/PostModal';
+import usePageTitle from '../hooks/useTitle';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -18,6 +19,7 @@ const Profile = () => {
   const { id } = useParams();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -66,9 +68,7 @@ const Profile = () => {
   }, [id]);
 
   useEffect(() => {
-    // Replace this with your actual API call to fetch posts
     const fetchPosts = async () => {
-      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       try {
         const response = await fetch(
           `https://api-gamelinkdb.onrender.com/api/posts?userId=${id}&apiKey=${apiKey}`
@@ -82,7 +82,21 @@ const Profile = () => {
     };
 
     fetchPosts();
-  }, [id]);
+  }, [id, apiKey]);
+
+  const handleDelete = async (postId) => {
+    try {
+      await axios.delete(
+        `https://api-gamelinkdb.onrender.com/api/posts/${postId}?apiKey=${apiKey}`
+      );
+      // Update the posts state to remove the deleted post
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
+  usePageTitle(`GameLink | Profile`);
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">
@@ -206,7 +220,12 @@ const Profile = () => {
                 className="w-full text-slate-200 dark:text-slate-800"
                 key={post._id}
               >
-                <PostModal post={post} />
+                <PostModal
+                  post={post}
+                  handleDelete={handleDelete}
+                  loggedInUserId={loggedInUserId}
+                  isAdmin={isAdmin}
+                />
               </div>
             ))}
           </div>
