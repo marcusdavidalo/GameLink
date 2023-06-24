@@ -11,6 +11,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserData = useCallback(
@@ -60,6 +61,8 @@ const LoginForm = ({ setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     try {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await axios.post(
@@ -101,6 +104,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
         setShowMessage(false);
       }, 2000);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -192,23 +196,15 @@ const LoginForm = ({ setIsLoggedIn }) => {
               </div>
               <button
                 type="submit"
-                className="bg-slate-500/60 px-5 py-2 mb-2 rounded-md w-full ml-5"
+                className={`bg-cyan-500/60 px-5 py-2 mb-2 h-full rounded-md ${
+                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                disabled={isLoading} // Disable the button when loading is in progress
               >
-                Login
+                {isLoading ? 'Loading...' : 'Login'}
               </button>
             </div>
           </div>
-          {/* <div className="flex flex-col justify-center mt-5">
-            <button className="bg-red-600 px-5 py-2 rounded-md mb-4">
-              Continue with Google
-            </button>
-            <button className="bg-blue-400 px-5 py-2 rounded-md mb-4">
-              Continue with Twitter
-            </button>
-            <button className="bg-blue-800 px-5 py-2 rounded-md mb-4">
-              Continue with Facebook
-            </button>
-          </div> */}
         </div>
       </form>
     </>
