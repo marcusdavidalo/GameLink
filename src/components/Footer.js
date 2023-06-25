@@ -240,8 +240,19 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
           </div>
 
           <p className="text-center text-gray-400 dark:text-gray-800 mt-4 md:mt-0">
-            © {currentYear} PlayKoDEX. All rights reserved. Powered by RAWG API
-            and NewsCatcherAPI. Developed by Team Vitamax.
+            © {currentYear}{' '}
+            <Link className="font-semibold" to="/home">
+              PlayKoDEX
+            </Link>
+            . All rights reserved. Powered by{' '}
+            <Link className="font-semibold" to="https://rawg.io/">
+              RAWG API{' '}
+            </Link>
+            and{' '}
+            <Link className="font-semibold" to="https://newscatcherapi.com/">
+              NewsCatcherAPI
+            </Link>
+            . Developed by Team Vitamax.
           </p>
 
           <div className="flex items-center mt-4 md:mt-0">
