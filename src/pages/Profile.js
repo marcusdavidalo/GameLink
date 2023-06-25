@@ -96,7 +96,7 @@ const Profile = () => {
     }
   };
 
-  usePageTitle(`GameLink | Profile`);
+  usePageTitle(`PlayKoDEX | Profile`);
 
   return (
     <div className="flex justify-center overflow-hidden mb-10">

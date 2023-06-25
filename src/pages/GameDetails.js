@@ -73,7 +73,7 @@ function GameDetails() {
     return true; // Data is valid
   }, []);
 
-  usePageTitle(`GameLink | ${gameData?.name || 'Loading...'}`);
+  usePageTitle(`PlayKoDEX | ${gameData?.name || 'Loading...'}`);
 
   const fetchNewsData = useCallback(() => {
     const cachedNewsData = localStorage.getItem('newsData-' + id);
@@ -172,7 +172,15 @@ function GameDetails() {
               />
               <div className="card-body p-5">
                 <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
-                  {gameData.name}
+                  {gameData.name.split('').map((letter, index) => (
+                    <span
+                      key={index}
+                      data-aos="fade-down"
+                      data-aos-delay={(index + 1) * 100}
+                    >
+                      {letter}
+                    </span>
+                  ))}
                 </h3>
                 <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4 text-justify">
                   {gameData.description_raw ? (
@@ -220,13 +228,15 @@ function GameDetails() {
                   Game Tags
                 </h5>
                 <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
-                  {gameData.tags.slice(0, 50).map((tag) => (
+                  {gameData.tags.slice(0, 50).map((tag, index) => (
                     <li
                       key={tag.id}
                       className="list-group-item text-gray-300 mr-2 mb-4"
+                      data-aos="fade-left"
+                      data-aos-delay={(index + 1) * 50}
                     >
                       <p
-                        className="bg-gray-600/60 px-5 py-2 rounded-full"
+                        className="text-base bg-gray-600/60 px-5 py-2 rounded-full"
                         title={tag.name}
                       >
                         {tag.name}
@@ -245,16 +255,20 @@ function GameDetails() {
                   <a
                     href={gameData.website}
                     target="_blank"
-                    className="text-center card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
+                    className="text-center text-base card-text bg-slate-500/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-slate-700 hover:text-gray-100"
                     rel="noreferrer"
+                    data-aos="fade-down"
+                    data-aos-delay={100}
                   >
                     Official Website
                   </a>
                   <a
                     href={gameData.metacritic_url}
                     target="_blank"
-                    className="text-center card-text bg-emerald-600/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
+                    className="text-center text-base card-text bg-emerald-600/70 text-gray-200 rounded-md font-bold p-2 hover:scale-[1.02] hover:bg-emerald-700 hover:text-gray-100"
                     rel="noreferrer"
+                    data-aos="fade-down"
+                    data-aos-delay={200}
                   >
                     Metacritic Website
                   </a>
@@ -432,9 +446,13 @@ function GameDetails() {
               }}
               scrollbar={{ draggable: true }}
             >
-              {topNews.map((news) => (
-                <SwiperSlide key={news.title} className="pb-10 ">
-                  <div className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black dark:bg-slate-200/70">
+              {topNews.map((news, index) => (
+                <SwiperSlide key={news.title} className="pb-10">
+                  <div
+                    className="card rounded-lg bg-gray-800/60 shadow-lg shadow-black dark:bg-slate-200/70"
+                    data-aos="fade-up"
+                    data-aos-delay={(index + 1) * 100}
+                  >
                     {news.media ? (
                       <div
                         id="imgcontainer"

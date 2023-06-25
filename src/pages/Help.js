@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react';
+import usePageTitle from '../hooks/useTitle';
 
 const Help = () => {
+  usePageTitle('PlayKoDEX | Help & Support');
   return (
     <div>
       <div className="mx-auto max-w-screen-sm my-5 px-10">

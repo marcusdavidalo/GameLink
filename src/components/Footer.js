@@ -4,13 +4,19 @@ import { Switch } from '@headlessui/react';
 import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
 import { ReactComponent as TwitterIcon } from '../assets/icons/twitter.svg';
 import { ReactComponent as InstagramIcon } from '../assets/icons/instagram.svg';
-import { ReactComponent as GithubIcon } from '../assets/icons/github.svg';
 import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
 import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
 import './Footer.css';
 
 function Footer({ isDarkMode, handleDarkModeToggle }) {
   const currentYear = React.useMemo(() => new Date().getFullYear(), []);
+
+  const handleFeedbackSubmit = (event) => {
+    event.preventDefault();
+    const feedback = event.target.elements.feedback.value;
+    // Handle the feedback submission logic here
+    console.log(feedback);
+  };
 
   return (
     <footer className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
@@ -24,7 +30,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             <p className="text-gray-400 dark:text-gray-800 mt-4">
               Elevating gaming experiences with up-to-date insights, news, and
               curated content. Join us at{' '}
-              <span className="font-bold text-cyan-500">GameLinked</span> for an
+              <span className="font-bold text-cyan-500">PlayKoDEX</span> for an
               unforgettable gaming adventure.
             </p>
           </div>
@@ -51,30 +57,49 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                   About
                 </Link>
               </li>
-              {/* Add more footer links */}
+              <li>
+                <Link
+                  to="/help"
+                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
+                >
+                  Help & Support
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/404"
+                  className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
+                >
+                  404
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Footer Column 3 */}
-          <div>
-            <h3 className="text-white dark:text-gray-800 text-lg font-bold">
-              Subscribe
-            </h3>
-            <form className="mt-4">
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="border placeholder-slate-400 text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-l-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
+          <div className="flex flex-col justify-between h-full">
+            <div>
+              <h3 className="text-white dark:text-gray-800 text-lg font-bold">
+                Feedback
+              </h3>
+              <form className="mt-4" onSubmit={handleFeedbackSubmit}>
+                <textarea
+                  name="feedback"
+                  placeholder="Enter your feedback"
+                  rows={2}
+                  className="w-full border placeholder-slate-400 text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
                 />
-                <button
-                  type="submit"
-                  className="bg-cyan-500 dark:bg-cyan-500 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-r-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
-                >
-                  Subscribe
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="bg-cyan-500 dark:bg-cyan-500 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
+                onClick={handleFeedbackSubmit}
+              >
+                Send Feedback
+              </button>
+            </div>
           </div>
         </div>
 
@@ -103,16 +128,10 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             >
               <InstagramIcon />
             </a>
-            <a
-              href="http://www.github.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition "
-            >
-              <GithubIcon />
-            </a>
           </div>
 
           <p className="text-center text-gray-400 dark:text-gray-800 mt-4 md:mt-0">
-            © {currentYear} GameLink. All rights reserved. Powered by RAWG API
+            © {currentYear} PlayKoDEX. All rights reserved. Powered by RAWG API
             and NewsCatcherAPI. Developed by Team Vitamax.
           </p>
 

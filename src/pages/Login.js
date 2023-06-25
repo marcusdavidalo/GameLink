@@ -3,7 +3,7 @@ import LoginForm from '../components/LoginForm';
 import usePageTitle from '../hooks/useTitle';
 
 function Login({ setIsLoggedIn }) {
-  usePageTitle(`GameLink | Login`);
+  usePageTitle(`PlayKoDEX | Login`);
   return (
     <div className="text-slate-200 ">
       <div className="p-5 flex justify-center">

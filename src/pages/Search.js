@@ -21,7 +21,7 @@ const Search = () => {
     return date.toLocaleDateString('en-US', options);
   }
 
-  usePageTitle(`GameLink | Search`);
+  usePageTitle(`PlayKoDEX | Search`);
 
   useEffect(() => {
     const fetchPlatforms = async () => {

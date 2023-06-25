@@ -13,7 +13,7 @@ function formatDate(dateString) {
   return date.toLocaleDateString('en-US', options);
 }
 function Home() {
-  usePageTitle(`GameLink | Home`);
+  usePageTitle(`PlayKoDEX | Home`);
   useEffect(() => {
     const apiKey = process.env.REACT_APP_RAWG_API_KEY;
     const pageSize = 20;
@@ -23,7 +23,7 @@ function Home() {
       const container = document.querySelector(containerSelector);
       const slider = container.querySelector('.swiper-wrapper');
 
-      games.forEach((game) => {
+      games.forEach((game, index) => {
         if (
           (!game.tags ||
             game.tags.slug !== 'sexual-content' ||
@@ -47,9 +47,11 @@ function Home() {
             game.esrb_rating.slug !== 'adults-only' ||
             game.esrb_rating.name !== 'Adults Only')
         ) {
+          const delay = (index + 1) * 100;
           const slide = document.createElement('div');
           slide.classList.add('swiper-slide');
           slide.setAttribute('data-aos', 'fade-down');
+          slide.setAttribute('data-aos-delay', delay.toString());
           slide.innerHTML = `
             <div class="card card-games dark:bg-[rgba(230,230,230,0.75)]">
               <div class="card card-games-overlay"></div>

@@ -76,7 +76,7 @@ const NewReleases = () => {
     };
     getNewReleases();
   }, [newReleasesStartDate, newReleasesEndDate, apiKey, currentPage]);
-  usePageTitle(`GameLink | New Releases`);
+  usePageTitle(`PlayKoDEX | New Releases`);
   return (
     <div>
       <div className="flex justify-center overflow-hidden mb-10">

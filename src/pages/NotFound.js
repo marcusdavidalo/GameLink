@@ -13,7 +13,7 @@ import usePageTitle from '../hooks/useTitle';
 const gifs = [gif1, gif2, gif3, gif4, gif5, gif6];
 const random404Message = [
   "The page couldn't handle the power of your mad gaming skills. You broke it!",
-  'GameLink.exe process has died!',
+  'PlayKoDEX.exe process has died!',
   'Oops! It seems this page has gone on a coffee break',
   "It appears you've entered a forbidden cheat code",
   'What are you looking for?',
@@ -31,7 +31,7 @@ const getRandomElement = (array) => {
 const PageNotFound = React.memo(() => {
   const randomGif = useMemo(() => getRandomElement(gifs), []);
   const random404 = useMemo(() => getRandomElement(random404Message), []);
-  usePageTitle(`GameLink | 404 Not Found`);
+  usePageTitle(`PlayKoDEX | 404 Not Found`);
   return (
     <main>
       <div className="flex flex-col items-center justify-center h-screen">
@@ -46,7 +46,7 @@ const PageNotFound = React.memo(() => {
             <Link to="/" className="flex items-center">
               <img src={logo} alt="Logo" className="h-5 w-auto" />
               <span className="ml-2 text-base text-gray-200 dark:text-gray-800 pointer-events-none">
-                GameLink.exe
+                PlayKoDEX.exe
               </span>
             </Link>
             <Link to="/">
@@ -69,7 +69,7 @@ const PageNotFound = React.memo(() => {
           <Link to="/" className="flex items-center mb-4 hover:animate-pulse">
             <img src={logo} alt="Logo" className="h-8 w-auto" />
             <span className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
-              GameLink
+              PlayKoDEX
             </span>
           </Link>
           <img

@@ -226,9 +226,9 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
               <Link to="/" className="flex items-center">
                 <img src={logo} alt="Logo" className="h-8 w-auto" />
                 <h1 className="ml-2 text-2xl font-bold text-gray-200 dark:text-gray-800">
-                  Game
+                  Play
                   <span className="text-2xl font-bold text-cyan-500">
-                    Linked
+                    KoDex
                   </span>
                 </h1>
               </Link>

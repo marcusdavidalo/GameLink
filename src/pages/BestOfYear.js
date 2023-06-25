@@ -68,7 +68,7 @@ const BestOfYear = () => {
     };
     getBestOfYear();
   }, [bestOfYearStartDate, bestOfYearEndDate, apiKey, currentPage]);
-  usePageTitle(`GameLink | Best Of ${currentYear}`);
+  usePageTitle(`PlayKoDEX | Best Of ${currentYear}`);
   return (
     <div>
       <div className="flex justify-center overflow-hidden mb-10">

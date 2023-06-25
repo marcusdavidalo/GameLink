@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
+import usePageTitle from '../hooks/useTitle';
 
 const Settings = () => {
-  return (
-    <div>Settings</div>
-  )
-}
+  usePageTitle('PlayKoDEX | Settings');
+  return <div>Settings</div>;
+};
 
-export default Settings
+export default Settings;

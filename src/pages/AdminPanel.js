@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import usePageTitle from '../hooks/useTitle';
 
 const AdminDashboard = () => {
-  const [gameTitle, setGameTitle] = useState("");
-  const [gameDescription, setGameDescription] = useState("");
+  const [gameTitle, setGameTitle] = useState('');
+  const [gameDescription, setGameDescription] = useState('');
   const [gamesList, setGamesList] = useState([]);
   const [userAccounts, setUserAccounts] = useState([]);
-  const [activeTab, setActiveTab] = useState("newGames");
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPicture, setUserPicture] = useState("");
+  const [activeTab, setActiveTab] = useState('newGames');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPicture, setUserPicture] = useState('');
   const [userDetails, setUserDetails] = useState({});
-  const [accountCreationDate, setAccountCreationDate] = useState("");
-  const [userGame, setUserGame] = useState("");
+  const [accountCreationDate, setAccountCreationDate] = useState('');
+  const [userGame, setUserGame] = useState('');
 
   const handleGameSubmit = (e) => {
     e.preventDefault();
@@ -21,8 +22,8 @@ const AdminDashboard = () => {
       description: gameDescription,
     };
     setGamesList([...gamesList, newGame]);
-    setGameTitle("");
-    setGameDescription("");
+    setGameTitle('');
+    setGameDescription('');
   };
 
   const handleAccountDelete = (accountId) => {
@@ -48,13 +49,14 @@ const AdminDashboard = () => {
       game: userGame,
     };
     setUserDetails(newUser);
-    setUserName("");
-    setUserEmail("");
-    setUserPicture("");
-    setAccountCreationDate("");
-    setUserGame("");
+    setUserName('');
+    setUserEmail('');
+    setUserPicture('');
+    setAccountCreationDate('');
+    setUserGame('');
   };
 
+  usePageTitle('PlayKoDEX | Admin Dashboard');
   return (
     <div className="flex">
       <div className="w-1/4 bg-gray-800 p-4">
@@ -62,30 +64,34 @@ const AdminDashboard = () => {
         <ul className="space-y-2">
           <li
             className={`cursor-pointer ${
-              activeTab === "newUser" ? "text-blue-500 font-bold" : "text-white"
+              activeTab === 'newUser' ? 'text-blue-500 font-bold' : 'text-white'
             }`}
-            onClick={() => setActiveTab("newUser")}
+            onClick={() => setActiveTab('newUser')}
           >
             New User
           </li>
           <li
             className={`cursor-pointer ${
-              activeTab === "newGames" ? "text-blue-500 font-bold" : "text-white"
+              activeTab === 'newGames'
+                ? 'text-blue-500 font-bold'
+                : 'text-white'
             }`}
-            onClick={() => setActiveTab("newGames")}
+            onClick={() => setActiveTab('newGames')}
           >
             New Games
           </li>
           <li
             className={`cursor-pointer ${
-              activeTab === "recentGames" ? "text-blue-500 font-bold" : "text-white"
+              activeTab === 'recentGames'
+                ? 'text-blue-500 font-bold'
+                : 'text-white'
             }`}
-            onClick={() => setActiveTab("recentGames")}
+            onClick={() => setActiveTab('recentGames')}
           >
             Recent Games
           </li>
         </ul>
-        {activeTab === "newUser" && (
+        {activeTab === 'newUser' && (
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-2 text-white">Add New User</h2>
             <form onSubmit={handleUserSubmit} className="space-y-2">
@@ -132,7 +138,9 @@ const AdminDashboard = () => {
             </form>
             {Object.keys(userDetails).length > 0 && (
               <div className="mt-6">
-                <h2 className="text-2xl font-bold mb-2 text-white">User Details</h2>
+                <h2 className="text-2xl font-bold mb-2 text-white">
+                  User Details
+                </h2>
                 <div className="flex items-center">
                   <img
                     src={userDetails.picture}
@@ -145,7 +153,9 @@ const AdminDashboard = () => {
                     <p className="text-gray-400">
                       Account created on {userDetails.accountCreationDate}
                     </p>
-                    <p className="text-gray-400">Currently playing: {userDetails.game}</p>
+                    <p className="text-gray-400">
+                      Currently playing: {userDetails.game}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -154,7 +164,7 @@ const AdminDashboard = () => {
         )}
       </div>
       <div className="w-3/4 bg-gray-900 p-4">
-        {activeTab === "newGames" && (
+        {activeTab === 'newGames' && (
           <div>
             <h2 className="text-2xl font-bold mb-2 text-white">Games List</h2>
             {gamesList.length === 0 ? (
@@ -167,8 +177,10 @@ const AdminDashboard = () => {
                     className="border border-gray-300 rounded px-4 py-2 mb-2 flex justify-between items-center"
                   >
                     <div>
-                      <strong className="font-bold text-white">{game.title}</strong>:{" "}
-                      {game.description}
+                      <strong className="font-bold text-white">
+                        {game.title}
+                      </strong>
+                      : {game.description}
                     </div>
                     <button
                       className="text-red-500 hover:text-red-700"
@@ -182,7 +194,7 @@ const AdminDashboard = () => {
             )}
           </div>
         )}
-        {activeTab === "recentGames" && (
+        {activeTab === 'recentGames' && (
           <p className="text-white">Displaying recent games...</p>
         )}
       </div>

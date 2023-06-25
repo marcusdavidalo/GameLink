@@ -3,7 +3,7 @@ import { Pagination } from 'flowbite-react';
 import usePageTitle from '../hooks/useTitle';
 
 const AllTimeTop = () => {
-  usePageTitle(`GameLink | All Time Top`);
+  usePageTitle(`PlayKoDEX | All Time Top`);
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
   const [allTimeTop, setAllTimeTop] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
