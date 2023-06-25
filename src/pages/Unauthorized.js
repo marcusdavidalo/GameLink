@@ -1,16 +1,16 @@
 import React from 'react';
 import usePageTitle from '../hooks/useTitle';
 
+const getRandomAnimationDirection = () => {
+  const directions = ['up', 'down', 'left', 'right'];
+  const randomIndex = Math.floor(Math.random() * directions.length);
+  return directions[randomIndex];
+};
+
 function Unauthorized() {
   usePageTitle(`PlayKoDEX | Unauthorized Access`);
 
-  const unauthorizedText = `Unauthorized`.replace(/ /g, '\u00A0');
-
-  const getRandomAnimationDirection = () => {
-    const directions = ['up', 'down', 'left', 'right'];
-    const randomIndex = Math.floor(Math.random() * directions.length);
-    return directions[randomIndex];
-  };
+  const unauthorizedText = `Unauthorized`.replace(/ /g, ' ');
 
   return (
     <main className="flex justify-center my-20 mx-5">
@@ -20,7 +20,7 @@ function Unauthorized() {
             {unauthorizedText.split('').map((letter, index) => (
               <span
                 className="flex text-red-500 justify-center items-center animate-pulse"
-                key={index}
+                key={`letter-${index}`}
                 style={{
                   animationDelay: `${(index + 1) * 0.1}s`,
                 }}

@@ -87,8 +87,8 @@ const LoginForm = ({ setIsLoggedIn }) => {
         setIsLoggedIn(true);
 
         await fetchUserData(response.data.token);
-        // Reload the page and redirect to the home page
-        navigate('/', { replace: true });
+        window.location.reload();
+        // navigate('/', { replace: true });
       } else {
         // Login failed
         setLoginStatus(response.data.error);

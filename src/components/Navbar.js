@@ -41,9 +41,11 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [username, setUsername] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
   // Function to handle logging out
   const handleLogout = () => {
@@ -60,37 +62,54 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const fetchUserData = async (token, setUserId, setUsername, setIsAdmin) => {
+    try {
+      // Decode the token to get the user ID
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      setUserId(userId);
+
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const username = response.data.username;
+      setUsername(username);
+
+      // Set admin status based on the user data
+      const isAdmin = response.data.admin;
+      setIsAdmin(isAdmin);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
-
-      const fetchUserData = async () => {
-        try {
-          // Decode the token to get the user ID
-          const decodedToken = jwtDecode(token);
-          setUserId(decodedToken.id);
-
-          const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-          const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
-          const response = await axios.get(url, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          const username = response.data.username;
-          setUsername(username);
-
-          // Set admin status based on the user data
-          const isAdmin = response.data.admin;
-          setIsAdmin(isAdmin);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      fetchUserData();
+      fetchUserData(token, setUserId, setUsername, setIsAdmin);
     }
-  }, [userId, setIsLoggedIn]);
+  }, [setIsLoggedIn]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
+      try {
+        const response = await fetch(
+          `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`
+        );
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -335,7 +354,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                   <DarkIcon className="h-5 w-5 mx-2 my-2 text-gray-200 dark:text-gray-800" />
                 </div>
                 {/* Navigation Links */}
-                <div className="flex py-2">
+                <div className="flex py-2 align-center items-center">
                   <NavItem to="/">Home</NavItem>
                   <NavItem to="/about">About</NavItem>
 
@@ -351,9 +370,22 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                     <div className="relative ml-2">
                       <button
                         onClick={toggleDropdown}
-                        className="px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
+                        className="px-3 py-2 rounded-md hover:scale-105"
                       >
-                        Hello, {username}
+                        <div className="flex flex-col align-center items-center">
+                          {user.avatarUrl ? (
+                            <img
+                              src={user.avatarUrl}
+                              alt="Avatar"
+                              className="w-10 h-10 rounded-full"
+                            />
+                          ) : (
+                            <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
+                              ?
+                            </div>
+                          )}
+                          <p className="text-2xl font-semibold mt-2"></p>
+                        </div>
                       </button>
 
                       {isDropdownOpen && (

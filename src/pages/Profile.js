@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import CreatePostForm from '../components/CreatePostForm';
 import { useParams } from 'react-router-dom';
-// import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
-// import { ReactComponent as Views } from '../assets/icons/eye.svg';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import PostModal from '../components/PostModal';
 import usePageTitle from '../hooks/useTitle';
 
+// eslint-disable-next-line no-unused-vars
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
@@ -108,7 +107,7 @@ const Profile = () => {
                 isAdmin ? 'justify-between' : 'justify-center'
               } border-y-2 border-slate-500/40 rounded-md mx-20 py-10`}
             >
-              {isAdmin && (
+              {/* {isAdmin && (
                 <>
                   <div className="rounded-lg p-3 my-2 w-[24rem] bg-slate-700/30">
                     <h3 className="font-semibold border-b-2 border-slate-400/50 text-3xl text-center text-green-500 py-2 mb-2 ">
@@ -150,7 +149,7 @@ const Profile = () => {
                     </pre>
                   </div>
                 </>
-              )}
+              )} */}
               <div className="flex flex-col ">
                 <div className="flex flex-col align-middle items-center mb-4">
                   {user.avatarUrl ? (
@@ -182,7 +181,7 @@ const Profile = () => {
                 </div>
               </div>
               <div className="flex">
-                {isAdmin && (
+                {/* {isAdmin && (
                   <>
                     <div className="text-center rounded-lg p-3 my-2 w-[24rem] bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
                       <h3 className="font-semibold border-b-2 border-slate-400/50 text-3xl text-red-600 py-2 mb-2">
@@ -203,7 +202,7 @@ const Profile = () => {
                       </pre>
                     </div>
                   </>
-                )}
+                )} */}
               </div>
             </div>
           )}
@@ -214,7 +213,7 @@ const Profile = () => {
             </>
           )}
           <h3 className="text-2xl font-bold mt-8 mb-4">Latest Posts</h3>
-          <div className="grid grid-cols-4 gap-4 flex-wrap">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-wrap">
             {posts.map((post) => (
               <div
                 className="w-full text-slate-200 dark:text-slate-800"

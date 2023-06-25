@@ -60,9 +60,9 @@ const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
 
         {/* Display post information */}
         <div className="p-2">
-          <div className="flex justify-between">
+          <div className="flex flex-col-reverse sm:flex-row justify-between">
             <p>{post.content}</p>
-            <p>{formatDate(post.createdAt)}</p>
+            <p className="text-gray-400">{formatDate(post.createdAt)}</p>
           </div>
           <div className="flex items-center mt-2">
             {/* Display likes and views */}
