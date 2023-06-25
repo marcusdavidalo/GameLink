@@ -4,7 +4,7 @@ import usePageTitle from '../hooks/useTitle';
 function Unauthorized() {
   usePageTitle(`PlayKoDEX | Unauthorized Access`);
 
-  const unauthorizedText = `Unauthorized Access`.replace(/ /g, '\u00A0');
+  const unauthorizedText = `Unauthorized`.replace(/ /g, '\u00A0');
 
   const getRandomAnimationDirection = () => {
     const directions = ['up', 'down', 'left', 'right'];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
@@ -8,6 +8,7 @@ import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
 import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
 import './Footer.css';
 
+const feedbackButton = 'FEEDBACK';
 function Footer({ isDarkMode, handleDarkModeToggle }) {
   const currentYear = React.useMemo(() => new Date().getFullYear(), []);
 
@@ -18,8 +19,113 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
     console.log(feedback);
   };
 
+  const [isFeedbackBoxOpen, setIsFeedbackBoxOpen] = useState(true);
+  const [feedbackBoxPosition, setFeedbackBoxPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      if (isDragging) {
+        const newX = event.clientX - dragOffset.x;
+        const newY = event.clientY - dragOffset.y;
+        setFeedbackBoxPosition({ x: newX, y: newY });
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
+
+  const handleMouseDown = (event) => {
+    event.preventDefault();
+    const offsetX = event.clientX - feedbackBoxPosition.x;
+    const offsetY = event.clientY - feedbackBoxPosition.y;
+    setDragOffset({ x: offsetX, y: offsetY });
+    setIsDragging(true);
+  };
+
+  const closeFeedbackBox = () => {
+    setIsFeedbackBoxOpen(false);
+  };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+    setTimeout(() => {
+      const feedbackForm = document.getElementById('feedback-form');
+      if (feedbackForm) {
+        feedbackForm.classList.add('animate-pulse');
+        setTimeout(() => {
+          feedbackForm.classList.remove('animate-pulse');
+        }, 4000);
+      }
+    }, 0);
+  };
+
   return (
-    <footer className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
+    <footer className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] relative">
+      {isFeedbackBoxOpen && (
+        <div
+          className="fixed bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] text-gray-200 dark:text-gray-700 px-2 py-2 rounded shadow cursor-move z-[10000]"
+          style={{
+            top: 'calc(50% + 20px)', // Move the button 20 pixels down
+            left: feedbackBoxPosition.x > window.innerWidth / 2 ? 'auto' : '0',
+            right: feedbackBoxPosition.x > window.innerWidth / 2 ? '0' : 'auto',
+            transform: 'translateY(-50%)',
+          }}
+          onMouseDown={handleMouseDown}
+        >
+          <button
+            className="flex flex-col align-center items-center justify-center focus:outline-none"
+            onClick={scrollToBottom}
+          >
+            <div className="flex flex-col align-center items-center py-2">
+              {feedbackButton.split('').map((letter, index) => (
+                <p
+                  className="flex text-center text-lg font-mono h-4 justify-center items-center"
+                  key={index}
+                >
+                  {letter}
+                </p>
+              ))}
+            </div>
+          </button>
+          <button
+            className="text-gray-400 font-bold hover:text-gray-600 dark:text-gray-600 dark:hover:text-gray-400 focus:outline-none"
+            onClick={closeFeedbackBox}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {/* Footer Column 1 */}
@@ -77,7 +183,10 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
           </div>
 
           {/* Footer Column 3 */}
-          <div className="flex flex-col justify-between h-full">
+          <div
+            id="feedback-form"
+            className="flex flex-col justify-between h-full"
+          >
             <div>
               <h3 className="text-white dark:text-gray-800 text-lg font-bold">
                 Feedback

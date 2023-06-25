@@ -433,7 +433,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       <div id="navspacer" className="py-28 absolute md:static sm:py-10"></div>
       {showBackToTop && (
         <button
-          className="fixed bottom-4 right-4 p-2 bg-cyan-500 text-white rounded-full shadow-md hover:bg-gray-700"
+          className="fixed bottom-4 right-4 p-2 bg-cyan-500 text-white rounded-full shadow-md hover:bg-gray-700 z-[10000]"
           onClick={handleScrollToTop}
         >
           <svg
