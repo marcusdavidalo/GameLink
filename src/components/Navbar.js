@@ -51,6 +51,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   const handleLogout = () => {
     // Clear the token from local storage
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
 
     // Update state to indicate that the user is logged out
     setIsLoggedIn(false);
@@ -66,11 +67,11 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
     try {
       // Decode the token to get the user ID
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.id;
-      setUserId(userId);
+      const id = decodedToken.id;
+      setUserId(id);
 
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`;
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -107,7 +108,6 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
         console.error('Error fetching user data:', error);
       }
     };
-
     fetchUserData();
   }, [userId]);
 
@@ -364,6 +364,11 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                       Sign Up
                     </NavItem>
                   )}
+                  {!isLoggedIn && (
+                    <NavItem to="/login" className="whitespace-nowrap">
+                      Sign In
+                    </NavItem>
+                  )}
 
                   {/* Logged-in user menu */}
                   {isLoggedIn && (
@@ -373,16 +378,16 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                         className="px-3 py-2 rounded-md hover:scale-105"
                       >
                         <div className="flex flex-col align-center items-center">
-                          {user.avatarUrl ? (
+                          {!user || !user.avatarUrl ? (
+                            <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
+                              ?
+                            </div>
+                          ) : (
                             <img
                               src={user.avatarUrl}
                               alt="Avatar"
                               className="w-10 h-10 rounded-full"
                             />
-                          ) : (
-                            <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
-                              ?
-                            </div>
                           )}
                           <p className="text-2xl font-semibold mt-2"></p>
                         </div>

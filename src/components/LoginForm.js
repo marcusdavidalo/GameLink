@@ -32,6 +32,8 @@ const LoginForm = ({ setIsLoggedIn }) => {
           setUsername(response.data.username);
           if (response.data.admin) {
             navigate('/admin');
+          } else {
+            navigate('/');
           }
         }
       } catch (error) {
@@ -87,7 +89,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
         setIsLoggedIn(true);
 
         await fetchUserData(response.data.token);
-        window.location.reload();
+        // window.location.reload();
         // navigate('/', { replace: true });
       } else {
         // Login failed
