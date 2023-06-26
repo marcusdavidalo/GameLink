@@ -4,7 +4,7 @@ import usePageTitle from '../hooks/useTitle';
 const Help = () => {
   usePageTitle('PlayKoDEX | Help & Support');
   return (
-    <section class="bg-white dark:bg-gray-900">
+    <section class="bg-gray/50 dark:bg-white-900/50">
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-cyan-500">Frequently asked questions</h2>
       <div class="grid pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700 md:grid-cols-2">
@@ -71,7 +71,7 @@ Can I contribute to PlayKoDEX by adding information or reviews about games?
           ></textarea>
           <button
             type="submit"
-            class="bg-cyan-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-5"
+            class="bg-cyan-500 hover:bg-blue-600 mb-3 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-5"
           >
             Submit
           </button>
