@@ -4,7 +4,7 @@ import usePageTitle from '../hooks/useTitle';
 const Help = () => {
   usePageTitle('PlayKoDEX | Help & Support');
   return (
-    <section class="bg-gray/50 dark:bg-white-900/50">
+    <section class="bg-gray-700/50 dark:bg-white/50">
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-cyan-500">Frequently asked questions</h2>
       <div class="grid pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700 md:grid-cols-2">
@@ -52,7 +52,6 @@ Can I contribute to PlayKoDEX by adding information or reviews about games?
         <div className="text-4xl font-bold mb-4 text-cyan-500 text-center">
           How can we help?
         </div>
-        <div className="bg-slate-800/50 py-8 mb-5 px-4 dark:bg-slate-200/70">
           <div className="text-2xl font-bold text-gray-200">
             Give us the details
           </div>
@@ -62,7 +61,7 @@ Can I contribute to PlayKoDEX by adding information or reviews about games?
             what you expected to happen, and what actually happened. We'll
             usually reply within a few hours.
           </p>
-          <textarea
+          <textarea 
             name=""
             id=""
             rows="10"
@@ -75,7 +74,7 @@ Can I contribute to PlayKoDEX by adding information or reviews about games?
           >
             Submit
           </button>
-        </div>
+
       </div>
     </div>
 </section>
