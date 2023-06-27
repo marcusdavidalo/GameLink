@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import { Transition } from '@headlessui/react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { Transition } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setIsLoggedIn }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
+  const [username, setUsername] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +31,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
         if (response.status === 200) {
           setUsername(response.data.username);
           if (response.data.admin) {
-            navigate('/admin');
+            navigate("/admin");
           } else {
-            navigate('/');
+            navigate("/");
           }
         }
       } catch (error) {
@@ -45,9 +45,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
   useEffect(() => {
     const checkLoggedInStatus = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
-        setLoginStatus('Login successful');
+        setLoginStatus("Login successful");
         setShowMessage(true);
         setTimeout(() => {
           setShowMessage(false);
@@ -70,21 +70,21 @@ const LoginForm = ({ setIsLoggedIn }) => {
       const response = await axios.post(
         `https://api-gamelinkdb.onrender.com/api/auth/login?apiKey=${apiKey}`,
         { email, password, rememberMe },
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response.status === 200) {
         // Login successful
-        setLoginStatus('Login successful');
+        setLoginStatus("Login successful");
         setShowMessage(true);
         setTimeout(() => {
           setShowMessage(false);
         }, 2000);
 
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem("token", response.data.token);
 
         if (response.data.refreshToken) {
-          localStorage.setItem('refreshToken', response.data.refreshToken);
+          localStorage.setItem("refreshToken", response.data.refreshToken);
         }
         setIsLoggedIn(true);
 
@@ -102,7 +102,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
     } catch (error) {
       // Login failed
       console.log(error);
-      setLoginStatus('An error occurred while logging in');
+      setLoginStatus("An error occurred while logging in");
       setShowMessage(true);
       setTimeout(() => {
         setShowMessage(false);
@@ -136,9 +136,9 @@ const LoginForm = ({ setIsLoggedIn }) => {
                   <p
                     ref={ref}
                     className={`text-center text-white rounded-md py-2 ${
-                      loginStatus === 'Login successful'
-                        ? 'bg-green-600'
-                        : 'bg-red-600'
+                      loginStatus === "Login successful"
+                        ? "bg-green-600"
+                        : "bg-red-600"
                     }`}
                   >
                     {loginStatus}
@@ -201,11 +201,11 @@ const LoginForm = ({ setIsLoggedIn }) => {
               <button
                 type="submit"
                 className={`bg-cyan-500/60 px-5 py-2 mb-2 h-full rounded-md ${
-                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 disabled={isLoading} // Disable the button when loading is in progress
               >
-                {isLoading ? 'Loading...' : 'Login'}
+                {isLoading ? "Loading..." : "Login"}
               </button>
             </div>
           </div>
