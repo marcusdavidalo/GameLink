@@ -228,22 +228,22 @@ function GameDetails() {
                   Game Tags
                 </h5>
                 <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
-                  {gameData.tags.slice(0, 50).map((tag, index) => (
-                    <li
-                      key={tag.id}
-                      className="list-group-item text-gray-300 mr-2 mb-4"
-                      data-aos="fade-left"
-                      data-aos-delay={(index + 1) * 50}
-                    >
-                      <p
-                        className="text-base bg-gray-600/60 px-5 py-2 rounded-full"
-                        title={tag.name}
-                      >
-                        {tag.name}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+  {gameData.tags.slice(0, 50).map((tag, index) => (
+    <li
+      key={tag.id}
+      className={`list-group-item text-gray-300 mr-2 mb-4 ${tag.name.toLowerCase().includes('sexual') || tag.name.toLowerCase().includes('nsfw') ? 'bg-red-500' : ''}`}
+      data-aos="fade-left"
+      data-aos-delay={(index + 1) * 50}
+    >
+      <p
+        className="text-base bg-gray-600/60 px-5 py-2 rounded-full"
+        title={tag.name}
+      >
+        {tag.name}
+      </p>
+    </li>
+  ))}
+</ul>
               </div>
             </div>
             <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg mt-4 mx-2">

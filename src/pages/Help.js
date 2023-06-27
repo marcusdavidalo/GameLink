@@ -6,7 +6,7 @@ const Help = () => {
   usePageTitle('PlayKoDEX | Help & Support');
   return (
     <section class="bg-gray-700/50 dark:bg-white/50">
-  <div class="py-8 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div class="py-8 px-6 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-white dark:text-black text-center">Frequently asked questions</h2>
       <div class="grid pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700 md:grid-cols-1">
           <div>
@@ -49,7 +49,7 @@ Can I contribute to PlayKoDEX by adding information or reviews about games?
       </div>
   </div>
   <div>
-      <div className="mx-auto max-w-screen-lg mt-1.5 pb-10">
+      <div className="mx-auto max-w-screen-lg mt-1.5 pb-10 px-6">
         <div className="text-4xl font-bold mb-4 text-cyan-500 text-center">
           How can we help?
         </div>
