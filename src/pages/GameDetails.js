@@ -236,7 +236,7 @@ function GameDetails() {
                       data-aos-delay={(index + 1) * 50}
                     >
                       <p
-  className={`text-base ${tag.name.toLowerCase().includes('nsfw') || tag.name.toLowerCase().includes('sexual') ? 'bg-red-500' : 'bg-gray-600/60'} px-5 py-2 rounded-full`}
+  className={`text-base ${tag.name.toLowerCase().includes('NSFW') || tag.name.toLowerCase().includes('Sexual') || tag.name.toLowerCase().includes('Hentai')  ? 'bg-red-500' : 'bg-gray-600/60'} px-5 py-2 rounded-full`}
   title={tag.name}
 >
   {tag.name}
