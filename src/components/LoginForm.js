@@ -30,11 +30,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
         if (response.status === 200) {
           setUsername(response.data.username);
-          if (response.data.admin) {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
+          navigate("/");
         }
       } catch (error) {
         console.log(error);
