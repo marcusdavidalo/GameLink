@@ -231,7 +231,7 @@ function GameDetails() {
   {gameData.tags.slice(0, 50).map((tag, index) => (
     <li
       key={tag.id}
-      className={`list-group-item text-gray-300 mr-2 mb-4 ${tag.name.toLowerCase().includes('sexual') || tag.name.toLowerCase().includes('nsfw') ? 'bg-red-500' : ''}`}
+      className={`list-group-item text-gray-300 mr-2 mb-4 ${tag.name.toLowerCase().includes('Sexual') || tag.name.toLowerCase().includes('NSFW') ? 'bg-red-500' : ''}`}
       data-aos="fade-left"
       data-aos-delay={(index + 1) * 50}
     >
