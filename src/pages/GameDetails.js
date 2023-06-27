@@ -5,6 +5,7 @@ import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
 import usePageTitle from '../hooks/useTitle';
+import explicitContentFilters from '../json/explicitContentFilters.json';
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -228,22 +229,26 @@ function GameDetails() {
                   Game Tags
                 </h5>
                 <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
-                  {gameData.tags.slice(0, 50).map((tag, index) => (
-                    <li
-                      key={tag.id}
-                      className="list-group-item text-gray-300 mr-2 mb-4"
-                      data-aos="fade-left"
-                      data-aos-delay={(index + 1) * 50}
-                    >
-                      <p
-  className={`text-base ${tag.name.toLowerCase().includes('NSFW') || tag.name.toLowerCase().includes('Sexual') || tag.name.toLowerCase().includes('Hentai')  ? 'bg-red-500' : 'bg-gray-600/60'} px-5 py-2 rounded-full`}
-  title={tag.name}
->
-  {tag.name}
-</p>
+                {gameData.tags.slice(0, 50).map((tag, index) => {
+  const isExplicit = explicitContentFilters.tags.includes(tag.name);
 
-                    </li>
-                  ))}
+  return (
+    <li
+      key={tag.id}
+      className="list-group-item text-gray-300 mr-2 mb-4"
+      data-aos="fade-left"
+      data-aos-delay={(index + 1) * 50}
+    >
+      <p
+        className={`text-base bg-gray-600/60 px-5 py-2 rounded-full ${isExplicit ? 'text-red-500' : ''}`}
+        title={tag.name}
+      >
+        {tag.name}
+      </p>
+    </li>
+  );
+})}
+                 
                 </ul>
               </div>
             </div>
