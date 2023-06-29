@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { ReactComponent as ThumbsUp } from "../assets/icons/thumbsup.svg";
 import { ReactComponent as Views } from "../assets/icons/eye.svg";
 import { ReactComponent as ThumbsUpFilled } from "../assets/icons//thumbsupfilled.svg";
@@ -51,8 +52,26 @@ const PostModal = ({
     };
   }, [isOpen]);
 
+  const handleView = async (postId) => {
+    try {
+      // Increment the views property of the post
+      post.views += 1;
+
+      // Make a request to update the post in the database
+      await axios.put(
+        `http://localhost:5000/api/posts/${postId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        {
+          views: post.views,
+        }
+      );
+    } catch (error) {
+      console.error("Error updating post views:", error);
+    }
+  };
+
   const openModal = () => {
     setIsOpen(true);
+    handleView(post._id);
   };
 
   const closeModal = () => {
