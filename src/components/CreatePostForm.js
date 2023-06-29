@@ -52,7 +52,7 @@ const CreatePostForm = () => {
     try {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await fetch(
-        `https://api-gamelinkdb.vercel.app/api/posts?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/posts?apiKey=${apiKey}`,
         {
           method: 'POST',
           body: formData,

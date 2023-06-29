@@ -32,7 +32,7 @@ export const AllRoutes = ({ setIsLoggedIn }) => {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const url = `https://api-gamelinkdb.vercel.app/api/users/${userId}?apiKey=${apiKey}`;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
 
       axios
         .get(url, { headers: { Authorization: `Bearer ${token}` } })

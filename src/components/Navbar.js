@@ -72,7 +72,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       setUserId(id);
 
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const url = `https://api-gamelinkdb.vercel.app/api/users/${id}?apiKey=${apiKey}`;
+      const url = `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`;
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -156,7 +156,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
           const usernameQuery = query.slice(1);
           axios
             .get(
-              `https://api-gamelinkdb.vercel.app/api/users?apiKey=${dbKey}`
+              `https://api-gamelinkdb.onrender.com/api/users?apiKey=${dbKey}`
             )
             .then((response) => {
               const users = response.data.filter(

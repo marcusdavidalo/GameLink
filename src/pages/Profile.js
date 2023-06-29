@@ -29,7 +29,7 @@ const Profile = () => {
         const userId = decodedToken.id;
         if (userId) {
           const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-          const url = `https://api-gamelinkdb.vercel.app/api/users/${userId}?apiKey=${apiKey}`;
+          const url = `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`;
           axios
             .get(url, { headers: { Authorization: `Bearer ${token}` } })
             .then((response) => {
@@ -61,7 +61,7 @@ const Profile = () => {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       try {
         const response = await fetch(
-          `https://api-gamelinkdb.vercel.app/api/users/${id}?apiKey=${apiKey}`
+          `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`
         );
         const data = await response.json();
         setUser(data);
@@ -77,7 +77,7 @@ const Profile = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `https://api-gamelinkdb.vercel.app/api/posts?userId=${id}&apiKey=${apiKey}`
+          `https://api-gamelinkdb.onrender.com/api/posts?userId=${id}&apiKey=${apiKey}`
         );
         const data = await response.json();
         setPosts(data);
@@ -92,7 +92,7 @@ const Profile = () => {
   const handleAddFollower = async (userId, followerId) => {
     try {
       await axios.post(
-        `https://api-gamelinkdb.vercel.app/api/users/addFollower?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/addFollower?apiKey=${apiKey}`,
         { userId, followerId }
       );
       setIsFollowing(true);
@@ -102,7 +102,7 @@ const Profile = () => {
       }));
   
       await axios.post(
-        `https://api-gamelinkdb.vercel.app/api/users/addFollowing?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/addFollowing?apiKey=${apiKey}`,
         { userId: followerId, followingId: userId }
       );
     } catch (error) {
@@ -113,7 +113,7 @@ const Profile = () => {
   const handleRemoveFollower = async (userId, followerId) => {
     try {
       await axios.post(
-        `https://api-gamelinkdb.vercel.app/api/users/removeFollower?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/removeFollower?apiKey=${apiKey}`,
         { userId, followerId }
       );
       setIsFollowing(false);
@@ -123,7 +123,7 @@ const Profile = () => {
       }));
   
       await axios.post(
-        `https://api-gamelinkdb.vercel.app/api/users/removeFollowing?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/removeFollowing?apiKey=${apiKey}`,
         { userId: followerId, followingId: userId }
       );
     } catch (error) {
@@ -141,7 +141,7 @@ const Profile = () => {
   const handleDelete = async (postId) => {
     try {
       await axios.delete(
-        `https://api-gamelinkdb.vercel.app/api/posts/${postId}?apiKey=${apiKey}`
+        `https://api-gamelinkdb.onrender.com/api/posts/${postId}?apiKey=${apiKey}`
       );
       // Update the posts state to remove the deleted post
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));

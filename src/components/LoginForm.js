@@ -24,7 +24,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
         // Update the URL to include the user ID
         const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
         const response = await axios.get(
-          `https://api-gamelinkdb.vercel.app/api/users/${userId}?apiKey=${apiKey}`,
+          `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -64,7 +64,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
     try {
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
       const response = await axios.post(
-        `https://api-gamelinkdb.vercel.app/api/auth/login?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/auth/login?apiKey=${apiKey}`,
         { email, password, rememberMe },
         { headers: { "Content-Type": "application/json" } }
       );
