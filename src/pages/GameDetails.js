@@ -285,7 +285,7 @@ function GameDetails() {
         </div>
       </div>
 
-      {/* COMMENT SECTION */}
+      COMMENT SECTION
       <div class=" mx-auto max-w-screen-lg px-4 pt-8">
         <h1 class="text-4xl font-bold mb-4 text-gray-200 text-center">
           Discussion

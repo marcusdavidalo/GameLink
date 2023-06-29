@@ -78,11 +78,11 @@ const RegistrationForm = () => {
 
       // Make a POST request to the backend API to register the user
       await axios.post(
-        `https://api-gamelinkdb.onrender.com/api/auth/register?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.vercel.app/api/auth/register?apiKey=${apiKey}`,
         {
           username,
           email,
-          password,
+          password, 
           birthdate,
         }
       );

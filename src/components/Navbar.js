@@ -45,6 +45,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   const [username, setUsername] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(null);
 
   // Function to handle logging out
@@ -71,7 +72,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       setUserId(id);
 
       const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      const url = `https://api-gamelinkdb.onrender.com/api/users/${id}?apiKey=${apiKey}`;
+      const url = `https://api-gamelinkdb.vercel.app/api/users/${id}?apiKey=${apiKey}`;
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -94,22 +95,20 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       fetchUserData(token, setUserId, setUsername, setIsAdmin);
     }
   }, [setIsLoggedIn]);
-
+  
   useEffect(() => {
-    const fetchUserData = async () => {
-      const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
-      try {
-        const response = await fetch(
-          `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${apiKey}`
-        );
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+    const interval = setInterval(() => {
+      if (userId === null) {
+        const token = localStorage.getItem('token');
+        if (token) {
+          fetchUserData(token, setUserId, setUsername, setIsAdmin);
+        }
+      } else {
+        clearInterval(interval);
       }
-    };
-    fetchUserData();
-  }, [userId]);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [userId]);  
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -157,7 +156,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
           const usernameQuery = query.slice(1);
           axios
             .get(
-              `https://api-gamelinkdb.onrender.com/api/users?apiKey=${dbKey}`
+              `https://api-gamelinkdb.vercel.app/api/users?apiKey=${dbKey}`
             )
             .then((response) => {
               const users = response.data.filter(
@@ -230,7 +229,6 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [prevScrollPos]);
-
   return (
     <header>
       <nav
@@ -417,22 +415,6 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                               </Link>
                             </li>
                           )}
-                          {/* <li>
-                            <Link
-                              to="/messages"
-                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
-                            >
-                              Messages
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/notifications"
-                              className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
-                            >
-                              Notifications
-                            </Link>
-                          </li> */}
                           <li>
                             <Link
                               to="/settings"
