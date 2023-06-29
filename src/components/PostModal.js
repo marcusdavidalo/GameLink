@@ -1,15 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
 import { ReactComponent as Views } from '../assets/icons/eye.svg';
+import { ReactComponent as ThumbsUpFilled } from '../assets/icons//thumbsupfilled.svg';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
+const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserId, isAdmin }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [isLikeDisabled, setIsLikeDisabled] = useState(false);
   const modalRef = useRef(null);
+
+  const handleLikeClick = async (postId) => {
+    setIsLikeDisabled(true);
+    await handleLike(postId);
+    setIsLikeDisabled(false);
+  };
+
+  const handleUnlikeClick = async (postId) => {
+    setIsLikeDisabled(true);
+    await handleUnlike(postId);
+    setIsLikeDisabled(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,6 +51,13 @@ const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (loggedInUserId && post && post.likes) {
+      const hasUserLiked = post.likes.includes(loggedInUserId);
+      setHasLiked(hasUserLiked);
+    }    
+  }, [loggedInUserId, post]);
 
   return (
     <div className="rounded-md bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
@@ -67,43 +89,45 @@ const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
           <div className="flex items-center mt-2">
             {/* Display likes and views */}
             <div className="flex items-center mr-3 text-gray-400">
-              <ThumbsUp />
-              <p className="text-2xl px-1">{post.likes}</p>
+              {hasLiked ? (
+                <ThumbsUpFilled />
+              ) : (
+                <ThumbsUp />
+              )}
+              <p className="text-2xl px-1">{post.likes ? post.likes.length : 0}</p>
             </div>
             <div className="flex items-center mr-3 text-gray-400">
               <Views />
               <p className="text-2xl px-1">{post.views}</p>
             </div>
-          </div>
+        </div>
         </div>
       </div>
 
       {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-          <div className="fixed inset-0 bg-black opacity-75"></div>
+          <div className="fixed inset-0 bg-black/75"></div>
           <div
             ref={modalRef}
-            className="bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] rounded-lg p-4 z-10"
+            className="h-2/3 w-1/2 flex bg-[rgba(31,41,55,0.5)] backdrop-blur-md dark:bg-[rgba(255,255,255,0.75)] rounded-lg p-4 z-10"
           >
             {/* Display post media and additional details */}
-            <div className="flex">
+            <div className="flex h-full">
               {post.photoUrl && (
                 <img
-                  className="object-cover w-1/2 h-auto rounded-md"
+                  className="object-contain bg-black/60 w-1/2 h-full rounded-md"
                   src={post.photoUrl}
                   alt="Post"
                 />
               )}
               {post.videoUrl && (
-                <div className="w-1/2 h-auto rounded-md overflow-hidden">
                   <video
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-auto rounded-md"
                     src={post.videoUrl}
                     alt="Post"
                     controls
                   />
-                </div>
               )}
               <div className="ml-4 w-full">
                 <div className="flex justify-between">
@@ -116,8 +140,29 @@ const PostModal = ({ post, handleDelete, loggedInUserId, isAdmin }) => {
                       Delete
                     </button>
                   )}
-                  {/* Display comments */}
                 </div>
+
+                {/* Display likes and views */}
+                <div className="flex items-center mt-2">
+      <div className="flex items-center mr-3 text-gray-400">
+            {hasLiked ? (
+              <button onClick={() => handleUnlikeClick(post._id)} disabled={isLikeDisabled}>
+                <ThumbsUpFilled />
+              </button>
+            ) : (
+              <button onClick={() => handleLikeClick(post._id)} disabled={isLikeDisabled}>
+                <ThumbsUp />
+              </button>
+            )}
+        <p className="text-2xl px-1">{post.likes ? post.likes.length : 0}</p>
+      </div>
+      <div className="flex items-center mr-3 text-gray-400">
+        <Views />
+                    <p className="text-2xl px-1">{post.views}</p>
+                  </div>
+                </div>
+
+                {/* Display comments */}
               </div>
             </div>
           </div>

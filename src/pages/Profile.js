@@ -80,14 +80,16 @@ const Profile = () => {
           `https://api-gamelinkdb.onrender.com/api/posts?userId=${id}&apiKey=${apiKey}`
         );
         const data = await response.json();
+        console.log(data);
         setPosts(data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-
+  
     fetchPosts();
   }, [id, apiKey]);
+  
 
   const handleAddFollower = async (userId, followerId) => {
     try {
@@ -147,6 +149,44 @@ const Profile = () => {
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (error) {
       console.error('Error deleting post:', error);
+    }
+  };
+
+  
+  const handleLike = async (postId) => {
+    try {
+      await axios.post(`https://api-gamelinkdb.onrender.com/api/posts/like?apiKey=${apiKey}`, { postId, userId: loggedInUserId });
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post._id === postId) {
+            console.log('Before:', post.likes);
+            const updatedPost = { ...post, likes: [...post.likes, loggedInUserId] };
+            console.log('After:', updatedPost.likes);
+            return updatedPost;
+          }
+          return post;
+        })
+      );
+    } catch (error) {
+      console.log('Error liking post:', error);
+      console.error('Error liking post:', error);
+    }
+  };
+  
+  
+  const handleUnlike = async (postId) => {
+    try {
+      await axios.post(`https://api-gamelinkdb.onrender.com/api/posts/unlike?apiKey=${apiKey}`, { postId, userId: loggedInUserId });
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId
+            ? { ...post, likes: post.likes.filter((id) => id !== loggedInUserId) }
+            : post
+        )
+      );
+    } catch (error) {
+      console.log('Error unliking post:', error);
+      console.error('Error unliking post:', error);
     }
   };
 
@@ -228,6 +268,8 @@ const Profile = () => {
                   handleDelete={handleDelete}
                   loggedInUserId={loggedInUserId}
                   isAdmin={isAdmin}
+                  handleLike={handleLike}
+                  handleUnlike={handleUnlike}
                 />
               </div>
             ))}
