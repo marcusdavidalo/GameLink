@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import jwtDecode from 'jwt-decode';
-import { ReactComponent as ImageUp } from '../assets/icons/image.svg';
-import { ReactComponent as VideoUp } from '../assets/icons/video.svg';
+import React, { useState } from "react";
+import jwtDecode from "jwt-decode";
+import { ReactComponent as ImageUp } from "../assets/icons/image.svg";
+import { ReactComponent as VideoUp } from "../assets/icons/video.svg";
 
 const CreatePostForm = () => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const [video, setVideo] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -29,7 +29,7 @@ const CreatePostForm = () => {
     setIsLoading(true);
 
     // Get the JWT from localStorage
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     let userId;
     if (token) {
       // Decode the JWT to get the userId value
@@ -39,13 +39,13 @@ const CreatePostForm = () => {
 
     // Create a FormData object to hold the form data
     const formData = new FormData();
-    formData.append('userId', userId);
-    formData.append('content', content);
+    formData.append("userId", userId);
+    formData.append("content", content);
     if (photo) {
-      formData.append('photo', photo);
+      formData.append("photo", photo);
     }
     if (video) {
-      formData.append('video', video);
+      formData.append("video", video);
     }
 
     // Send a POST request to the backend to create a new post
@@ -54,21 +54,21 @@ const CreatePostForm = () => {
       const response = await fetch(
         `https://api-gamelinkdb.onrender.com/api/posts?apiKey=${apiKey}`,
         {
-          method: 'POST',
+          method: "POST",
           body: formData,
         }
       );
       const data = await response.json();
-      console.log('Post created:', data);
+      console.log("Post created:", data);
 
       // Reset the form
-      setContent('');
+      setContent("");
       setPhoto(null);
       setVideo(null);
       setPhotoPreview(null);
       setVideoPreview(null);
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error("Error creating post:", error);
     }
 
     setIsLoading(false);
@@ -164,7 +164,7 @@ const CreatePostForm = () => {
             ></path>
           </svg>
         ) : (
-          'Create Post'
+          "Create Post"
         )}
       </button>
     </form>

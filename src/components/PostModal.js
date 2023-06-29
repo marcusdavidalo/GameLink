@@ -1,14 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ReactComponent as ThumbsUp } from '../assets/icons/thumbsup.svg';
-import { ReactComponent as Views } from '../assets/icons/eye.svg';
-import { ReactComponent as ThumbsUpFilled } from '../assets/icons//thumbsupfilled.svg';
+import React, { useState, useEffect, useRef } from "react";
+import { ReactComponent as ThumbsUp } from "../assets/icons/thumbsup.svg";
+import { ReactComponent as Views } from "../assets/icons/eye.svg";
+import { ReactComponent as ThumbsUpFilled } from "../assets/icons//thumbsupfilled.svg";
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserId, isAdmin }) => {
+const PostModal = ({
+  post,
+  handleLike,
+  handleUnlike,
+  handleDelete,
+  loggedInUserId,
+  isAdmin,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [isLikeDisabled, setIsLikeDisabled] = useState(false);
@@ -34,11 +41,11 @@ const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserI
     };
 
     if (isOpen) {
-      window.addEventListener('click', handleClickOutside, { capture: true });
+      window.addEventListener("click", handleClickOutside, { capture: true });
     }
 
     return () => {
-      window.removeEventListener('click', handleClickOutside, {
+      window.removeEventListener("click", handleClickOutside, {
         capture: true,
       });
     };
@@ -56,7 +63,7 @@ const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserI
     if (loggedInUserId && post && post.likes) {
       const hasUserLiked = post.likes.includes(loggedInUserId);
       setHasLiked(hasUserLiked);
-    }    
+    }
   }, [loggedInUserId, post]);
 
   return (
@@ -89,18 +96,16 @@ const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserI
           <div className="flex items-center mt-2">
             {/* Display likes and views */}
             <div className="flex items-center mr-3 text-gray-400">
-              {hasLiked ? (
-                <ThumbsUpFilled />
-              ) : (
-                <ThumbsUp />
-              )}
-              <p className="text-2xl px-1">{post.likes ? post.likes.length : 0}</p>
+              {hasLiked ? <ThumbsUpFilled /> : <ThumbsUp />}
+              <p className="text-2xl px-1">
+                {post.likes ? post.likes.length : 0}
+              </p>
             </div>
             <div className="flex items-center mr-3 text-gray-400">
               <Views />
               <p className="text-2xl px-1">{post.views}</p>
             </div>
-        </div>
+          </div>
         </div>
       </div>
 
@@ -122,12 +127,12 @@ const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserI
                 />
               )}
               {post.videoUrl && (
-                  <video
-                    className="object-cover w-full h-auto rounded-md"
-                    src={post.videoUrl}
-                    alt="Post"
-                    controls
-                  />
+                <video
+                  className="object-cover w-full h-auto rounded-md"
+                  src={post.videoUrl}
+                  alt="Post"
+                  controls
+                />
               )}
               <div className="ml-4 w-full">
                 <div className="flex justify-between">
@@ -144,20 +149,28 @@ const PostModal = ({ post, handleLike, handleUnlike, handleDelete, loggedInUserI
 
                 {/* Display likes and views */}
                 <div className="flex items-center mt-2">
-      <div className="flex items-center mr-3 text-gray-400">
-            {hasLiked ? (
-              <button onClick={() => handleUnlikeClick(post._id)} disabled={isLikeDisabled}>
-                <ThumbsUpFilled />
-              </button>
-            ) : (
-              <button onClick={() => handleLikeClick(post._id)} disabled={isLikeDisabled}>
-                <ThumbsUp />
-              </button>
-            )}
-        <p className="text-2xl px-1">{post.likes ? post.likes.length : 0}</p>
-      </div>
-      <div className="flex items-center mr-3 text-gray-400">
-        <Views />
+                  <div className="flex items-center mr-3 text-gray-400">
+                    {hasLiked ? (
+                      <button
+                        onClick={() => handleUnlikeClick(post._id)}
+                        disabled={isLikeDisabled}
+                      >
+                        <ThumbsUpFilled />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleLikeClick(post._id)}
+                        disabled={isLikeDisabled}
+                      >
+                        <ThumbsUp />
+                      </button>
+                    )}
+                    <p className="text-2xl px-1">
+                      {post.likes ? post.likes.length : 0}
+                    </p>
+                  </div>
+                  <div className="flex items-center mr-3 text-gray-400">
+                    <Views />
                     <p className="text-2xl px-1">{post.views}</p>
                   </div>
                 </div>

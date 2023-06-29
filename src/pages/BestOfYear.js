@@ -59,7 +59,6 @@ const BestOfYear = () => {
         const response = await fetch(
           `https://api.rawg.io/api/games/lists/popular?key=${apiKey}&dates=${bestOfYearStartDate},${bestOfYearEndDate}&ordering=ratings&page=${currentPage}&page_size=20`
         );
-        console.log(response);
         const data = await response.json();
         setBestOfYear(data.results);
       } catch (error) {
