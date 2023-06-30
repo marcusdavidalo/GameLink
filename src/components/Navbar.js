@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Switch } from '@headlessui/react';
-import logo from '../assets/logo.png';
-import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
-import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
-import { ReactComponent as SearchIcon } from '../assets/icons/search.svg';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Switch } from "@headlessui/react";
+import logo from "../assets/logo.png";
+import { ReactComponent as LightIcon } from "../assets/icons/sun.svg";
+import { ReactComponent as DarkIcon } from "../assets/icons/moon.svg";
+import { ReactComponent as SearchIcon } from "../assets/icons/search.svg";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 function NavItem({ to, children }) {
   return (
@@ -14,10 +14,10 @@ function NavItem({ to, children }) {
       to={to}
       className={({ isActive, isPending }) =>
         isPending
-          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500'
+          ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
           : isActive
-          ? 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-cyan-500  dark:text-gray-200 dark:bg-cyan-500'
-          : 'ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500'
+          ? "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-cyan-500  dark:text-gray-200 dark:bg-cyan-500"
+          : "ml-2 px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500"
       }
     >
       {children}
@@ -26,7 +26,7 @@ function NavItem({ to, children }) {
 }
 
 function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [selectedGame, setSelectedGame] = useState(null);
@@ -42,7 +42,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -51,12 +51,12 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   // Function to handle logging out
   const handleLogout = () => {
     // Clear the token from local storage
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
 
     // Update state to indicate that the user is logged out
     setIsLoggedIn(false);
-    setUsername('');
+    setUsername("");
   };
 
   // Function to toggle the dropdown menu
@@ -89,17 +89,17 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
       fetchUserData(token, setUserId, setUsername, setIsAdmin);
     }
   }, [setIsLoggedIn]);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (userId === null) {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (token) {
           fetchUserData(token, setUserId, setUsername, setIsAdmin);
         }
@@ -108,12 +108,12 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [userId]);  
+  }, [userId]);
 
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -126,7 +126,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
           showSuggestions) ||
         (profileDropDownRef.current &&
           !profileDropDownRef.current.contains(event.target) &&
-          !event.target.closest('#profileDropdown'))
+          !event.target.closest("#profileDropdown"))
       ) {
         setSuggestions([]);
         setShowSuggestions(false);
@@ -134,9 +134,9 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       }
     }
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [showSuggestions]);
 
@@ -152,7 +152,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
     } else {
       clearTimeout(timeoutIdRef.current);
       timeoutIdRef.current = setTimeout(() => {
-        if (query.startsWith('@')) {
+        if (query.startsWith("@")) {
           const usernameQuery = query.slice(1);
           axios
             .get(
@@ -169,7 +169,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
               setShowSuggestions(true);
             })
             .catch((error) => {
-              console.error('Error fetching user suggestions:', error);
+              console.error("Error fetching user suggestions:", error);
             });
         } else {
           axios
@@ -189,7 +189,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
               setShowSuggestions(true);
             })
             .catch((error) => {
-              console.error('Error fetching game suggestions:', error);
+              console.error("Error fetching game suggestions:", error);
             });
         }
       }, 200);
@@ -204,7 +204,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
   function handleGameSelect(game) {
     setSelectedGame(game);
     navigate(`/game/${game.slug}/${game.id}`);
-    setSearchQuery('');
+    setSearchQuery("");
     setSuggestions([]);
   }
 
@@ -223,17 +223,17 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       setShowBackToTop(currentScrollPos > 200);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [prevScrollPos]);
   return (
     <header>
       <nav
         className={`static md:fixed top-0 left-0 right-0 flex justify-center pb-40 py-4 sm:py-2 box-content bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] transition-transform duration-500 z-[9998] ${
-          isNavHidden ? 'translate-y-[-100%] blur-sm' : ''
+          isNavHidden ? "translate-y-[-100%] blur-sm" : ""
         }`}
       >
         <div className="container">
@@ -279,16 +279,16 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                     id="suggestions"
                     className="absolute overflow-visible items-center bg-slate-700/80 backdrop-blur-[2px] border border-gray-200/60 rounded-md z-[999]"
                   >
-                    {searchQuery.startsWith('@')
+                    {searchQuery.startsWith("@")
                       ? suggestions.map((user) => (
                           <li
                             key={user.id}
                             className="grid grid-cols-3 items-center px-4 hover:bg-slate-600/80 cursor-pointer"
                             onClick={() => navigate(`/profile/${user._id}`)}
                           >
-                            {user.avatarUrl ? (
+                            {user.avatar ? (
                               <img
-                                src={user.avatarUrl}
+                                src={user.avatar}
                                 alt="Avatar"
                                 className="w-10 h-10 my-2 rounded-full"
                               />
@@ -319,12 +319,12 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                             <div className="px-5">
                               <p className="text-slate-300">
                                 <span className="font-semibold">
-                                  Release Date:{' '}
+                                  Release Date:{" "}
                                 </span>
                                 {game.releaseDate}
                               </p>
                               <p className="text-slate-300">
-                                <span className="font-semibold">Rating: </span>{' '}
+                                <span className="font-semibold">Rating: </span>{" "}
                                 {game.rating}
                               </p>
                             </div>
@@ -340,12 +340,12 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                     checked={isDarkMode}
                     onChange={handleDarkModeToggle}
                     className={`${
-                      isDarkMode ? 'bg-slate-600' : 'bg-gray-400'
+                      isDarkMode ? "bg-slate-600" : "bg-gray-400"
                     } relative inline-flex items-center h-6 rounded-full w-11`}
                   >
                     <span
                       className={`${
-                        isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                        isDarkMode ? "translate-x-6" : "translate-x-1"
                       } inline-block w-4 h-4 transform bg-white rounded-full`}
                     />
                   </Switch>
@@ -376,13 +376,13 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                         className="px-3 py-2 rounded-md hover:scale-105"
                       >
                         <div className="flex flex-col align-center items-center">
-                          {!user || !user.avatarUrl ? (
+                          {!user || !user.avatar ? (
                             <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
                               ?
                             </div>
                           ) : (
                             <img
-                              src={user.avatarUrl}
+                              src={user.avatar}
                               alt="Avatar"
                               className="w-10 h-10 rounded-full"
                             />

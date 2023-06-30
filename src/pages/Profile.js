@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 import PostModal from "../components/PostModal";
 import usePageTitle from "../hooks/useTitle";
+import AvatarModal from "../components/AvatarModal";
 
 // eslint-disable-next-line no-unused-vars
 const formatDate = (dateString) => {
@@ -19,6 +20,7 @@ const Profile = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
 
   useEffect(() => {
@@ -72,6 +74,50 @@ const Profile = () => {
 
     fetchUserData();
   }, [id]);
+
+  // Handler for opening the avatar modal
+  const handleOpenAvatarModal = () => {
+    setShowAvatarModal(true);
+  };
+
+  // Handler for closing the avatar modal
+  const handleCloseAvatarModal = () => {
+    setShowAvatarModal(false);
+  };
+
+  // Handler for uploading the profile picture
+  const handleUploadProfile = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const response = await axios.put(
+        `http://localhost:5000/api/users/${id}/uploadAvatar?apiKey=${apiKey}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+    }
+  };
+
+  // Handler for removing the profile picture
+  const handleRemoveProfile = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/users/${id}/removeAvatar?apiKey=${apiKey}`
+      );
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error removing avatar:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -208,14 +254,22 @@ const Profile = () => {
             >
               <div className="flex ">
                 <div className="flex flex-col align-middle items-center mb-4">
-                  {user.avatarUrl ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt="Avatar"
-                      className="w-40 h-40 rounded-full"
-                    />
+                  {user.avatar ? (
+                    <div
+                      className="items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer"
+                      onClick={handleOpenAvatarModal}
+                    >
+                      <img
+                        src={user.avatar}
+                        alt="Avatar"
+                        className="object-fit hover:scale-110"
+                      />
+                    </div>
                   ) : (
-                    <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
+                    <div
+                      className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer"
+                      onClick={handleOpenAvatarModal}
+                    >
                       ?
                     </div>
                   )}
@@ -295,6 +349,15 @@ const Profile = () => {
                 />
               </div>
             ))}
+          </div>
+          <div>
+            {showAvatarModal && ( // Render the avatar modal if showAvatarModal is true
+              <AvatarModal
+                onClose={handleCloseAvatarModal}
+                onUpload={handleUploadProfile}
+                onRemove={handleRemoveProfile}
+              />
+            )}
           </div>
         </div>
       </div>
