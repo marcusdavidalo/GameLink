@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import SwiperCore, { Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
-import usePageTitle from '../hooks/useTitle';
-import explicitContentFilters from '../json/explicitContentFilters.json';
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import SwiperCore, { Scrollbar } from "swiper";
+import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import GameComments from "../components/GameComments";
+import axios from "axios";
+import usePageTitle from "../hooks/useTitle";
+import explicitContentFilters from "../json/explicitContentFilters.json";
+import "swiper/css/bundle";
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -229,26 +230,29 @@ function GameDetails() {
                   Game Tags
                 </h5>
                 <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
-                {gameData.tags.slice(0, 50).map((tag, index) => {
-  const isExplicit = explicitContentFilters.tags.includes(tag.name);
+                  {gameData.tags.slice(0, 50).map((tag, index) => {
+                    const isExplicit = explicitContentFilters.tags.includes(
+                      tag.name
+                    );
 
-  return (
-    <li
-      key={tag.id}
-      className="list-group-item text-gray-300 mr-2 mb-4"
-      data-aos="fade-left"
-      data-aos-delay={(index + 1) * 50}
-    >
-      <p
-        className={`text-base bg-gray-600/60 px-5 py-2 rounded-full ${isExplicit ? 'text-red-500' : ''}`}
-        title={tag.name}
-      >
-        {tag.name}
-      </p>
-    </li>
-  );
-})}
-                 
+                    return (
+                      <li
+                        key={tag.id}
+                        className="list-group-item text-gray-300 mr-2 mb-4"
+                        data-aos="fade-left"
+                        data-aos-delay={(index + 1) * 50}
+                      >
+                        <p
+                          className={`text-base bg-gray-600/60 px-5 py-2 rounded-full ${
+                            isExplicit ? "text-red-500" : ""
+                          }`}
+                          title={tag.name}
+                        >
+                          {tag.name}
+                        </p>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -281,146 +285,158 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      COMMENT SECTION
-      <div class=" mx-auto max-w-screen-lg px-4 pt-8">
-        <h1 class="text-4xl font-bold mb-4 text-gray-200 text-center">
-          Discussion
-        </h1>
-
-        {/* Comment Form */}
-        <form class="">
-          <div class="flex flex-col mb-4">
-            <label htmlFor="name" class="font-bold mb-2 text-gray-200">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            ></input>
-          </div>
-
-          <div class="flex flex-col mb-4">
-            <label htmlFor="comment" class="font-bold mb-2 text-gray-200">
-              Comment
-            </label>
-            <textarea
-              id="comment"
-              name="comment"
-              rows="4"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-
-      {/* <!-- COMMENT --> */}
-      <div class="container mx-auto max-w-screen-lg">
-        <h3 class="text-4xl font-bold mb-4 text-gray-200 text-center">
-          Comments
-        </h3>
-
-        <div class="space-y-4 rounded-lg bg-slate-800/50 py-8 mb-5 px-5 dark:bg-slate-200/70">
-          <div class="flex row">
-            <div class="flex-shrink-0">
-              <img
-                class="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
-                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 rounded-lg px-4 py-2 sm:px-5 sm:py-3 md:px-6 md:py-4 lg:px-7 lg:py-5 leading-relaxed">
-              <strong class="text-gray-200">Sarah</strong>{" "}
-              <span class="text-xs text-gray-400">&nbsp;6hr ago</span>
-              <p class="text-sm text-gray-200">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua.
-              </p>
-              <div class="mt-4 flex items-center">
-                <div class="text-xs uppercase tracking-wide text-gray-400 font-bold underline underline-offset-4">
-                  Show Replies
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <img
-                class="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
-                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-              <strong className="text-gray-200">Sarah</strong>{" "}
-              <span class="text-xs text-gray-400">&nbsp;3hr ago</span>
-              <p class="text-sm text-gray-200">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua.
-              </p>
-              <div class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs underline underline-offset-4">
-                Hide Replies
-              </div>
-              <div class="space-y-4">
-                <div class="flex">
-                  <div class="flex-shrink-0 mr-3">
-                    <img
-                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{" "}
-                    <span class="text-xs text-gray-400">&nbsp;1hr ago</span>
-                    <p class="text-xs sm:text-sm">
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                      magna aliquyam erat, sed diam voluptua.
-                    </p>
-                  </div>
-                </div>
-                <div class="flex">
-                  <div class="flex-shrink-0 mr-3">
-                    <img
-                      class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
-                    <strong>Sarah</strong>{" "}
-                    <span class="text-xs text-gray-400">&nbsp;2mins ago</span>
-                    <p class="text-xs sm:text-sm">
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                      magna aliquyam erat, sed diam voluptua.
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
+              <GameComments gameId={id} />
             </div>
           </div>
         </div>
       </div>
+      {/* COMMENT SECTION */}
+      <section className="space-y-4 rounded-lg bg-slate-800/50 py-8 mb-5 px-5 dark:bg-slate-200/70">
+        <div className=" mx-auto max-w-screen-lg px-4 pt-8">
+          <h1 className="text-4xl font-bold mb-4 text-gray-200 text-center">
+            Discussion
+          </h1>
+          {/* Comment Form */}
+          <form className="">
+            <div className="flex flex-col mb-4">
+              <textarea
+                id="comment"
+                name="comment"
+                rows="4"
+                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              ></textarea>
+            </div>
 
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-base text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+
+        {/* <!-- COMMENT --> */}
+        <div className="container mx-auto max-w-screen-lg">
+          <h3 className="text-4xl font-bold mb-4 text-gray-200 text-center">
+            Comments
+          </h3>
+
+          {/* COMMENT 1/////////////////////////////////////////////////////////////////////////////////////// */}
+          <div className="flex row">
+            <div className="">
+              <img
+                className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div className="flex-1 rounded-lg px-4 pb-2 sm:px-5 sm:pb-3 md:px-6 md:pb-4 lg:px-7 lg:pb-5 leading-relaxed">
+              <strong className="text-base text-gray-200">Sarah</strong>{" "}
+              <span className="text-xs text-gray-400">&nbsp;6hr ago</span>
+              <p className="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <div className="mt-4 flex items-center">
+                <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
+                  Like
+                </div>
+                <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                  Reply
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* COMMENT 2//////////////////////////////////////////////////////////////////////////////////// */}
+          <div className="flex">
+            <div>
+              <img
+                className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                alt=""
+              />
+            </div>
+            <div className="flex-1 rounded-lg px-4 pb-2 sm:px-5 sm:pb-3 md:px-6 md:pb-4 lg:px-7 lg:pb-5 leading-relaxed">
+              <strong className="text-base text-gray-200">Sarah</strong>{" "}
+              <span className="text-xs text-gray-400">&nbsp;3hr ago</span>
+              <p className="text-sm text-gray-200">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              </p>
+              <div className="mt-4 flex items-center">
+                <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
+                  Like
+                </div>
+                <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                  Reply
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex">
+                  <div className="mr-3">
+                    <img
+                      className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div className="text-base rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong className="text-base">Sarah</strong>{" "}
+                    <span className="text-xs text-gray-400">&nbsp;1hr ago</span>
+                    <p className="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
+                        Like
+                      </div>
+                      <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                        Reply
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex">
+                  <div className="mr-3">
+                    <img
+                      className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                      src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed text-gray-200">
+                    <strong className="text-base">Sarah</strong>{" "}
+                    <span className="text-xs text-gray-400">
+                      &nbsp;2mins ago
+                    </span>
+                    <p className="text-xs sm:text-sm">
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
+                      magna aliquyam erat, sed diam voluptua.
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
+                        Like
+                      </div>
+                      <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                        Reply
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Top News */}
       <div className="flex justify-center top-news bg-slate-800/50 py-12 mt-8 mb-5 px-4 dark:bg-slate-200/70">
         <div id="TopNews" className="container">
@@ -532,7 +548,7 @@ function GameDetails() {
                               news.title +
                               "&font=roboto"
                             }
-                            class="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
+                            className="card-img-top h-auto w-full object-cover origin-center hover:scale-[1.05]"
                             alt="Game News"
                           />
                         </a>

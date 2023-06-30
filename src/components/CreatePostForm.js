@@ -139,7 +139,7 @@ const CreatePostForm = () => {
       </div>
       <button
         type="submit"
-        className="px-4 py-2 bg-cyan-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+        className="px-4 py-2 bg-cyan-500 text-base text-white rounded-md hover:bg-blue-600 transition duration-200"
         disabled={isLoading}
       >
         {isLoading ? (
