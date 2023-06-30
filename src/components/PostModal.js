@@ -59,7 +59,7 @@ const PostModal = ({
 
       // Make a request to update the post in the database
       await axios.put(
-        `http://localhost:5000/api/posts/${postId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        `https://api-gamelinkdb.onrender.com/api/posts/${postId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
         {
           views: post.views,
         }
@@ -115,14 +115,18 @@ const PostModal = ({
           <div className="flex items-center mt-2">
             {/* Display likes and views */}
             <div className="flex items-center mr-3 text-gray-400">
-              {hasLiked ? <ThumbsUpFilled /> : <ThumbsUp />}
-              <p className="text-2xl px-1">
+              {hasLiked ? (
+                <ThumbsUpFilled width="24" height="24" />
+              ) : (
+                <ThumbsUp width="24" height="24" />
+              )}
+              <p className="text-base px-1">
                 {post.likes ? post.likes.length : 0}
               </p>
             </div>
             <div className="flex items-center mr-3 text-gray-400">
-              <Views />
-              <p className="text-2xl px-1">{post.views}</p>
+              <Views width="24" height="24" />
+              <p className="text-base px-1">{post.views}</p>
             </div>
           </div>
         </div>
@@ -174,14 +178,14 @@ const PostModal = ({
                         onClick={() => handleUnlikeClick(post._id)}
                         disabled={isLikeDisabled}
                       >
-                        <ThumbsUpFilled />
+                        <ThumbsUpFilled width="32" height="32" />
                       </button>
                     ) : (
                       <button
                         onClick={() => handleLikeClick(post._id)}
                         disabled={isLikeDisabled}
                       >
-                        <ThumbsUp />
+                        <ThumbsUp width="32" height="32" />
                       </button>
                     )}
                     <p className="text-2xl px-1">
@@ -189,7 +193,7 @@ const PostModal = ({
                     </p>
                   </div>
                   <div className="flex items-center mr-3 text-gray-400">
-                    <Views />
+                    <Views width="32" height="32" />
                     <p className="text-2xl px-1">{post.views}</p>
                   </div>
                 </div>

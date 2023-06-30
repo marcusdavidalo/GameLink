@@ -15,7 +15,7 @@ function GameComments({ gameId }) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+        `https://api-gamelinkdb.onrender.com/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
       )
       .then((response) => {
         console.log("Fetched comments:", response.data);
@@ -54,7 +54,7 @@ function GameComments({ gameId }) {
     // Send a POST request to the backend to create a new comment
     try {
       const response = await fetch(
-        `http://localhost:5000/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        `https://api-gamelinkdb.onrender.com/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
         {
           method: "POST",
           body: formData,
