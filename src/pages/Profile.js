@@ -92,7 +92,7 @@ const Profile = () => {
       formData.append("avatar", file);
 
       const response = await axios.put(
-        `http://localhost:5000/api/users/${id}/uploadAvatar?apiKey=${apiKey}`,
+        `https://api-gamelinkdb.onrender.com/api/users/${id}/uploadAvatar?apiKey=${apiKey}`,
         formData,
         {
           headers: {
@@ -111,7 +111,7 @@ const Profile = () => {
   const handleRemoveProfile = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/users/${id}/removeAvatar?apiKey=${apiKey}`
+        `https://api-gamelinkdb.onrender.com/api/users/${id}/removeAvatar?apiKey=${apiKey}`
       );
       setUser(response.data);
     } catch (error) {
