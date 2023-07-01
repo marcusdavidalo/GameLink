@@ -64,7 +64,13 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const fetchUserData = async (token, setUserId, setUsername, setIsAdmin) => {
+  const fetchUserData = async (
+    token,
+    setUserId,
+    setUsername,
+    setIsAdmin,
+    setUser
+  ) => {
     try {
       // Decode the token to get the user ID
       const decodedToken = jwtDecode(token);
@@ -76,6 +82,9 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      // Update the user state variable with the user data
+      setUser(response.data);
 
       const username = response.data.username;
       setUsername(username);
@@ -92,7 +101,7 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      fetchUserData(token, setUserId, setUsername, setIsAdmin);
+      fetchUserData(token, setUserId, setUsername, setIsAdmin, setUser);
     }
   }, [setIsLoggedIn]);
 
@@ -287,11 +296,13 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                             onClick={() => navigate(`/profile/${user._id}`)}
                           >
                             {user.avatar ? (
-                              <img
-                                src={user.avatar}
-                                alt="Avatar"
-                                className="w-10 h-10 my-2 rounded-full"
-                              />
+                              <div className="w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer relative overflow-hidden">
+                                <img
+                                  src={user.avatar}
+                                  alt="Avatar"
+                                  className="object-cover w-full h-full transition-transform hover:scale-110"
+                                />
+                              </div>
                             ) : (
                               <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-10 h-10 my-2 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
                                 ?
@@ -376,16 +387,18 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
                         className="px-3 py-2 rounded-md hover:scale-105"
                       >
                         <div className="flex flex-col align-center items-center">
-                          {!user || !user.avatar ? (
+                          {user && user.avatar ? (
+                            <div className="w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer relative overflow-hidden">
+                              <img
+                                src={user.avatar}
+                                alt="Avatar"
+                                className="object-cover w-full h-full transition-transform hover:scale-110"
+                              />
+                            </div>
+                          ) : (
                             <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-10 h-10 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
                               ?
                             </div>
-                          ) : (
-                            <img
-                              src={user.avatar}
-                              alt="Avatar"
-                              className="w-10 h-10 rounded-full"
-                            />
                           )}
                           <p className="text-2xl font-semibold mt-2"></p>
                         </div>

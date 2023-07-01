@@ -256,13 +256,13 @@ const Profile = () => {
                 <div className="flex flex-col align-middle items-center mb-4">
                   {user.avatar ? (
                     <div
-                      className="items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer"
+                      className="w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer relative overflow-hidden"
                       onClick={handleOpenAvatarModal}
                     >
                       <img
                         src={user.avatar}
                         alt="Avatar"
-                        className="object-fit hover:scale-110"
+                        className="object-cover w-full h-full transition-transform hover:scale-110"
                       />
                     </div>
                   ) : (
