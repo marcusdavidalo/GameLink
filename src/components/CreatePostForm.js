@@ -13,12 +13,16 @@ const CreatePostForm = () => {
 
   const handlePhotoChange = (event) => {
     const selectedPhoto = event.target.files[0];
+    setVideo(null);
+    setVideoPreview(null);
     setPhoto(selectedPhoto);
     setPhotoPreview(URL.createObjectURL(selectedPhoto));
   };
 
   const handleVideoChange = (event) => {
     const selectedVideo = event.target.files[0];
+    setPhoto(null);
+    setPhotoPreview(null);
     setVideo(selectedVideo);
     setVideoPreview(URL.createObjectURL(selectedVideo));
   };

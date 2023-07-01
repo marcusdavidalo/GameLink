@@ -77,7 +77,9 @@ const Profile = () => {
 
   // Handler for opening the avatar modal
   const handleOpenAvatarModal = () => {
-    setShowAvatarModal(true);
+    if (loggedInUserId === id) {
+      setShowAvatarModal(true);
+    }
   };
 
   // Handler for closing the avatar modal
@@ -256,7 +258,9 @@ const Profile = () => {
                 <div className="flex flex-col align-middle items-center mb-4">
                   {user.avatar ? (
                     <div
-                      className="w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer relative overflow-hidden"
+                      className={`w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] ${
+                        loggedInUserId === id ? "cursor-pointer" : ""
+                      } relative overflow-hidden`}
                       onClick={handleOpenAvatarModal}
                     >
                       <img
@@ -267,7 +271,9 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div
-                      className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] cursor-pointer"
+                      className={`flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] ${
+                        loggedInUserId === id ? "cursor-pointer" : ""
+                      }`}
                       onClick={handleOpenAvatarModal}
                     >
                       ?

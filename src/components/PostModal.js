@@ -9,6 +9,10 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
+const handleContextMenu = (event) => {
+  event.preventDefault();
+};
+
 const PostModal = ({
   post,
   handleLike,
@@ -94,6 +98,7 @@ const PostModal = ({
             className="object-cover w-full h-40 rounded-t-md cursor-pointer"
             src={post.photoUrl}
             alt="Post"
+            onContextMenu={handleContextMenu}
           />
         )}
         {post.videoUrl && (
@@ -102,6 +107,7 @@ const PostModal = ({
               className="object-cover w-full h-full"
               src={post.videoUrl}
               alt="Post Thumbnail"
+              onContextMenu={handleContextMenu}
             />
           </div>
         )}
@@ -147,16 +153,20 @@ const PostModal = ({
                   className="object-contain bg-black/60 w-1/2 h-full rounded-md"
                   src={post.photoUrl}
                   alt="Post"
+                  onContextMenu={handleContextMenu}
                 />
               )}
               {post.videoUrl && (
                 <video
-                  className="object-cover w-full h-auto rounded-md"
+                  className="object-contain bg-black/60 w-1/2 h-full rounded-md"
                   src={post.videoUrl}
-                  alt="Post"
+                  alt="Post Thumbnail"
                   controls
+                  controlsList="nodownload"
+                  onContextMenu={handleContextMenu}
                 />
               )}
+
               <div className="ml-4 w-full">
                 <div className="flex justify-between">
                   <p>{post.content}</p>
