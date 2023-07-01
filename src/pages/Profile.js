@@ -271,12 +271,19 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div
-                      className={`flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] ${
+                      className={`relative flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)] ${
                         loggedInUserId === id ? "cursor-pointer" : ""
                       }`}
-                      onClick={handleOpenAvatarModal}
                     >
                       ?
+                      <span
+                        className={`flex text-white items-center justify-center z-50 text-base text-center align-middle bg-gray-400/60 border absolute top-0 left-0 h-8 w-8 rounded-full ${
+                          loggedInUserId === id ? "cursor-pointer" : "hidden"
+                        }`}
+                        onClick={handleOpenAvatarModal}
+                      >
+                        +
+                      </span>
                     </div>
                   )}
                 </div>
