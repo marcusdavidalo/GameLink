@@ -30,6 +30,10 @@ const CreatePostForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!content) {
+      return;
+    }
+
     setIsLoading(true);
 
     // Get the JWT from localStorage

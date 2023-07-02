@@ -269,23 +269,31 @@ const Profile = () => {
             </>
           )}
           <h3 className="text-2xl font-bold mt-8 mb-4">Latest Posts</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-wrap">
-            {posts.map((post) => (
-              <div
-                className="w-full text-slate-200 dark:text-slate-800"
-                key={post._id}
-              >
-                <PostModal
-                  post={post}
-                  handleDelete={handleDelete}
-                  loggedInUserId={loggedInUserId}
-                  isAdmin={isAdmin}
-                  handleLike={handleLike}
-                  handleUnlike={handleUnlike}
-                />
-              </div>
-            ))}
-          </div>
+          {posts.length === 0 ? (
+            <div className="w-full text-5xl flex justify-center text-slate-200 dark:text-slate-800">
+              <span className="py-20 font-black bg-slate-800/50 w-full flex justify-center rounded-md">
+                Nothing to see here...
+              </span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-wrap">
+              {posts.map((post) => (
+                <div
+                  className="w-full text-slate-200 dark:text-slate-800"
+                  key={post._id}
+                >
+                  <PostModal
+                    post={post}
+                    handleDelete={handleDelete}
+                    loggedInUserId={loggedInUserId}
+                    isAdmin={isAdmin}
+                    handleLike={handleLike}
+                    handleUnlike={handleUnlike}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           <div>
             {showAvatarModal && ( // Render the avatar modal if showAvatarModal is true
               <AvatarModal

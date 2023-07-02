@@ -13,9 +13,7 @@ const ProfileHeader = ({
   return (
     <>
       <div
-        className={`flex ${
-          isAdmin ? "justify-between" : "justify-center"
-        } border-y-2 border-slate-500/40 rounded-md mx-20 py-10`}
+        className={`flex justify-center border-y-2 border-slate-500/40 rounded-md mx-20 py-10`}
       >
         <div className="flex flex-col justify-center items-center md:flex-row md:items-start">
           <div className="flex align-middle items-center mb-4">
@@ -40,7 +38,7 @@ const ProfileHeader = ({
               >
                 ?
                 <span
-                  className={`flex text-white items-center justify-center z-50 text-base text-center align-middle bg-gray-400/60 border absolute top-0 left-0 h-8 w-8 rounded-full ${
+                  className={`flex text-gray-800 justify-center z-50 text-3xl bg-gray-200/80 border absolute top-0 left-0 h-10 w-10 rounded-full font-black ${
                     loggedInUserId === id ? "cursor-pointer" : "hidden"
                   }`}
                   onClick={handleOpenAvatarModal}
@@ -51,8 +49,10 @@ const ProfileHeader = ({
             )}
           </div>
           <div className="flex flex-col">
-            <div className="flex justify-center md:justify-start items-center mx-5">
-              <p className="text-4xl font-semibold mt-2">{user.username}</p>
+            <div className="flex w-full justify-center items-center mx-5">
+              <p className="text-3xl md:text-4xl font-bold mt-2">
+                {user.username}
+              </p>
               {loggedInUserId && loggedInUserId !== id && (
                 <div className="text-2xl m-5 w-auto">
                   {isFollowing ? (
