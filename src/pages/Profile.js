@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import CreatePostForm from "../components/CreatePostForm";
+import CreatePostForm from "../components/profile/CreatePostForm";
+import PostModal from "../components/profile/PostModal";
+import AvatarModal from "../components/profile/AvatarModal";
+import ProfileHeader from "../components/profile/ProfileHeader";
 import { useParams } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
-import PostModal from "../components/PostModal";
 import usePageTitle from "../hooks/useTitle";
 
 // eslint-disable-next-line no-unused-vars
@@ -19,6 +21,7 @@ const Profile = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
   const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
 
   useEffect(() => {
@@ -72,6 +75,52 @@ const Profile = () => {
 
     fetchUserData();
   }, [id]);
+
+  // Handler for opening the avatar modal
+  const handleOpenAvatarModal = () => {
+    if (loggedInUserId === id) {
+      setShowAvatarModal(true);
+    }
+  };
+
+  // Handler for closing the avatar modal
+  const handleCloseAvatarModal = () => {
+    setShowAvatarModal(false);
+  };
+
+  // Handler for uploading the profile picture
+  const handleUploadProfile = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const response = await axios.put(
+        `https://api-gamelinkdb.onrender.com/api/users/${id}/uploadAvatar?apiKey=${apiKey}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+    }
+  };
+
+  // Handler for removing the profile picture
+  const handleRemoveProfile = async () => {
+    try {
+      const response = await axios.put(
+        `https://api-gamelinkdb.onrender.com/api/users/${id}/removeAvatar?apiKey=${apiKey}`
+      );
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error removing avatar:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -199,78 +248,19 @@ const Profile = () => {
   return (
     <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
-        <div className="border-box text-white dark:text-gray-800 overflow-hidden px-4">
+        <div className="border-box text-white dark:text-gray-800 overflow-hidden">
           {user && (
-            <div
-              className={`flex ${
-                isAdmin ? "justify-between" : "justify-center"
-              } border-y-2 border-slate-500/40 rounded-md mx-20 py-10`}
-            >
-              <div className="flex ">
-                <div className="flex flex-col align-middle items-center mb-4">
-                  {user.avatarUrl ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt="Avatar"
-                      className="w-40 h-40 rounded-full"
-                    />
-                  ) : (
-                    <div className="flex justify-center font-extrabold text-5xl text-slate-400/60 items-center align-middle w-40 h-40 rounded-full bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
-                      ?
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex items-center mx-5">
-                    <p className="text-4xl font-semibold mt-2">
-                      {user.username}
-                    </p>
-                    {loggedInUserId && loggedInUserId !== id && (
-                      <div className="text-2xl m-5 w-auto">
-                        {isFollowing ? (
-                          <button
-                            className=" bg-red-500 hover:bg-red-500/80 rounded-md px-2 py-1"
-                            onClick={() =>
-                              handleRemoveFollower(user._id, loggedInUserId)
-                            }
-                          >
-                            Unfollow
-                          </button>
-                        ) : (
-                          <button
-                            className=" bg-cyan-500 hover:bg-cyan-500/80 rounded-md px-2 py-1"
-                            onClick={() =>
-                              handleAddFollower(user._id, loggedInUserId)
-                            }
-                          >
-                            Follow
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex font-bold justify-center my-5">
-                    <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                      <span className="font-bold text-3xl">{posts.length}</span>{" "}
-                      Posts
-                    </p>
-                    <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                      <span className="font-bold text-3xl">
-                        {user.followers.length}
-                      </span>{" "}
-                      Followers
-                    </p>
-                    <p className="flex flex-col items-center font-semibold text-2xl px-5">
-                      <span className="font-bold text-3xl">
-                        {user.following.length}
-                      </span>{" "}
-                      Following
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex"></div>
-            </div>
+            <ProfileHeader
+              user={user}
+              loggedInUserId={loggedInUserId}
+              isFollowing={isFollowing}
+              handleOpenAvatarModal={handleOpenAvatarModal}
+              handleAddFollower={handleAddFollower}
+              handleRemoveFollower={handleRemoveFollower}
+              isAdmin={isAdmin}
+              id={id}
+              posts={posts}
+            />
           )}
           {loggedInUserId === id && (
             <>
@@ -295,6 +285,15 @@ const Profile = () => {
                 />
               </div>
             ))}
+          </div>
+          <div>
+            {showAvatarModal && ( // Render the avatar modal if showAvatarModal is true
+              <AvatarModal
+                onClose={handleCloseAvatarModal}
+                onUpload={handleUploadProfile}
+                onRemove={handleRemoveProfile}
+              />
+            )}
           </div>
         </div>
       </div>

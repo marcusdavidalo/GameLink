@@ -378,7 +378,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="swiper-container  all-time-top mt-10">
+          <div className="swiper-container all-time-top mt-10">
             <div className="flex justify-between">
               <Link
                 to="/all-time-top"
@@ -390,7 +390,7 @@ function Home() {
                 </h2>
               </Link>
               {/* Swiper Navigations for all time top swipers */}
-              <div className="flex justify-between">
+              <div className="flex justify-between ">
                 <button className="custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 h-14 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

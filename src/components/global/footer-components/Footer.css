@@ -1,0 +1,30 @@
+.fa-instagram {
+  position: relative;
+  display: inline-block;
+  border-radius: 8px;
+}
+
+.fa-instagram::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top right,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #962fbf,
+    #4f5bd5
+  );
+  opacity: 0;
+  border-radius: 8px;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 5;
+}
+
+.fa-instagram:hover::before {
+  opacity: 1;
+}

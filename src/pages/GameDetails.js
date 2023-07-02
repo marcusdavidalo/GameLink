@@ -285,6 +285,9 @@ function GameDetails() {
                 </div>
               </div>
             </div>
+            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
+              <GameComments gameId={id} /> {/* Temporary */}
+            </div>
           </div>
         </div>
       </div>

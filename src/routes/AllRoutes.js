@@ -63,7 +63,7 @@ export const AllRoutes = ({ setIsLoggedIn }) => {
         <Route path="/new-releases" element={<NewReleases />} />
         <Route path="/game/:slug/:id" element={<GameDetails />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/profile/:id/:username" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<Help />} />
         {/* <Route path="/messages" element={<Messages />} />

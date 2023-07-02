@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Switch } from '@headlessui/react';
-import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
-import { ReactComponent as TwitterIcon } from '../assets/icons/twitter.svg';
-import { ReactComponent as InstagramIcon } from '../assets/icons/instagram.svg';
-import { ReactComponent as LightIcon } from '../assets/icons/sun.svg';
-import { ReactComponent as DarkIcon } from '../assets/icons/moon.svg';
-import './Footer.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Switch } from "@headlessui/react";
+import { ReactComponent as FacebookIcon } from "./../../assets/icons/facebook.svg";
+import { ReactComponent as TwitterIcon } from "./../../assets/icons/twitter.svg";
+import { ReactComponent as InstagramIcon } from "./../../assets/icons/instagram.svg";
+import { ReactComponent as LightIcon } from "./../../assets/icons/sun.svg";
+import { ReactComponent as DarkIcon } from "./../../assets/icons/moon.svg";
+import "./footer-components/Footer.css";
 
-const feedbackButton = 'FEEDBACK';
+const feedbackButton = "FEEDBACK";
 function Footer({ isDarkMode, handleDarkModeToggle }) {
   const currentYear = React.useMemo(() => new Date().getFullYear(), []);
 
@@ -40,12 +40,12 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
       setIsDragging(false);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isDragging, dragOffset]);
 
@@ -64,14 +64,14 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
   const scrollToBottom = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
     setTimeout(() => {
-      const feedbackForm = document.getElementById('feedback-form');
+      const feedbackForm = document.getElementById("feedback-form");
       if (feedbackForm) {
-        feedbackForm.classList.add('animate-pulse');
+        feedbackForm.classList.add("animate-pulse");
         setTimeout(() => {
-          feedbackForm.classList.remove('animate-pulse');
+          feedbackForm.classList.remove("animate-pulse");
         }, 4000);
       }
     }, 0);
@@ -83,10 +83,10 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
         <div
           className="fixed bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] text-gray-200 dark:text-gray-700 px-2 py-2 rounded shadow cursor-move z-[10000]"
           style={{
-            top: 'calc(50% + 20px)', // Move the button 20 pixels down
-            left: feedbackBoxPosition.x > window.innerWidth / 2 ? 'auto' : '0',
-            right: feedbackBoxPosition.x > window.innerWidth / 2 ? '0' : 'auto',
-            transform: 'translateY(-50%)',
+            top: "calc(50% + 20px)", // Move the button 20 pixels down
+            left: feedbackBoxPosition.x > window.innerWidth / 2 ? "auto" : "0",
+            right: feedbackBoxPosition.x > window.innerWidth / 2 ? "0" : "auto",
+            transform: "translateY(-50%)",
           }}
           onMouseDown={handleMouseDown}
         >
@@ -95,7 +95,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             onClick={scrollToBottom}
           >
             <div className="flex flex-col align-center items-center py-2">
-              {feedbackButton.split('').map((letter, index) => (
+              {feedbackButton.split("").map((letter, index) => (
                 <p
                   className="flex text-center text-lg font-mono h-4 justify-center items-center"
                   key={index}
@@ -135,7 +135,7 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             </h3>
             <p className="text-gray-400 dark:text-gray-800 mt-4">
               Elevating gaming experiences with up-to-date insights, news, and
-              curated content. Join us at{' '}
+              curated content. Join us at{" "}
               <span className="font-bold text-cyan-500">PlayKoDEX</span> for an
               unforgettable gaming adventure.
             </p>
@@ -221,34 +221,34 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
             {/* Social media icons */}
             <a
               href="http://www.facebook.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-facebook"
+              className="text-gray-400 dark:text-gray-800 hover:text-[#3B5998] dark:hover:text-gray-200 transition"
             >
               <FacebookIcon />
             </a>
             <a
               href="http://www.twitter.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-twitter"
+              className="text-gray-400 dark:text-gray-800 hover:text-[#00ACEE] dark:hover:text-gray-200 transition"
             >
               <TwitterIcon />
             </a>
             <a
               href="http://www.instagram.com"
-              className="text-gray-400 dark:text-gray-800 hover:text-white dark:hover:text-gray-200 transition fa-instagram"
+              className="text-gray-400 dark:text-gray-800 hover:text-white/80 dark:hover:text-gray-200 fa-instagram relative"
             >
-              <InstagramIcon />
+              <InstagramIcon className="hover:px-[3px] z-10 relative" />
             </a>
           </div>
 
           <p className="text-center text-gray-400 dark:text-gray-800 mt-4 md:mt-0">
-            © {currentYear}{' '}
-            <Link className="font-semibold" to="/home">
+            © {currentYear}{" "}
+            <Link className="font-semibold" to="/">
               PlayKoDEX
             </Link>
-            . All rights reserved. Powered by{' '}
+            . All rights reserved. Powered by{" "}
             <Link className="font-semibold" to="https://rawg.io/">
-              RAWG API{' '}
+              RAWG API{" "}
             </Link>
-            and{' '}
+            and{" "}
             <Link className="font-semibold" to="https://newscatcherapi.com/">
               NewsCatcherAPI
             </Link>
@@ -261,12 +261,12 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
               checked={isDarkMode}
               onChange={handleDarkModeToggle}
               className={`${
-                isDarkMode ? 'bg-slate-600' : 'bg-gray-400'
+                isDarkMode ? "bg-slate-600" : "bg-gray-400"
               } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span
                 className={`${
-                  isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                  isDarkMode ? "translate-x-6" : "translate-x-1"
                 } inline-block w-4 h-4 transform bg-white rounded-full`}
               />
             </Switch>

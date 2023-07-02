@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import jwtDecode from "jwt-decode";
-import { ReactComponent as ImageUp } from "../assets/icons/image.svg";
-import { ReactComponent as VideoUp } from "../assets/icons/video.svg";
+import { ReactComponent as ImageUp } from "./../../assets/icons/image.svg";
+import { ReactComponent as VideoUp } from "./../../assets/icons/video.svg";
 
 const CreatePostForm = () => {
   const [content, setContent] = useState("");
@@ -13,12 +13,16 @@ const CreatePostForm = () => {
 
   const handlePhotoChange = (event) => {
     const selectedPhoto = event.target.files[0];
+    setVideo(null);
+    setVideoPreview(null);
     setPhoto(selectedPhoto);
     setPhotoPreview(URL.createObjectURL(selectedPhoto));
   };
 
   const handleVideoChange = (event) => {
     const selectedVideo = event.target.files[0];
+    setPhoto(null);
+    setPhotoPreview(null);
     setVideo(selectedVideo);
     setVideoPreview(URL.createObjectURL(selectedVideo));
   };
