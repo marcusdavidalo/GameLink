@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import SwiperCore, { Scrollbar } from "swiper";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import GameComments from "../components/GameComments";
+import GameComments from "../components/comment/GameComments";
 import axios from "axios";
 import usePageTitle from "../hooks/useTitle";
 import explicitContentFilters from "../json/explicitContentFilters.json";
@@ -293,29 +293,12 @@ function GameDetails() {
       </div>
       {/* COMMENT SECTION */}
       <section className="space-y-4 rounded-lg bg-slate-800/50 py-8 mb-5 px-5 dark:bg-slate-200/70">
-        <div className=" mx-auto max-w-screen-lg px-4 pt-8">
+        <div className=" mx-auto max-w-screen-lg px-4 pt-4">
           <h1 className="text-4xl font-bold mb-4 text-gray-200 text-center">
             Discussion
           </h1>
           {/* Comment Form */}
-          <form className="">
-            <div className="flex flex-col mb-4">
-              <textarea
-                id="comment"
-                name="comment"
-                rows="4"
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-base text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Submit
-            </button>
-          </form>
+          <GameComments gameId={id} />
         </div>
 
         {/* <!-- COMMENT --> */}
