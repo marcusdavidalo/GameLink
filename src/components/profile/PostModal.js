@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ReactComponent as ThumbsUp } from "../assets/icons/thumbsup.svg";
-import { ReactComponent as Views } from "../assets/icons/eye.svg";
-import { ReactComponent as ThumbsUpFilled } from "../assets/icons//thumbsupfilled.svg";
+import { ReactComponent as ThumbsUp } from "./../../assets/icons/thumbsup.svg";
+import { ReactComponent as Views } from "./../../assets/icons/eye.svg";
+import { ReactComponent as ThumbsUpFilled } from "./../../assets/icons/thumbsupfilled.svg";
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -25,6 +26,7 @@ const PostModal = ({
   const [hasLiked, setHasLiked] = useState(false);
   const [isLikeDisabled, setIsLikeDisabled] = useState(false);
   const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleLikeClick = async (postId) => {
     setIsLikeDisabled(true);
@@ -38,8 +40,19 @@ const PostModal = ({
     setIsLikeDisabled(false);
   };
 
+  const openModal = () => {
+    setIsOpen(true);
+    handleView(post._id);
+    navigate(`?post=${post._id}`);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
+      const closeModal = () => {
+        setIsOpen(false);
+        navigate(``);
+      };
+
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         closeModal();
       }
@@ -54,32 +67,24 @@ const PostModal = ({
         capture: true,
       });
     };
-  }, [isOpen]);
+  }, [isOpen, navigate]);
 
   const handleView = async (postId) => {
     try {
-      // Increment the views property of the post
-      post.views += 1;
+      if (post.userId !== loggedInUserId) {
+        post.views += 1;
 
-      // Make a request to update the post in the database
-      await axios.put(
-        `https://api-gamelinkdb.onrender.com/api/posts/${postId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
-        {
-          views: post.views,
-        }
-      );
+        // Make a request to update the post in the database
+        await axios.put(
+          `https://api-gamelinkdb.onrender.com/api/posts/${postId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+          {
+            views: post.views,
+          }
+        );
+      }
     } catch (error) {
       console.error("Error updating post views:", error);
     }
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-    handleView(post._id);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -144,13 +149,13 @@ const PostModal = ({
           <div className="fixed inset-0 bg-black/75"></div>
           <div
             ref={modalRef}
-            className="h-2/3 w-1/2 flex bg-[rgba(31,41,55,0.5)] backdrop-blur-md dark:bg-[rgba(255,255,255,0.75)] rounded-lg p-4 z-10"
+            className="w-auto h-auto md:h-5/6 m-5 flex bg-[rgba(31,41,55,0.5)] backdrop-blur-md dark:bg-[rgba(255,255,255,0.75)] rounded-lg p-4 z-10"
           >
             {/* Display post media and additional details */}
-            <div className="flex h-full">
+            <div className="flex flex-col md:flex-row h-full">
               {post.photoUrl && (
                 <img
-                  className="object-contain bg-black/60 w-1/2 h-full rounded-md"
+                  className="object-contain bg-black/60 w-full md:w-3/4 h-full rounded-md"
                   src={post.photoUrl}
                   alt="Post"
                   onContextMenu={handleContextMenu}
@@ -158,7 +163,7 @@ const PostModal = ({
               )}
               {post.videoUrl && (
                 <video
-                  className="object-contain bg-black/60 w-1/2 h-full rounded-md"
+                  className="object-contain bg-black/60 w-full md:w-3/4 h-full rounded-md"
                   src={post.videoUrl}
                   alt="Post Thumbnail"
                   controls
@@ -167,9 +172,9 @@ const PostModal = ({
                 />
               )}
 
-              <div className="ml-4 w-full">
-                <div className="flex justify-between">
-                  <p>{post.content}</p>
+              <div className="ml-4">
+                <div className="p-2 flex justify-between">
+                  <p className="py-5">{post.content}</p>
                   {(isAdmin || post.userId === loggedInUserId) && (
                     <button
                       className="p-2 m-2 rounded-full text-white bg-red-600 hover:bg-red-700/90"

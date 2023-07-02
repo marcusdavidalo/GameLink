@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import jwtDecode from "jwt-decode";
-import { ReactComponent as ImageUp } from "../assets/icons/image.svg";
-import { ReactComponent as VideoUp } from "../assets/icons/video.svg";
+import { ReactComponent as ImageUp } from "./../../assets/icons/image.svg";
+import { ReactComponent as VideoUp } from "./../../assets/icons/video.svg";
 
 const CreatePostForm = () => {
   const [content, setContent] = useState("");
