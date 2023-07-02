@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 function GameComments({ gameId }) {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
+  const [users, setUsers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [numCommentsToShow, setNumCommentsToShow] = useState(5);
 
@@ -17,12 +18,25 @@ function GameComments({ gameId }) {
       .get(
         `https://api-gamelinkdb.onrender.com/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
       )
-      .then((response) => {
+      .then(async (response) => {
         console.log("Fetched comments:", response.data);
 
         const gameComments = response.data.filter(
           (comment) => Number(gameId) === comment.gameId
         );
+
+        // Fetch user information for each comment
+        const users = {};
+        for (const comment of gameComments) {
+          if (!users[comment.userId]) {
+            const userResponse = await axios.get(
+              `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+            );
+            users[comment.userId] = userResponse.data;
+          }
+        }
+        setUsers(users);
+
         setComments(gameComments);
         console.log(gameComments);
       })
@@ -125,15 +139,47 @@ function GameComments({ gameId }) {
           </button>
         </form>
       </div>
-      <div className="text-gray-200">
-        {comments.slice(0, numCommentsToShow).map((comment) => (
-          <div
-            className="text-base bg-gray-600/60 px-5 py-2 rounded-md my-2"
-            key={comment._id}
-          >
-            <p>{comment.content}</p>
-          </div>
-        ))}
+      {/* //////////////COMMENT SECTION  */}
+      <div className="container mx-auto max-w-screen-lg">
+        <h3 className="text-4xl font-bold mb-4 text-gray-200 text-center">
+          Comments
+        </h3>
+        <div className="text-gray-200">
+          {comments.slice(0, numCommentsToShow).map((comment) => (
+            <div
+              className="text-base bg-gray-600/60 px-5 py-2 rounded-md my-2"
+              key={comment._id}
+            >
+              <div className="flex row">
+                <div className="">
+                  <img
+                    className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                    src={users[comment.userId].avatar}
+                    alt={users[comment.userId].username}
+                  />
+                </div>
+                <div className="flex-1 rounded-lg px-4 pb-2 sm:px-5 sm:pb-3 md:px-6 md:pb-4 lg:px-7 lg:pb-5 leading-relaxed">
+                  <strong className="text-base text-gray-200">
+                    {users[comment.userId].username}
+                  </strong>{" "}
+                  <span className="text-xs text-gray-400">
+                    &nbsp;{comment.createdAt} ago
+                  </span>
+                  <p className="text-lg text-gray-200">{comment.content}</p>
+                  <div className="mt-4 flex items-center">
+                    <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
+                      Like
+                    </div>
+                    <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                      Reply
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="flex justify-end">
           {numCommentsToShow < comments.length && (
             <button
