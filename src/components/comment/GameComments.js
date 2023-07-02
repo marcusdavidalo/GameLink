@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import moment from "moment/moment";
 
 function GameComments({ gameId }) {
   const [comments, setComments] = useState([]);
@@ -93,6 +94,10 @@ function GameComments({ gameId }) {
     setIsLoading(false);
   };
 
+  const getTimeAgo = (timestamp) => {
+    return moment(timestamp).fromNow();
+  };
+
   return (
     <>
       <div>
@@ -163,7 +168,7 @@ function GameComments({ gameId }) {
                     {users[comment.userId].username}
                   </strong>{" "}
                   <span className="text-xs text-gray-400">
-                    &nbsp;{comment.createdAt} ago
+                    &nbsp;{getTimeAgo(comment.createdAt)}
                   </span>
                   <p className="text-lg text-gray-200">{comment.content}</p>
                   <div className="mt-4 flex items-center">
