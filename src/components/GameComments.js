@@ -125,11 +125,6 @@ function GameComments({ gameId }) {
           </button>
         </form>
       </div>
-      <div className="h-full absolute -z-[500]">
-        <p className="object-fit text-6xl font-black -rotate-45 align-middle text-white/50">
-          TEMPORARY
-        </p>
-      </div>
       <div className="text-gray-200">
         {comments.slice(0, numCommentsToShow).map((comment) => (
           <div

@@ -285,9 +285,6 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
-              <GameComments gameId={id} />
-            </div>
           </div>
         </div>
       </div>
@@ -298,24 +295,7 @@ function GameDetails() {
             Discussion
           </h1>
           {/* Comment Form */}
-          <form className="">
-            <div className="flex flex-col mb-4">
-              <textarea
-                id="comment"
-                name="comment"
-                rows="4"
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-base text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Submit
-            </button>
-          </form>
+          <GameComments />
         </div>
 
         {/* <!-- COMMENT --> */}
