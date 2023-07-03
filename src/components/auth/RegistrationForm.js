@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Transition } from '@headlessui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { Transition } from "@headlessui/react";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordStrength, setPasswordStrength] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [birthdate, setBirthdate] = useState('');
-  const [registrationStatus, setRegistrationStatus] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [registrationStatus, setRegistrationStatus] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -32,15 +32,15 @@ const RegistrationForm = () => {
     const hasCapitalLetters = /[A-Z]+/.test(password);
 
     if (length >= 10 && hasSpecialSymbols && hasNumbers && hasCapitalLetters) {
-      return 'strong';
+      return "strong";
     } else if (
       (length >= 8 && hasNumbers && hasCapitalLetters) ||
       (length >= 8 && hasSpecialSymbols && hasNumbers) ||
       (length >= 8 && hasSpecialSymbols && hasCapitalLetters)
     ) {
-      return 'medium';
+      return "medium";
     } else {
-      return 'weak';
+      return "weak";
     }
   };
 
@@ -48,14 +48,14 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      showWarningMessage('Password and Confirm Password do not match');
+      showWarningMessage("Password and Confirm Password do not match");
       return;
     }
 
     // Validate username for forbidden characters
     const forbiddenChars = /[@#$%^&*()!{}[\]:";'<>?,.\\/|+=`~]/;
     if (forbiddenChars.test(username)) {
-      showWarningMessage('Username contains forbidden characters');
+      showWarningMessage("Username contains forbidden characters");
       return;
     }
 
@@ -67,7 +67,7 @@ const RegistrationForm = () => {
 
     if (age < 16) {
       showWarningMessage(
-        'You must be at least 16 years old or older to register'
+        "You must be at least 16 years old or older to register"
       );
       return;
     }
@@ -82,24 +82,24 @@ const RegistrationForm = () => {
         {
           username,
           email,
-          password, 
+          password,
           birthdate,
         }
       );
 
       // Registration successful
-      showWarningMessage('User registered successfully');
+      showWarningMessage("User registered successfully");
       setIsLoading(false); // Set loading state to false
       setTimeout(() => {
-        showWarningMessage('Redirecting to login page');
+        showWarningMessage("Redirecting to login page");
       }, 3000);
       // Delay the navigation by 1 second
       setTimeout(() => {
-        navigate('/login'); // Redirect to /login page
+        navigate("/login"); // Redirect to /login page
       }, 4000);
     } catch (error) {
       // Registration failed
-      showWarningMessage('Fill up all the fields');
+      showWarningMessage("Fill up all the fields");
       setIsLoading(false); // Set loading state to false
     }
   };
@@ -127,14 +127,14 @@ const RegistrationForm = () => {
               <div>
                 <span
                   className={`text-center text-white rounded-md py-2 px-2 ${
-                    registrationStatus === 'User registered successfully' ||
-                    registrationStatus === 'Redirecting to login page'
-                      ? 'bg-green-600'
-                      : registrationStatus === 'Email already exists' ||
+                    registrationStatus === "User registered successfully" ||
+                    registrationStatus === "Redirecting to login page"
+                      ? "bg-green-600"
+                      : registrationStatus === "Email already exists" ||
                         registrationStatus ===
-                          'Password and Confirm Password do not match'
-                      ? 'bg-yellow-500'
-                      : 'bg-red-600'
+                          "Password and Confirm Password do not match"
+                      ? "bg-yellow-500"
+                      : "bg-red-600"
                   }`}
                 >
                   {registrationStatus}
@@ -186,7 +186,7 @@ const RegistrationForm = () => {
                   setPasswordStrength(
                     e.target.value
                       ? calculatePasswordStrength(e.target.value)
-                      : ''
+                      : ""
                   );
                 }}
                 autoComplete="new-password"
@@ -198,27 +198,27 @@ const RegistrationForm = () => {
                 >
                   <div
                     className={`w-full h-2 mr-2 rounded transition-all ${
-                      passwordStrength === 'strong'
-                        ? 'bg-green-500'
-                        : passwordStrength === 'medium'
-                        ? 'bg-yellow-500'
-                        : 'bg-red-500'
+                      passwordStrength === "strong"
+                        ? "bg-green-500"
+                        : passwordStrength === "medium"
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
                     }`}
                   ></div>
                   <span
                     className={`text-xs transition-all ${
-                      passwordStrength === 'strong'
-                        ? 'text-green-500'
-                        : passwordStrength === 'medium'
-                        ? 'text-yellow-500'
-                        : 'text-red-500'
+                      passwordStrength === "strong"
+                        ? "text-green-500"
+                        : passwordStrength === "medium"
+                        ? "text-yellow-500"
+                        : "text-red-500"
                     }`}
                   >
-                    {passwordStrength === 'strong'
-                      ? 'Strong'
-                      : passwordStrength === 'medium'
-                      ? 'Medium'
-                      : 'Weak'}
+                    {passwordStrength === "strong"
+                      ? "Strong"
+                      : passwordStrength === "medium"
+                      ? "Medium"
+                      : "Weak"}
                   </span>
                 </div>
               )}
@@ -244,11 +244,11 @@ const RegistrationForm = () => {
                   <div className="w-full h-2 mr-2 rounded"></div>
                   <span
                     className={`text-xs transition-all py-2 ${
-                      passwordStrength === 'strong'
-                        ? 'text-green-500'
-                        : passwordStrength === 'medium'
-                        ? 'text-yellow-500'
-                        : 'text-red-500'
+                      passwordStrength === "strong"
+                        ? "text-green-500"
+                        : passwordStrength === "medium"
+                        ? "text-yellow-500"
+                        : "text-red-500"
                     }`}
                   ></span>
                 </div>
@@ -271,21 +271,21 @@ const RegistrationForm = () => {
               <button
                 type="submit"
                 className={`bg-cyan-500/60 px-5 py-2 mb-2 h-full rounded-md ${
-                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 disabled={isLoading} // Disable the button when loading
               >
-                {isLoading ? 'Registering...' : 'Register'}
+                {isLoading ? "Registering..." : "Register"}
               </button>
             </div>
           </div>
           <div className="flex justify-center py-5 font-semibold text-base">
-            Already Have an Account?{' '}
+            Already Have an Account?{" "}
             <Link
               to="/login"
               className="text-cyan-500 mx-1 px-1 hover:text-gray-900 hover:bg-cyan-500  dark:text-gray-800 dark:hover:text-gray-300 dark:hover:bg-cyan-500 rounded-md hover:motion-safe:animate-pulse"
             >
-              {' '}
+              {" "}
               Sign In Here!
             </Link>
           </div>

@@ -6,7 +6,10 @@ import GameComments from "../components/comment/GameComments";
 import axios from "axios";
 import usePageTitle from "../hooks/useTitle";
 import explicitContentFilters from "../json/explicitContentFilters.json";
+import jwtDecode from "jwt-decode";
 import "swiper/css/bundle";
+import { ReactComponent as Heart } from "../assets/icons/heart.svg";
+import { ReactComponent as HeartFilled } from "../assets/icons/heartfilled.svg";
 SwiperCore.use([Scrollbar]);
 
 function TruncatedSummary({ summary, maxLength }) {
@@ -48,6 +51,7 @@ function GameDetails() {
   const { id } = useParams();
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const isNewsDataValid = useCallback((newsData) => {
     if (!newsData) {
@@ -73,6 +77,70 @@ function GameDetails() {
     }
 
     return true; // Data is valid
+  }, []);
+
+  // Function to handle adding and removing games from the wishlist
+  const handleWishlist = async (gameId) => {
+    // Get the user id from the JWT token stored in local storage
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+
+      if (wishlist.includes(gameId)) {
+        try {
+          await fetch(
+            `https://api-gamelinkdb.onrender.com/api/users/${userId}/removeGameFromWishlist?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ gameId }),
+            }
+          );
+          setWishlist(wishlist.filter((id) => id !== gameId));
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          await fetch(
+            `https://api-gamelinkdb.onrender.com/api/users/${userId}/addGameToWishlist?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ gameId }),
+            }
+          );
+          setWishlist([...wishlist, gameId]);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+        try {
+          const response = await fetch(
+            `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+          );
+          const data = await response.json();
+          setWishlist(data.wishlist);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchWishlist();
   }, []);
 
   usePageTitle(`PlayKoDEX | ${gameData?.name || "Loading..."}`);
@@ -156,6 +224,7 @@ function GameDetails() {
       </div>
     );
   }
+
   return (
     <div>
       <div className="container mx-auto mt-5">
@@ -173,17 +242,31 @@ function GameDetails() {
                 alt="Game Background"
               />
               <div className="card-body p-5">
-                <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
-                  {gameData.name.split("").map((letter, index) => (
-                    <span
-                      key={index}
-                      data-aos="fade-down"
-                      data-aos-delay={(index + 1) * 100}
-                    >
-                      {letter}
-                    </span>
-                  ))}
-                </h3>
+                <div className="flex justify-between items-center text-center align-middle">
+                  <h3 className="card-title text-gray-200 dark:text-slate-800 text-2xl font-bold mb-4">
+                    {gameData.name.split("").map((letter, index) => (
+                      <span
+                        key={index}
+                        data-aos="fade-down"
+                        data-aos-delay={(index + 1) * 100}
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </h3>
+                  <div
+                    className={`flex items-center align-middle justify-center w-8 h-8 rounded-full text-white font-bold text-sm cursor-pointer`}
+                    onClick={() => handleWishlist(id)}
+                    width="32"
+                    height="32"
+                  >
+                    {wishlist.includes(id) ? (
+                      <HeartFilled className="text-red-500" />
+                    ) : (
+                      <Heart />
+                    )}
+                  </div>
+                </div>
                 <p className="card-text text-lg text-gray-400 dark:text-slate-600 mb-4 text-justify">
                   {gameData.description_raw ? (
                     <TruncatedSummary

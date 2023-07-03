@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Pagination } from 'flowbite-react';
-import usePageTitle from '../hooks/useTitle';
-
+import React, { useState, useEffect } from "react";
+import { Pagination } from "flowbite-react";
+import usePageTitle from "../hooks/useTitle";
+import { ReactComponent as Heart } from "../assets/icons/heart.svg";
+import { ReactComponent as HeartFilled } from "../assets/icons/heartfilled.svg";
+import jwtDecode from "jwt-decode";
 const NewReleases = () => {
   const apiKey = process.env.REACT_APP_RAWG_API_KEY;
   const [newReleases, setNewReleases] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNewReleases, setFilteredNewReleases] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -14,8 +17,8 @@ const NewReleases = () => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   }
 
   const currentDate = new Date();
@@ -31,14 +34,14 @@ const NewReleases = () => {
   const endYear = currentYear;
 
   const newReleasesStartDate = `${startYear}-${
-    startMonth < 10 ? '0' + startMonth : startMonth
+    startMonth < 10 ? "0" + startMonth : startMonth
   }-01`;
   const newReleasesEndDate = `${endYear}-${
-    endMonth < 10 ? '0' + endMonth : endMonth
+    endMonth < 10 ? "0" + endMonth : endMonth
   }-${lastDayOfMonth}`;
 
   useEffect(() => {
-    const explicitContentFilters = require('../json/explicitContentFilters.json');
+    const explicitContentFilters = require("../json/explicitContentFilters.json");
     const ratedRTags = [...explicitContentFilters.tags];
     const ratedRSlugs = [...explicitContentFilters.slugs];
     const ratedRNames = [...explicitContentFilters.names];
@@ -76,7 +79,80 @@ const NewReleases = () => {
     };
     getNewReleases();
   }, [newReleasesStartDate, newReleasesEndDate, apiKey, currentPage]);
+
   usePageTitle(`PlayKoDEX | New Releases`);
+
+  const addGameToWishlist = async (userId, gameId) => {
+    try {
+      await fetch(
+        `https://api-gamelinkdb.onrender.com/api/users/${userId}/addGameToWishlist?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ gameId }),
+        }
+      );
+      setWishlist([...wishlist, gameId]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeGameFromWishlist = async (userId, gameId) => {
+    try {
+      await fetch(
+        `https://api-gamelinkdb.onrender.com/api/users/${userId}/removeGameFromWishlist?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ gameId }),
+        }
+      );
+      setWishlist(wishlist.filter((id) => id !== gameId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Updated handleWishlist function to use the separate add and remove functions
+  const handleWishlist = async (gameId) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+
+      if (wishlist.includes(gameId)) {
+        removeGameFromWishlist(userId, gameId);
+      } else {
+        addGameToWishlist(userId, gameId);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+        try {
+          const response = await fetch(
+            `https://api-gamelinkdb.onrender.com/api/users/${userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+          );
+          const data = await response.json();
+          setWishlist(data.wishlist);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchWishlist();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-center overflow-hidden mb-10">
@@ -100,7 +176,7 @@ const NewReleases = () => {
                               )}&font=roboto`
                             }
                             className={`card card-games-img-top swiper-lazy ${
-                              game.isRatedR ? 'blur-lg bg-blend-darken' : ''
+                              game.isRatedR ? "blur-lg bg-blend-darken" : ""
                             }`}
                             alt="Game"
                             data-src={game.background_image}
@@ -113,17 +189,29 @@ const NewReleases = () => {
                           </div>
                         )}
                         <div
-                          className={`metacritic ${
-                            game.metacritic ? '' : 'no-score'
+                          className={`absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#008000] text-white font-bold text-sm metacritic ${
+                            game.metacritic ? "" : "bg-yellow-300 text-black"
                           }`}
                         >
-                          {game.metacritic ? game.metacritic : 'N'}
+                          {game.metacritic ? game.metacritic : "N"}
+                        </div>
+                        <div
+                          className={`absolute top-3 left-3 flex items-center justify-center w-8 h-8 rounded-full text-white font-bold text-sm cursor-pointer`}
+                          onClick={() => handleWishlist(game.id)}
+                          width="32"
+                          height="32"
+                        >
+                          {wishlist.includes(game.id) ? (
+                            <HeartFilled className="text-red-500" />
+                          ) : (
+                            <Heart />
+                          )}
                         </div>
                         <div className="card card-games-body frosted-blur">
                           <a href={`./game/${game.slug}/${game.id}`}>
                             <div
                               className={`scrollable-title ${
-                                game.name.length > 30 ? 'marquee' : ''
+                                game.name.length > 30 ? "marquee" : ""
                               }`}
                             >
                               <h5
@@ -141,8 +229,8 @@ const NewReleases = () => {
                             Latest Update: {formatDate(game.updated)}
                           </p>
                           <p className="genre card card-games-text">
-                            Genre:{' '}
-                            {game.genres.map((genre) => genre.name).join(', ')}
+                            Genre:{" "}
+                            {game.genres.map((genre) => genre.name).join(", ")}
                           </p>
                         </div>
                       </div>

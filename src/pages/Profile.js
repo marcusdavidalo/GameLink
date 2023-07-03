@@ -8,12 +8,6 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 import usePageTitle from "../hooks/useTitle";
 
-// eslint-disable-next-line no-unused-vars
-const formatDate = (dateString) => {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-};
-
 const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
@@ -289,6 +283,7 @@ const Profile = () => {
                     isAdmin={isAdmin}
                     handleLike={handleLike}
                     handleUnlike={handleUnlike}
+                    user={user}
                   />
                 </div>
               ))}

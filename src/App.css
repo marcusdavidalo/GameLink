@@ -129,27 +129,6 @@
   white-space: nowrap;
 }
 
-.metacritic {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #008000;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.no-score {
-  background-color: yellow;
-  color: black;
-}
-
 .preloader {
   position: relative;
   display: flex;

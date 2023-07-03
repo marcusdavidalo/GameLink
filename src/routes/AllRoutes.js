@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 import {
   Home,
   About,
@@ -18,16 +18,17 @@ import {
   Unauthorized,
   AdminPanel,
   Help,
+  Wishlist,
   // Notifications,
   // Messages,
-} from '../pages';
+} from "../pages";
 
 export const AllRoutes = ({ setIsLoggedIn }) => {
   // Add isAdmin state to check if the user is an admin
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
@@ -63,6 +64,7 @@ export const AllRoutes = ({ setIsLoggedIn }) => {
         <Route path="/new-releases" element={<NewReleases />} />
         <Route path="/game/:slug/:id" element={<GameDetails />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile/:id/:username" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<Help />} />

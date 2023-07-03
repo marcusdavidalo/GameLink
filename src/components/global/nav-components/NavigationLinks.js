@@ -70,6 +70,14 @@ const NavigationLinks = ({
                     My Profile
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to={`/wishlist`}
+                    className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
+                  >
+                    Wishlist
+                  </Link>
+                </li>
                 {isAdmin && (
                   <li>
                     <Link

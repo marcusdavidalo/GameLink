@@ -4,6 +4,7 @@ import axios from "axios";
 import { ReactComponent as ThumbsUp } from "./../../assets/icons/thumbsup.svg";
 import { ReactComponent as Views } from "./../../assets/icons/eye.svg";
 import { ReactComponent as ThumbsUpFilled } from "./../../assets/icons/thumbsupfilled.svg";
+import PostComments from "./PostComments";
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -21,10 +22,13 @@ const PostModal = ({
   handleDelete,
   loggedInUserId,
   isAdmin,
+  user,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [isLikeDisabled, setIsLikeDisabled] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newCommentContent, setNewCommentContent] = useState("");
   const modalRef = useRef(null);
   const navigate = useNavigate();
 
@@ -93,6 +97,23 @@ const PostModal = ({
       setHasLiked(hasUserLiked);
     }
   }, [loggedInUserId, post]);
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchComments = async () => {
+        try {
+          const response = await axios.get(
+            `https://api-gamelinkdb.onrender.com/api/postcomments?postId=${post._id}&apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+          );
+          setComments(response.data);
+        } catch (error) {
+          console.error("Error fetching comments:", error);
+        }
+      };
+
+      fetchComments();
+    }
+  }, [isOpen, post._id]);
 
   return (
     <div className="rounded-md bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
@@ -172,7 +193,7 @@ const PostModal = ({
                 />
               )}
 
-              <div className="ml-4">
+              <div className="ml-4 w-full">
                 <div className="p-2 flex justify-between">
                   <p className="py-5">{post.content}</p>
                   {(isAdmin || post.userId === loggedInUserId) && (
@@ -212,8 +233,14 @@ const PostModal = ({
                     <p className="text-2xl px-1">{post.views}</p>
                   </div>
                 </div>
-
-                {/* Display comments */}
+                <PostComments
+                  comments={comments}
+                  newCommentContent={newCommentContent}
+                  setNewCommentContent={setNewCommentContent}
+                  post={post}
+                  setComments={setComments}
+                  user={user}
+                />
               </div>
             </div>
           </div>
