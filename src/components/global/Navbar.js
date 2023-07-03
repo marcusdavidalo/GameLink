@@ -186,7 +186,8 @@ function Nav({ isDarkMode, handleDarkModeToggle, isLoggedIn, setIsLoggedIn }) {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate(`/search/${searchQuery}`);
+    const searchQueryWithHyphens = searchQuery.replace(/\s+/g, "-");
+    navigate(`/search/${searchQueryWithHyphens}`);
   };
 
   function handleGameSelect(game) {
