@@ -18,7 +18,7 @@ const PostComments = ({
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/postcomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        `https://api-gamelinkdb.onrender.com/api/postcomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
         {
           postId: post._id,
           userId: loggedInUserId,
@@ -42,7 +42,7 @@ const PostComments = ({
       // Create an array of promises to fetch the user data for each comment
       const promises = comments.map(async (comment) => {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+          `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
         );
         return response.data;
       });
