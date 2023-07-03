@@ -34,6 +34,8 @@ const Wishlist = () => {
             gameName: gameData.name,
             releaseDate: gameData.released,
             lastUpdated: gameData.updated,
+            id: gameData.id,
+            slug: gameData.slug,
           };
         });
 
@@ -58,7 +60,7 @@ const Wishlist = () => {
             Wishlist
           </h1>
           <table className="w-full rounded-md bg-slate-800/50 text-slate-200 dark:text-slate-800">
-            <thead>
+            <thead className="rounded-t-md">
               <tr>
                 <th className="border border-slate-800 dark:border-slate-200 p-2">
                   Image
@@ -70,7 +72,7 @@ const Wishlist = () => {
                   Release Date
                 </th>
                 <th className="border border-slate-800 dark:border-slate-200 p-2">
-                  Remove from Wishlist
+                  GameLink
                 </th>
               </tr>
             </thead>
@@ -78,22 +80,28 @@ const Wishlist = () => {
               {wishlistData.map((item) => (
                 <tr key={item.gameName}>
                   <td className="border border-slate-800 dark:border-slate-200 p-2">
-                    <img
-                      src={item.image}
-                      alt={item.gameName}
-                      className="w-full h-auto max-h-32 object-cover rounded-md"
-                    />
+                    <a href={`./game/${item.slug}/${item.id}`}>
+                      <img
+                        src={item.image}
+                        alt={item.gameName}
+                        className="w-full h-auto max-h-32 object-cover rounded-md"
+                      />
+                    </a>
                   </td>
-                  <td className="border border-slate-800 dark:border-slate-200 p-2">
+                  <td className="border text-center font-bold border-slate-800 dark:border-slate-200 p-2">
                     {item.gameName}
                   </td>
-                  <td className="border border-slate-800 dark:border-slate-200 p-2">
+                  <td className="border text-center font-bold border-slate-800 dark:border-slate-200 p-2">
                     {item.releaseDate}
                   </td>
                   <td className="border border-slate-800 dark:border-slate-200 p-2">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                      Remove from Wishlist
-                    </button>
+                    <div className="w-full flex justify-center">
+                      <a href={`./game/${item.slug}/${item.id}`}>
+                        <span className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-4 rounded-md w-full">
+                          To Game
+                        </span>
+                      </a>
+                    </div>
                   </td>
                 </tr>
               ))}
