@@ -6,6 +6,7 @@ import moment from "moment/moment";
 function GameComments({ gameId }) {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
+  const [liked, setLiked] = useState(false);
   const [users, setUsers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [numCommentsToShow, setNumCommentsToShow] = useState(5);
@@ -39,6 +40,7 @@ function GameComments({ gameId }) {
         setUsers(users);
 
         setComments(gameComments);
+        console.log(gameComments);
       })
       .catch((error) => {
         console.error("Error fetching game comments:", error);
@@ -93,6 +95,12 @@ function GameComments({ gameId }) {
     setIsLoading(false);
   };
 
+  const handleLike = () => {
+    if (gameId) {
+      setLiked(!liked);
+    }
+  };
+
   const getTimeAgo = (timestamp) => {
     return moment(timestamp).fromNow();
   };
@@ -145,7 +153,7 @@ function GameComments({ gameId }) {
       </div>
       {/* //////////////COMMENT SECTION  */}
       <div className="container mx-auto max-w-screen-lg">
-        <h3 className="text-4xl font-bold mb-4 text-gray-200 text-center">
+        <h3 className="text-4xl font-bold mb-4 text-gray-200 dark:text-slate-800 text-center">
           Comments
         </h3>
         <div className="text-gray-200">
@@ -157,12 +165,12 @@ function GameComments({ gameId }) {
               <div className="flex row">
                 <div className="">
                   <img
-                    className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
+                    className="mt-2 rounded-lg w-16 h-16"
                     src={users[comment.userId].avatar}
                     alt={users[comment.userId].username}
                   />
                 </div>
-                <div className="flex-1 rounded-lg px-4 pb-2 sm:px-5 sm:pb-3 md:px-6 md:pb-4 lg:px-7 lg:pb-5 leading-relaxed">
+                <div className="flex-1 rounded-lg sm:px-5 sm:py-1 md:px-6 md:py-2 lg:px-7 lg:py-3 leading-relaxed">
                   <strong className="text-base text-gray-200">
                     {users[comment.userId].username}
                   </strong>{" "}
@@ -171,9 +179,22 @@ function GameComments({ gameId }) {
                   </span>
                   <p className="text-lg text-gray-200">{comment.content}</p>
                   <div className="mt-4 flex items-center">
-                    <div className=" text-xs uppercase tracking-wide text-gray-400 font-bold mr-5">
-                      Like
-                    </div>
+                    {liked ? (
+                      <button
+                        onClick={() => handleLike(gameId)}
+                        className="text-xs uppercase tracking-wide text-gray-400 font-bold mr-5"
+                      >
+                        {comment.likes} Likes
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleLike(gameId)}
+                        className="text-xs uppercase tracking-wide text-gray-400 font-bold mr-5"
+                      >
+                        {" "}
+                        Like
+                      </button>
+                    )}
                     <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
                       Reply
                     </div>

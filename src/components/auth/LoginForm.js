@@ -9,10 +9,15 @@ const LoginForm = ({ setIsLoggedIn }) => {
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [username, setUsername] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleTogglePassword = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const fetchUserData = useCallback(
     async (token) => {
@@ -171,13 +176,22 @@ const LoginForm = ({ setIsLoggedIn }) => {
               </label>
               <input
                 id="password"
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Enter your password"
                 className="border placeholder-slate-400 text-gray-200 bg-[rgba(156,163,175,0.5)] border-gray-500 rounded-md py-2 px-4 pr-10 block w-full focus:outline-none focus:ring-slate-400 focus:border-slate-400 dark:text-gray-800 dark:bg-[rgba(255,255,255,0.7)] sm:text-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
+              <div className="justify-start mt-3">
+                <button
+                  type="button"
+                  onClick={handleTogglePassword}
+                  className=" bg-cyan-500/60 px-3 py-1 h-full rounded-md"
+                >
+                  {passwordVisible ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             <div className="flex justify-evenly items-center w-full">
               <div className="flex justify-center items-center text-base font-semibold">

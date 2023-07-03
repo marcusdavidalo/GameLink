@@ -52,6 +52,11 @@ function GameDetails() {
   const [gameData, setGameData] = useState(null);
   const [topNews, setTopNews] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [numTagsToShow, setNumTagsToShow] = useState(6);
+
+  const handleShowMore = () => {
+    setNumTagsToShow((prevNum) => prevNum + 7);
+  };
 
   const isNewsDataValid = useCallback((newsData) => {
     if (!newsData) {
@@ -313,7 +318,7 @@ function GameDetails() {
                   Game Tags
                 </h5>
                 <ul className="flex flex-row flex-wrap list-group delay-0 bg-gray-800/60 dark:bg-slate-200/70 p-5 rounded-md">
-                  {gameData.tags.slice(0, 50).map((tag, index) => {
+                  {gameData.tags.slice(0, numTagsToShow).map((tag, index) => {
                     const isExplicit = explicitContentFilters.tags.includes(
                       tag.name
                     );
@@ -336,6 +341,16 @@ function GameDetails() {
                       </li>
                     );
                   })}
+                  <div className="flex justify-end">
+                    {numTagsToShow < gameData.tags.length && (
+                      <button
+                        className="font-semibold text-gray-200 dark:text-slate-800 align-middle text-base"
+                        onClick={handleShowMore}
+                      >
+                        ...Show More
+                      </button>
+                    )}
+                  </div>
                 </ul>
               </div>
             </div>
@@ -368,16 +383,13 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-            {/* <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
-              <GameComments gameId={id} />
-            </div> */}
           </div>
         </div>
       </div>
       {/* COMMENT SECTION */}
-      <section className="space-y-4 rounded-lg bg-slate-800/50 py-8 mb-5 px-5 dark:bg-slate-200/70">
-        <div className=" mx-auto max-w-screen-lg px-4 pt-4">
-          <h1 className="text-4xl font-bold mb-4 text-gray-200 text-center">
+      <section className="container mx-auto my-5 rounded-lg bg-slate-800/50 dark:bg-slate-200/70">
+        <div className=" mx-auto max-w-screen-lg px-4 py-8">
+          <h1 className="text-4xl font-bold mb-4 text-gray-200 dark:text-slate-800 text-center">
             Discussion
           </h1>
           {/* Comment Form */}

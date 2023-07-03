@@ -107,7 +107,7 @@ function NewReleases() {
         endMonth < 10 ? "0" + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
-      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=ratings&page_size=${pageSize}`;
+      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=released&page_size=${pageSize}`;
 
       (async () => {
         try {
@@ -209,15 +209,13 @@ function NewReleases() {
     <div className="swiper-container new-releases">
       <div className="flex justify-between">
         <Link
-          to="/best-of-the-year"
+          to="/new-releases"
           className="border-b-2 border-gray-500 mb-5 pb-5 pr-[100px]"
           title="Games"
         >
-          <h2 className="text-4xl font-bold hover:scale-105">
-            Best of the Year
-          </h2>
+          <h2 className="text-4xl font-bold hover:scale-105">New Releases</h2>
         </Link>
-        {/* Swiper Navigations for best of the year swipers */}
+        {/* Swiper Navigations for New Releases swipers */}
         <div className="flex justify-between">
           <button className="new-releases-custom-prev-button bg-slate-600/50 text-3xl my-4 p-2 h-14 rounded-lg hover:scale-105 hover:bg-slate-600/80 dark:bg-white/60 dark:hover:bg-white/80">
             <svg

@@ -279,7 +279,7 @@ const RegistrationForm = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-center py-5 font-semibold text-base">
+          <div className="flex justify-center py-5 font-semibold text-sm uppercase">
             Already Have an Account?{" "}
             <Link
               to="/login"
