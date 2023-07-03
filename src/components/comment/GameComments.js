@@ -164,11 +164,15 @@ function GameComments({ gameId }) {
             >
               <div className="flex row">
                 <div className="">
-                  <img
-                    className="mt-2 rounded-lg w-16 h-16"
-                    src={users[comment.userId].avatar}
-                    alt={users[comment.userId].username}
-                  />
+                  {users[comment.userId] &&
+                    users[comment.userId].avatar &&
+                    users[comment.userId].username && (
+                      <img
+                        className="mt-2 rounded-lg w-16 h-16"
+                        src={users[comment.userId].avatar}
+                        alt={users[comment.userId].username}
+                      />
+                    )}
                 </div>
                 <div className="flex-1 rounded-lg sm:px-5 sm:py-1 md:px-6 md:py-2 lg:px-7 lg:py-3 leading-relaxed">
                   <strong className="text-base text-gray-200">
