@@ -239,7 +239,9 @@ const PostModal = ({
                   setNewCommentContent={setNewCommentContent}
                   post={post}
                   setComments={setComments}
+                  loggedInUserId={loggedInUserId}
                   user={user}
+                  postId={post._id}
                 />
               </div>
             </div>
