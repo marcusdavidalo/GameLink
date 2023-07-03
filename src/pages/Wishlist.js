@@ -54,7 +54,9 @@ const Wishlist = () => {
     <div className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
         <div className="border-box text-white dark:text-gray-800 overflow-hidden">
-          <h1 className="text-2xl font-bold mt-8 mb-4">Wishlist</h1>
+          <h1 className="text-5xl border-b-2 border-slate-500/50 py-5 mx-10 sm:mx-[10rem] flex justify-center font-bold mt-8 mb-4">
+            Wishlist
+          </h1>
           <table className="w-full rounded-md bg-slate-800/50 text-slate-200 dark:text-slate-800">
             <thead>
               <tr>

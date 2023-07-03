@@ -39,7 +39,6 @@ function GameComments({ gameId }) {
         setUsers(users);
 
         setComments(gameComments);
-        console.log(gameComments);
       })
       .catch((error) => {
         console.error("Error fetching game comments:", error);

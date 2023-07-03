@@ -25,12 +25,8 @@ const PostComments = ({
           content: newCommentContent,
         }
       );
-
-      console.log(loggedInUserId);
-      // Add the new comment to the list of comments
       setComments((prevComments) => [...prevComments, response.data]);
 
-      // Clear the input field
       setNewCommentContent("");
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -66,7 +62,6 @@ const PostComments = ({
 
     fetchCommentUsers();
   }, [comments]);
-  console.log(commentUsers.username);
 
   return (
     <div className="mt-4">

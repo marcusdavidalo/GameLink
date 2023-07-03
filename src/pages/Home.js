@@ -10,9 +10,15 @@ function Home() {
     <main className="flex justify-center overflow-hidden mb-10">
       <div className="container mt-10">
         <div className="flex flex-col border-box text-white dark:text-gray-800 col overflow-hidden px-4">
-          <BestOfYear />
-          <NewReleases />
-          <AllTimeTop />
+          <div className="my-5">
+            <BestOfYear />
+          </div>
+          <div className="my-5">
+            <NewReleases />
+          </div>
+          <div className="my-5">
+            <AllTimeTop />
+          </div>
         </div>
       </div>
     </main>
