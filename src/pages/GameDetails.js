@@ -368,9 +368,9 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-            <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
-              <GameComments gameId={id} /> {/* Temporary */}
-            </div>
+            {/* <div className="card rounded-md bg-gray-800/60 dark:bg-slate-200/70 shadow-lg p-5 mt-4 mx-2">
+              <GameComments gameId={id} />
+            </div> */}
           </div>
         </div>
       </div>
@@ -385,13 +385,13 @@ function GameDetails() {
         </div>
 
         {/* <!-- COMMENT --> */}
-        <div className="container mx-auto max-w-screen-lg">
+        {/* <div className="container mx-auto max-w-screen-lg">
           <h3 className="text-4xl font-bold mb-4 text-gray-200 text-center">
             Comments
-          </h3>
+          </h3> */}
 
-          {/* COMMENT 1/////////////////////////////////////////////////////////////////////////////////////// */}
-          <div className="flex row">
+        {/* COMMENT 1/////////////////////////////////////////////////////////////////////////////////////// */}
+        {/* <div className="flex row">
             <div className="">
               <img
                 className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
@@ -416,10 +416,10 @@ function GameDetails() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          {/* COMMENT 2//////////////////////////////////////////////////////////////////////////////////// */}
-          <div className="flex">
+        {/* COMMENT 2//////////////////////////////////////////////////////////////////////////////////// */}
+        {/* <div className="flex">
             <div>
               <img
                 className="mt-2 rounded-lg w-8 h-8 sm:w-16 sm:h-16"
@@ -501,7 +501,7 @@ function GameDetails() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
       {/* Top News */}
       <div className="flex justify-center top-news bg-slate-800/50 py-12 mt-8 mb-5 px-4 dark:bg-slate-200/70">
