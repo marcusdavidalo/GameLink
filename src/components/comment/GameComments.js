@@ -259,10 +259,9 @@ function GameComments({ gameId }) {
                         Like
                       </button>
                     )}
-
-                    <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
+                    {/* <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
                       Reply
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
