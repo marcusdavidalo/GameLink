@@ -14,7 +14,7 @@ import {
   Login,
   Register,
   Profile,
-  Settings,
+  // Settings,
   Unauthorized,
   AdminDashboard,
   Help,
@@ -66,7 +66,7 @@ export const AllRoutes = ({ setIsLoggedIn }) => {
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile/:id/:username" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
+        {/* <Route path="/settings" element={<Settings />} /> */}
         <Route path="/help" element={<Help />} />
         {/* <Route path="/messages" element={<Messages />} />
         <Route path="/notifications" element={<Notifications />} /> */}

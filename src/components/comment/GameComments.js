@@ -32,7 +32,6 @@ function GameComments({ gameId }) {
         `https://api-gamelinkdb.onrender.com/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
       )
       .then(async (response) => {
-
         const gameComments = response.data.filter(
           (comment) => Number(gameId) === comment.gameId
         );
@@ -92,7 +91,6 @@ function GameComments({ gameId }) {
 
       // Update the comments state
       setComments((prevComments) => {
-
         return [...prevComments, data];
       });
     } catch (error) {
@@ -132,7 +130,6 @@ function GameComments({ gameId }) {
 
       // Update the comments state
       setComments((prevComments) => {
-
         const updatedComments = [...prevComments];
         updatedComments[commentIndex] = updatedComment;
         return updatedComments;
@@ -236,7 +233,7 @@ function GameComments({ gameId }) {
                         onClick={() => handleLike(comment._id)}
                         className="text-xs uppercase tracking-wide text-gray-400 font-bold mr-5"
                       >
-                        {" "}
+                        {comment.likes.length}
                         Like
                       </button>
                     )}

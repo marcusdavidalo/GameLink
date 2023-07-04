@@ -69,7 +69,7 @@ const NewReleases = () => {
     const getNewReleases = async () => {
       try {
         const response = await fetch(
-          `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=released&page=${currentPage}&page_size=20`
+          `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=released&metacritic=70,100&page=${currentPage}&page_size=20`
         );
         const data = await response.json();
         setNewReleases(data.results);

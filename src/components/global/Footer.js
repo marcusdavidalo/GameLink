@@ -7,16 +7,37 @@ import { ReactComponent as InstagramIcon } from "./../../assets/icons/instagram.
 import { ReactComponent as LightIcon } from "./../../assets/icons/sun.svg";
 import { ReactComponent as DarkIcon } from "./../../assets/icons/moon.svg";
 import "./footer-components/Footer.css";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const feedbackButton = "FEEDBACK";
 function Footer({ isDarkMode, handleDarkModeToggle }) {
   const currentYear = React.useMemo(() => new Date().getFullYear(), []);
 
-  const handleFeedbackSubmit = (event) => {
+  const handleFeedbackSubmit = async (event) => {
     event.preventDefault();
     const feedback = event.target.elements.feedback.value;
-    // Handle the feedback submission logic here
-    console.log(feedback);
+    try {
+      // Get the JWT from localStorage
+      const token = localStorage.getItem("token");
+      // Decode the JWT to get the user ID
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      await axios.post(
+        `https://api-gamelinkdb.onrender.com/api/feedback?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        {
+          userId,
+          content: feedback,
+        }
+      );
+      console.log(userId, feedback);
+      console.log("Feedback submitted successfully");
+      // Reset the form
+      event.target.reset();
+    } catch (error) {
+      console.log(error);
+      console.error("An error occurred while submitting feedback:", error);
+    }
   };
 
   const [isFeedbackBoxOpen, setIsFeedbackBoxOpen] = useState(true);
@@ -198,16 +219,15 @@ function Footer({ isDarkMode, handleDarkModeToggle }) {
                   rows={2}
                   className="w-full border placeholder-slate-400 text-gray-200 dark:text-gray-800 bg-gray-600 dark:bg-white border-gray-500 dark:border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-slate-400 focus:border-slate-400 sm:text-sm"
                 />
+                <div className="mt-4">
+                  <button
+                    type="submit"
+                    className="bg-cyan-500 dark:bg-cyan-500 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
+                  >
+                    Send Feedback
+                  </button>
+                </div>
               </form>
-            </div>
-            <div className="mt-4">
-              <button
-                type="submit"
-                className="bg-cyan-500 dark:bg-cyan-500 text-gray-200 dark:text-gray-800 py-2 px-4 rounded-md hover:bg-cyan-500 dark:hover:bg-gray-500 transition "
-                onClick={handleFeedbackSubmit}
-              >
-                Send Feedback
-              </button>
             </div>
           </div>
         </div>

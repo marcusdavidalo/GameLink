@@ -1,8 +1,8 @@
 import React from "react";
-import marcus from "../assets/about/marcusA.webp";
-import adas from "../assets/about/adasM.webp";
-import jared from "../assets/about/jaredB.webp";
-import skipper from "../assets/about/skipperP.webp";
+import marcus from "../assets/about/marcusPicture.png";
+import adas from "../assets/about/adasPicture.jpg";
+import jared from "../assets/about/jaredPicture.png";
+import skipper from "../assets/about/skipperPicture.png";
 
 const teamMembers = [
   {

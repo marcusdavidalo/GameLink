@@ -88,14 +88,14 @@ const NavigationLinks = ({
                     </Link>
                   </li>
                 )}
-                <li>
+                {/* <li>
                   <Link
                     to="/settings"
                     className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600/80"
                   >
                     Settings
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/help"

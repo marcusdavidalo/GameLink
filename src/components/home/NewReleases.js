@@ -107,7 +107,7 @@ function NewReleases() {
         endMonth < 10 ? "0" + endMonth : endMonth
       }-${lastDayOfMonth}`;
 
-      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=released&page_size=${pageSize}`;
+      const newReleasesURL = `https://api.rawg.io/api/games?key=${apiKey}&dates=${newReleasesStartDate},${newReleasesEndDate}&ordering=released&metacritic=70,100&page_size=${pageSize}`;
 
       (async () => {
         try {
