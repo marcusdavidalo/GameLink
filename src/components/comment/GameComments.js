@@ -6,7 +6,8 @@ import moment from "moment/moment";
 function GameComments({ gameId }) {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [users, setUsers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [numCommentsToShow, setNumCommentsToShow] = useState(5);
@@ -16,12 +17,21 @@ function GameComments({ gameId }) {
   };
 
   useEffect(() => {
+    // Get the JWT from localStorage
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Decode the JWT to get the userId value
+      const decodedToken = jwtDecode(token);
+      setUserId(decodedToken.id);
+    }
+  }, []);
+
+  useEffect(() => {
     axios
       .get(
         `https://api-gamelinkdb.onrender.com/api/gamecomments?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
       )
       .then(async (response) => {
-        console.log("Fetched comments:", response.data);
 
         const gameComments = response.data.filter(
           (comment) => Number(gameId) === comment.gameId
@@ -40,7 +50,6 @@ function GameComments({ gameId }) {
         setUsers(users);
 
         setComments(gameComments);
-        console.log(gameComments);
       })
       .catch((error) => {
         console.error("Error fetching game comments:", error);
@@ -77,14 +86,12 @@ function GameComments({ gameId }) {
         }
       );
       const data = await response.json();
-      console.log("Comment created:", data);
 
       // Reset the form
       setContent("");
 
       // Update the comments state
       setComments((prevComments) => {
-        console.log("Updating comments state:", [...prevComments, data]);
 
         return [...prevComments, data];
       });
@@ -95,9 +102,43 @@ function GameComments({ gameId }) {
     setIsLoading(false);
   };
 
-  const handleLike = () => {
-    if (gameId) {
-      setLiked(!liked);
+  const handleLike = async (commentId) => {
+    // Get the JWT from localStorage
+    const token = localStorage.getItem("token");
+    let userId;
+    if (token) {
+      // Decode the JWT to get the userId value
+      const decodedToken = jwtDecode(token);
+      userId = decodedToken.id;
+    }
+    // Find the comment that was liked
+    const commentIndex = comments.findIndex(
+      (comment) => comment._id === commentId
+    );
+    if (commentIndex === -1) return;
+    // Update the likes array for the comment
+    const updatedComment = { ...comments[commentIndex] };
+    if (updatedComment.likes.includes(userId)) {
+      updatedComment.likes = updatedComment.likes.filter((id) => id !== userId);
+    } else {
+      updatedComment.likes.push(userId);
+    }
+    // Send a PUT request to the backend to update the comment
+    try {
+      await axios.put(
+        `https://api-gamelinkdb.onrender.com/api/gamecomments/${commentId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`,
+        { likes: updatedComment.likes }
+      );
+
+      // Update the comments state
+      setComments((prevComments) => {
+
+        const updatedComments = [...prevComments];
+        updatedComments[commentIndex] = updatedComment;
+        return updatedComments;
+      });
+    } catch (error) {
+      console.error("Error updating comment:", error);
     }
   };
 
@@ -164,11 +205,15 @@ function GameComments({ gameId }) {
             >
               <div className="flex row">
                 <div className="">
-                  <img
-                    className="mt-2 rounded-lg w-16 h-16"
-                    src={users[comment.userId].avatar}
-                    alt={users[comment.userId].username}
-                  />
+                  {users[comment.userId] &&
+                    users[comment.userId].avatar &&
+                    users[comment.userId].username && (
+                      <img
+                        className="mt-2 rounded-lg w-16 h-16"
+                        src={users[comment.userId].avatar}
+                        alt={users[comment.userId].username}
+                      />
+                    )}
                 </div>
                 <div className="flex-1 rounded-lg sm:px-5 sm:py-1 md:px-6 md:py-2 lg:px-7 lg:py-3 leading-relaxed">
                   <strong className="text-base text-gray-200">
@@ -179,22 +224,23 @@ function GameComments({ gameId }) {
                   </span>
                   <p className="text-lg text-gray-200">{comment.content}</p>
                   <div className="mt-4 flex items-center">
-                    {liked ? (
+                    {comment.likes.includes(userId) ? (
                       <button
-                        onClick={() => handleLike(gameId)}
+                        onClick={() => handleLike(comment._id)}
                         className="text-xs uppercase tracking-wide text-gray-400 font-bold mr-5"
                       >
-                        {comment.likes} Likes
+                        {comment.likes.length} Likes
                       </button>
                     ) : (
                       <button
-                        onClick={() => handleLike(gameId)}
+                        onClick={() => handleLike(comment._id)}
                         className="text-xs uppercase tracking-wide text-gray-400 font-bold mr-5"
                       >
                         {" "}
                         Like
                       </button>
                     )}
+
                     <div className="text-xs uppercase tracking-wide text-gray-400 font-bold">
                       Reply
                     </div>
