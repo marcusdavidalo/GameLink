@@ -228,7 +228,7 @@ function GameComments({ gameId }) {
                     users[comment.userId].avatar &&
                     users[comment.userId].username && (
                       <img
-                        className="mt-2 rounded-lg w-16 h-16"
+                        className="mt-2 object-cover rounded-lg w-16 h-16"
                         src={users[comment.userId].avatar}
                         alt={users[comment.userId].username}
                       />
