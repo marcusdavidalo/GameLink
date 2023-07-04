@@ -16,7 +16,7 @@ import {
   Profile,
   Settings,
   Unauthorized,
-  AdminPanel,
+  AdminDashboard,
   Help,
   Wishlist,
   // Notifications,
@@ -71,7 +71,7 @@ export const AllRoutes = ({ setIsLoggedIn }) => {
         {/* <Route path="/messages" element={<Messages />} />
         <Route path="/notifications" element={<Notifications />} /> */}
         {isAdmin ? (
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         ) : (
           // Redirect to unauthorized page if the user is not an admin
           <Route
