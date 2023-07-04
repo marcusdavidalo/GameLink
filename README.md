@@ -38,7 +38,8 @@ PlayKoDEX was developed with the goal of providing gamers with a comprehensive p
 
 ## Backend
 
-The backend for this project is located in the GameLinkDB repository. Please refer to its README.md file for instructions on how to set up and run the backend server.
+The backend for this project is located in the [GameLinkDB repository](https://github.com/marcusdavidalo/GameLinkDB)
+. Please refer to its README.md file for instructions on how to set up and run the backend server.
 
 ## Contributing
 
