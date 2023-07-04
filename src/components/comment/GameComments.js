@@ -36,29 +36,45 @@ function GameComments({ gameId }) {
           (comment) => Number(gameId) === comment.gameId
         );
 
-        // Fetch user information for each comment
-        const users = {};
-        for (const comment of gameComments) {
-          if (!users[comment.userId]) {
-            try {
-              const userResponse = await axios.get(
-                `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
-              );
-              users[comment.userId] = userResponse.data;
-            } catch (error) {
-              // If the user is not found, set their username to "Deleted User"
-              users[comment.userId] = { username: "Deleted User" };
+        if (gameComments.length > 0) {
+          const users = {};
+          for (const comment of gameComments) {
+            if (!users[comment.userId]) {
+              let attempts = 0;
+              while (attempts < 5) {
+                try {
+                  const userResponse = await axios.get(
+                    `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+                  );
+                  if (
+                    userResponse.data &&
+                    userResponse.data.username !== undefined
+                  ) {
+                    users[comment.userId] = userResponse.data;
+                    break;
+                  } else {
+                    attempts++;
+                    await new Promise((resolve) => setTimeout(resolve, 200));
+                  }
+                } catch (error) {
+                  users[comment.userId] = { username: "Deleted User" };
+                  break;
+                }
+              }
+              if (attempts === 5) {
+                console.error("Error fetching username");
+              }
             }
           }
+          setUsers(users);
         }
-        setUsers(users);
 
         setComments(gameComments);
       })
       .catch((error) => {
         console.error("Error fetching game comments:", error);
       });
-  }, [gameId]);
+  }, [gameId, comments]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -119,6 +135,7 @@ function GameComments({ gameId }) {
       (comment) => comment._id === commentId
     );
     if (commentIndex === -1) return;
+
     // Update the likes array for the comment
     const updatedComment = { ...comments[commentIndex] };
     if (updatedComment.likes.includes(userId)) {
@@ -219,7 +236,7 @@ function GameComments({ gameId }) {
                 </div>
                 <div className="flex-1 rounded-lg sm:px-5 sm:py-1 md:px-6 md:py-2 lg:px-7 lg:py-3 leading-relaxed">
                   <strong className="text-base text-gray-200">
-                    {users[comment.userId].username}
+                    {users[comment.userId] && users[comment.userId].username}
                   </strong>{" "}
                   <span className="text-xs text-gray-400">
                     &nbsp;{getTimeAgo(comment.createdAt)}
