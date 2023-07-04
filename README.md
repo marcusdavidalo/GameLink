@@ -36,6 +36,10 @@ PlayKoDEX was developed with the goal of providing gamers with a comprehensive p
 4. Open your browser and navigate to `http://localhost:3000` to access PlayKoDEX.
 ```
 
+## Backend
+
+The backend for this project is located in the GameLinkDB repository. Please refer to its README.md file for instructions on how to set up and run the backend server.
+
 ## Contributing
 
 ```
