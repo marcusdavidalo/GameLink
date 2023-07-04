@@ -40,10 +40,15 @@ function GameComments({ gameId }) {
         const users = {};
         for (const comment of gameComments) {
           if (!users[comment.userId]) {
-            const userResponse = await axios.get(
-              `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
-            );
-            users[comment.userId] = userResponse.data;
+            try {
+              const userResponse = await axios.get(
+                `https://api-gamelinkdb.onrender.com/api/users/${comment.userId}?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+              );
+              users[comment.userId] = userResponse.data;
+            } catch (error) {
+              // If the user is not found, set their username to "Deleted User"
+              users[comment.userId] = { username: "Deleted User" };
+            }
           }
         }
         setUsers(users);
