@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import usePageTitle from "../hooks/useTitle";
+import moment from "moment/moment";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("");
@@ -9,7 +10,7 @@ const AdminDashboard = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          `https://api.rawg.io/api/users?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+          `https://api-gamelinkdb.onrender.com/api/users?apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
         );
         const data = await response.json();
         setUsers(data);
@@ -19,6 +20,10 @@ const AdminDashboard = () => {
     };
     fetchUsers();
   }, []);
+
+  const getTimeCreated = () => {
+    return moment().add(10, "days").calendar();
+  };
 
   usePageTitle("PlayKoDEX | Admin Dashboard");
 
@@ -122,7 +127,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {users.map((user) => (
+                  {users.map((user) => (
                     <tr key={user._id}>
                       <td className="border border-slate-800 dark:border-slate-200 p-2">
                         user avatar
@@ -134,7 +139,7 @@ const AdminDashboard = () => {
                         {user.email}
                       </td>
                       <td className="border text-center font-bold border-slate-800 dark:border-slate-200 p-2">
-                        {user.createdAt}
+                        {getTimeCreated(user.createdAt)}
                       </td>
                       <td>
                         <button className="bg-cyan-500/60 text-white font-bold py-4 px-4 rounded-md w-full">
@@ -145,7 +150,7 @@ const AdminDashboard = () => {
                         </button>
                       </td>
                     </tr>
-                  ))} */}
+                  ))}
                 </tbody>
               </table>
             </div>
