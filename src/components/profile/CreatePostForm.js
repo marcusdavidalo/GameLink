@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import { ReactComponent as ImageUp } from "./../../assets/icons/image.svg";
 import { ReactComponent as VideoUp } from "./../../assets/icons/video.svg";
 
-const CreatePostForm = () => {
+const CreatePostForm = (props) => {
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const [video, setVideo] = useState(null);
@@ -75,6 +75,7 @@ const CreatePostForm = () => {
       setVideo(null);
       setPhotoPreview(null);
       setVideoPreview(null);
+      props.onCreate(data);
     } catch (error) {
       console.error("Error creating post:", error);
     }

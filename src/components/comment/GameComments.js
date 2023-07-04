@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import moment from "moment/moment";
+import { Link } from "react-router-dom";
 
 function GameComments({ gameId }) {
   const [comments, setComments] = useState([]);
@@ -223,17 +224,33 @@ function GameComments({ gameId }) {
               key={comment._id}
             >
               <div className="flex row">
-                <div className="">
-                  {users[comment.userId] &&
-                    users[comment.userId].avatar &&
-                    users[comment.userId].username && (
-                      <img
-                        className="mt-2 object-cover rounded-lg w-16 h-16"
-                        src={users[comment.userId].avatar}
-                        alt={users[comment.userId].username}
-                      />
-                    )}
-                </div>
+                {users[comment.userId] &&
+                users[comment.userId].avatar &&
+                users[comment.userId].username ? (
+                  <Link
+                    to={`/profile/${comment.userId}/${
+                      users[comment.userId].username
+                    }`}
+                  >
+                    <img
+                      className="mt-2 object-cover rounded-lg w-16 h-16"
+                      src={users[comment.userId].avatar}
+                      alt={users[comment.userId].username}
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/profile/${comment.userId}/${
+                      users[comment.userId].username
+                    }`}
+                  >
+                    <div className="mt-2 object-cover rounded-lg w-16 h-16">
+                      <div className="flex justify-center align-center  font-extrabold text-3xl text-slate-400/60 items-center align-middle w-full h-full rounded-lg bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)] border-2 border-[rgba(255,255,255,0.75)] dark:border-[rgba(31,41,55,0.5)]">
+                        ?
+                      </div>
+                    </div>
+                  </Link>
+                )}
                 <div className="flex-1 rounded-lg sm:px-5 sm:py-1 md:px-6 md:py-2 lg:px-7 lg:py-3 leading-relaxed">
                   <strong className="text-base text-gray-200">
                     {users[comment.userId] && users[comment.userId].username}

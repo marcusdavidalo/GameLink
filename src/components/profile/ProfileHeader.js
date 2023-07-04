@@ -9,6 +9,7 @@ const ProfileHeader = ({
   isAdmin,
   id,
   posts,
+  isLoading,
 }) => {
   return (
     <>
@@ -24,11 +25,34 @@ const ProfileHeader = ({
                 } relative overflow-hidden`}
                 onClick={handleOpenAvatarModal}
               >
-                <img
-                  src={user.avatar}
-                  alt="Avatar"
-                  className="object-cover w-full h-full transition-transform hover:scale-110"
-                />
+                {isLoading ? (
+                  <svg
+                    className="animate-spin w-20 h-20 mx-auto"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0012 20c4.411 0 8-3.589 8-8h-2c0 3.309-2.691 6-6 6s-6-2.691-6-6H6c0 3.309-2.691 6-6 6z"
+                    ></path>
+                  </svg>
+                ) : (
+                  <img
+                    src={user.avatar}
+                    alt="Avatar"
+                    className="object-cover w-full h-full transition-transform hover:scale-110"
+                  />
+                )}
               </div>
             ) : (
               <div
@@ -36,7 +60,30 @@ const ProfileHeader = ({
                   loggedInUserId === id ? "cursor-pointer" : ""
                 }`}
               >
-                ?
+                {isLoading ? (
+                  <svg
+                    className="animate-spin w-20 h-20 mx-auto"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0012 20c4.411 0 8-3.589 8-8h-2c0 3.309-2.691 6-6 6s-6-2.691-6-6H6c0 3.309-2.691 6-6 6z"
+                    ></path>
+                  </svg>
+                ) : (
+                  <p>?</p>
+                )}
                 <span
                   className={`flex text-gray-800 justify-center z-50 text-3xl bg-gray-200/80 border absolute top-0 left-0 h-10 w-10 rounded-full font-black ${
                     loggedInUserId === id ? "cursor-pointer" : "hidden"

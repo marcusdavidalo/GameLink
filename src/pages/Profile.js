@@ -16,6 +16,7 @@ const Profile = () => {
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const apiKey = process.env.REACT_APP_GAMELINK_DB_KEY;
 
   useEffect(() => {
@@ -84,6 +85,7 @@ const Profile = () => {
 
   // Handler for uploading the profile picture
   const handleUploadProfile = async (file) => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("avatar", file);
@@ -101,11 +103,14 @@ const Profile = () => {
       setUser(response.data);
     } catch (error) {
       console.error("Error uploading avatar:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Handler for removing the profile picture
   const handleRemoveProfile = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.put(
         `https://api-gamelinkdb.onrender.com/api/users/${id}/removeAvatar?apiKey=${apiKey}`
@@ -113,6 +118,8 @@ const Profile = () => {
       setUser(response.data);
     } catch (error) {
       console.error("Error removing avatar:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -237,6 +244,10 @@ const Profile = () => {
     }
   };
 
+  const handleCreatePost = (post) => {
+    setPosts((prevPosts) => [post, ...prevPosts]);
+  };
+
   usePageTitle(`PlayKoDEX | Profile`);
 
   return (
@@ -254,12 +265,13 @@ const Profile = () => {
               isAdmin={isAdmin}
               id={id}
               posts={posts}
+              isLoading={isLoading}
             />
           )}
           {loggedInUserId === id && (
             <>
               <h3 className="text-2xl font-bold mt-8 mb-4">Create Post</h3>
-              <CreatePostForm />
+              <CreatePostForm onCreate={handleCreatePost} />
             </>
           )}
           <h3 className="text-2xl font-bold mt-8 mb-4">Latest Posts</h3>
@@ -271,22 +283,25 @@ const Profile = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-wrap">
-              {posts.map((post) => (
-                <div
-                  className="w-full text-slate-200 dark:text-slate-800"
-                  key={post._id}
-                >
-                  <PostModal
-                    post={post}
-                    handleDelete={handleDelete}
-                    loggedInUserId={loggedInUserId}
-                    isAdmin={isAdmin}
-                    handleLike={handleLike}
-                    handleUnlike={handleUnlike}
-                    user={user}
-                  />
-                </div>
-              ))}
+              {posts
+                .slice()
+                .reverse()
+                .map((post) => (
+                  <div
+                    className="w-auto h-64 text-slate-200 dark:text-slate-800"
+                    key={post._id}
+                  >
+                    <PostModal
+                      post={post}
+                      handleDelete={handleDelete}
+                      loggedInUserId={loggedInUserId}
+                      isAdmin={isAdmin}
+                      handleLike={handleLike}
+                      handleUnlike={handleUnlike}
+                      user={user}
+                    />
+                  </div>
+                ))}
             </div>
           )}
           <div>

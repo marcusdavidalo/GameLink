@@ -99,24 +99,27 @@ const PostModal = ({
   }, [loggedInUserId, post]);
 
   useEffect(() => {
-    if (isOpen) {
-      const fetchComments = async () => {
-        try {
-          const response = await axios.get(
-            `https://api-gamelinkdb.onrender.com/api/postcomments?postId=${post._id}&apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
-          );
+    const interval = setInterval(() => {
+      // Fetch the comments from the server
+      axios
+        .get(
+          `https://api-gamelinkdb.onrender.com/api/postcomments?postId=${post._id}&apiKey=${process.env.REACT_APP_GAMELINK_DB_KEY}`
+        )
+        .then((response) => {
+          // Update the comments state in PostModal.js
           setComments(response.data);
-        } catch (error) {
-          console.error("Error fetching comments:", error);
-        }
-      };
+        })
+        .catch((error) => {
+          console.error("Error fetching post comments:", error);
+        });
+    }, 5000); // Fetch the comments every 5 seconds
 
-      fetchComments();
-    }
-  }, [isOpen, post._id]);
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [post._id, setComments]);
 
   return (
-    <div className="rounded-md bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
+    <div className="h-full w-auto rounded-md bg-[rgba(31,41,55,0.5)] dark:bg-[rgba(255,255,255,0.75)]">
       <div onClick={openModal}>
         {/* Display post thumbnail here */}
         {post.photoUrl && (
@@ -140,9 +143,11 @@ const PostModal = ({
 
         {/* Display post information */}
         <div className="p-2">
-          <div className="flex flex-col-reverse sm:flex-row justify-between">
+          <div className="flex flex-col-reverse text-base sm:flex-row justify-between">
             <p>{post.content}</p>
-            <p className="text-gray-400">{formatDate(post.createdAt)}</p>
+            <p className="text-base text-gray-400">
+              {formatDate(post.createdAt)}
+            </p>
           </div>
           <div className="flex items-center mt-2">
             {/* Display likes and views */}
